@@ -14,9 +14,9 @@
 		}
 	},
 	"require": {
-		"dg/dibi": "~2.0"
+		"dg/dibi": "~3.0"
 	},
 	"require-dev": {
-		"nette/tester": "dev-master"
+		"nette/tester": "~1.0"
 	}
 }
