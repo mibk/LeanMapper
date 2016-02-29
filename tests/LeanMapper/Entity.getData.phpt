@@ -1,7 +1,6 @@
 <?php
 
 use LeanMapper\Entity;
-use LeanMapper\Repository;
 use Tester\Assert;
 
 require_once __DIR__ . '/../bootstrap.php';

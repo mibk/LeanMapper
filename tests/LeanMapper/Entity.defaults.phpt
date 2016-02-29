@@ -1,7 +1,5 @@
 <?php
 
-use LeanMapper\Connection;
-use LeanMapper\DefaultMapper;
 use LeanMapper\Entity;
 use LeanMapper\Reflection\EntityReflection;
 use LeanMapper\Reflection\PropertyFactory;

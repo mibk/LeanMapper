@@ -1,7 +1,5 @@
 <?php
 
-use LeanMapper\Entity;
-use LeanMapper\Repository;
 use LeanMapper\Row;
 use Tester\Assert;
 

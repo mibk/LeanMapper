@@ -2,7 +2,6 @@
 
 use LeanMapper\Connection;
 use LeanMapper\Entity;
-use LeanMapper\Events;
 use LeanMapper\IEntityFactory;
 use LeanMapper\IMapper;
 use LeanMapper\Repository;

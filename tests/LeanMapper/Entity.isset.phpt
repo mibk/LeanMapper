@@ -1,7 +1,6 @@
 <?php
 
 use LeanMapper\Entity;
-use LeanMapper\Exception\Exception;
 use LeanMapper\Result;
 use Tester\Assert;
 
