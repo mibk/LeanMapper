@@ -85,26 +85,52 @@ class Property
 	 * @param  array|null                                                                                         $customFlags
 	 * @throws InvalidArgumentException
 	 */
-	public function __construct($name, EntityReflection $entityReflection, $column, PropertyType $type, $isWritable, $isNullable, $containsCollection, $hasDefaultValue, $defaultValue = null, $relationship = null, PropertyMethods $propertyMethods = null, PropertyFilters $propertyFilters = null, PropertyPasses $propertyPasses = null, PropertyValuesEnum $propertyValuesEnum = null, array $customFlags = array())
+	public function __construct(
+		$name,
+		EntityReflection $entityReflection,
+		$column,
+		PropertyType $type,
+		$isWritable,
+		$isNullable,
+		$containsCollection,
+		$hasDefaultValue,
+		$defaultValue = null,
+		$relationship = null,
+		PropertyMethods $propertyMethods = null,
+		PropertyFilters $propertyFilters = null,
+		PropertyPasses $propertyPasses = null,
+		PropertyValuesEnum $propertyValuesEnum = null,
+		array $customFlags = array()
+	)
 	{
 		if ($relationship !== null) {
 			if (!is_subclass_of($type->getType(), 'LeanMapper\Entity')) {
-				throw new InvalidArgumentException("Property '$name' in entity {$entityReflection->getName()} cannot contain relationship since it doesn't contain entity (or collection of entities).");
+				throw new InvalidArgumentException(
+					"Property '$name' in entity {$entityReflection->getName()} cannot contain relationship since it doesn't contain entity (or collection of entities)."
+				);
 			}
 			if (($relationship instanceof Relationship\HasMany) or ($relationship instanceof Relationship\BelongsToMany)) {
 				if (!$containsCollection) {
-					throw new InvalidArgumentException("Property '$name' with HasMany or BelongsToMany in entity {$entityReflection->getName()} relationship must contain collection.");
+					throw new InvalidArgumentException(
+						"Property '$name' with HasMany or BelongsToMany in entity {$entityReflection->getName()} relationship must contain collection."
+					);
 				}
 			} else {
 				if ($containsCollection) {
-					throw new InvalidArgumentException("Property '$name' with HasOne or BelongsToOne in entity {$entityReflection->getName()} relationship cannot contain collection.");
+					throw new InvalidArgumentException(
+						"Property '$name' with HasOne or BelongsToOne in entity {$entityReflection->getName()} relationship cannot contain collection."
+					);
 				}
 			}
 			if ($propertyPasses !== null) {
-				throw new InvalidArgumentException("Property '$name' in entity {$entityReflection->getName()} cannot have defined m:passThru since it contains relationship.");
+				throw new InvalidArgumentException(
+					"Property '$name' in entity {$entityReflection->getName()} cannot have defined m:passThru since it contains relationship."
+				);
 			}
 		} elseif ($propertyFilters !== null) {
-			throw new InvalidArgumentException("Cannot bind filter to property '$name' in entity {$entityReflection->getName()} since it doesn't contain relationship.");
+			throw new InvalidArgumentException(
+				"Cannot bind filter to property '$name' in entity {$entityReflection->getName()} since it doesn't contain relationship."
+			);
 		}
 		if ($propertyValuesEnum !== null and (!$type->isBasicType() or $type->getType() === 'array' or $containsCollection)) {
 			throw new InvalidArgumentException("Values of property '$name' in entity {$entityReflection->getName()} cannot be enumerated.");
@@ -353,7 +379,9 @@ class Property
 	public function getCustomFlagValue($name)
 	{
 		if (!$this->hasCustomFlag($name)) {
-			throw new InvalidArgumentException("Property '{$this->name}' in entity {$this->entityReflection->getName()} doesn't have custom flag '$name'.");
+			throw new InvalidArgumentException(
+				"Property '{$this->name}' in entity {$this->entityReflection->getName()} doesn't have custom flag '$name'."
+			);
 		}
 		return $this->customFlags[$name];
 	}
@@ -366,7 +394,9 @@ class Property
 	private function checkContainsEnumeration()
 	{
 		if (!$this->containsEnumeration()) {
-			throw new InvalidMethodCallException("It doesn't make sense to call enumeration related method on property '{$this->name}' in entity {$this->entityReflection->getName()} since it doesn't contain enumeration.");
+			throw new InvalidMethodCallException(
+				"It doesn't make sense to call enumeration related method on property '{$this->name}' in entity {$this->entityReflection->getName()} since it doesn't contain enumeration."
+			);
 		}
 	}
 }

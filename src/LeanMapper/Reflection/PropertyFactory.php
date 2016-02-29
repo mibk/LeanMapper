@@ -61,14 +61,18 @@ class PropertyFactory
 		~xi', $annotation, $matches);
 
 		if (!$matched) {
-			throw new InvalidAnnotationException("Invalid property definition given: @$annotationType $annotation in entity {$entityReflection->getName()}.");
+			throw new InvalidAnnotationException(
+				"Invalid property definition given: @$annotationType $annotation in entity {$entityReflection->getName()}."
+			);
 		}
 
 		$propertyType = new PropertyType($matches[2], $aliases);
 		$isWritable = $annotationType === 'property';
 		$containsCollection = $matches[3] !== '';
 		if ($propertyType->isBasicType() and $containsCollection) {
-			throw new InvalidAnnotationException("Invalid property type definition given: @$annotationType $annotation in entity {$entityReflection->getName()}. Lean Mapper doesn't support <type>[] notation for basic types.");
+			throw new InvalidAnnotationException(
+				"Invalid property type definition given: @$annotationType $annotation in entity {$entityReflection->getName()}. Lean Mapper doesn't support <type>[] notation for basic types."
+			);
 		}
 		$isNullable = ($matches[1] !== '' or $matches[4] !== '');
 		$name = substr($matches[5], 1);
@@ -87,7 +91,11 @@ class PropertyFactory
 			try {
 				$defaultValue = self::fixDefaultValue($defaultValue, $propertyType, $isNullable);
 			} catch (InvalidAnnotationException $e) {
-				throw new InvalidAnnotationException("Invalid property definition given: @$annotationType $annotation in entity {$entityReflection->getName()}, " . lcfirst($e->getMessage()));
+				throw new InvalidAnnotationException(
+					"Invalid property definition given: @$annotationType $annotation in entity {$entityReflection->getName()}, " . lcfirst(
+						$e->getMessage()
+					)
+				);
 			}
 		}
 		$column = $mapper !== null ? $mapper->getColumn($entityReflection->getName(), $name) : $name;
@@ -115,7 +123,9 @@ class PropertyFactory
 				case 'belongsToOne':
 				case 'belongsToMany':
 					if ($relationship !== null) {
-						throw new InvalidAnnotationException("It doesn't make sense to have multiple relationship definitions in property definition: @$annotationType $annotation in entity {$entityReflection->getName()}.");
+						throw new InvalidAnnotationException(
+							"It doesn't make sense to have multiple relationship definitions in property definition: @$annotationType $annotation in entity {$entityReflection->getName()}."
+						);
 					}
 					$relationship = self::createRelationship(
 						$entityReflection->getName(),
@@ -127,34 +137,46 @@ class PropertyFactory
 					break;
 				case 'useMethods':
 					if ($propertyMethods !== null) {
-						throw new InvalidAnnotationException("Multiple m:useMethods flags found in property definition: @$annotationType $annotation in entity {$entityReflection->getName()}.");
+						throw new InvalidAnnotationException(
+							"Multiple m:useMethods flags found in property definition: @$annotationType $annotation in entity {$entityReflection->getName()}."
+						);
 					}
 					$propertyMethods = new PropertyMethods($name, $isWritable, $flagArgument);
 					break;
 				case 'filter':
 					if ($propertyFilters !== null) {
-						throw new InvalidAnnotationException("Multiple m:filter flags found in property definition: @$annotationType $annotation in entity {$entityReflection->getName()}.");
+						throw new InvalidAnnotationException(
+							"Multiple m:filter flags found in property definition: @$annotationType $annotation in entity {$entityReflection->getName()}."
+						);
 					}
 					$propertyFilters = new PropertyFilters($flagArgument);
 					break;
 				case 'passThru':
 					if ($propertyPasses !== null) {
-						throw new InvalidAnnotationException("Multiple m:passThru flags found in property definition: @$annotationType $annotation in entity {$entityReflection->getName()}.");
+						throw new InvalidAnnotationException(
+							"Multiple m:passThru flags found in property definition: @$annotationType $annotation in entity {$entityReflection->getName()}."
+						);
 					}
 					$propertyPasses = new PropertyPasses($flagArgument);
 					break;
 				case 'enum':
 					if ($propertyValuesEnum !== null) {
-						throw new InvalidAnnotationException("Multiple values enumerations found in property definition: @$annotationType $annotation in entity {$entityReflection->getName()}.");
+						throw new InvalidAnnotationException(
+							"Multiple values enumerations found in property definition: @$annotationType $annotation in entity {$entityReflection->getName()}."
+						);
 					}
 					if ($flagArgument === null) {
-						throw new InvalidAnnotationException("Parameter of m:enum flag was not found in property definition: @$annotationType $annotation in entity {$entityReflection->getName()}.");
+						throw new InvalidAnnotationException(
+							"Parameter of m:enum flag was not found in property definition: @$annotationType $annotation in entity {$entityReflection->getName()}."
+						);
 					}
 					$propertyValuesEnum = new PropertyValuesEnum($flagArgument, $entityReflection);
 					break;
 				default:
 					if (array_key_exists($flag, $customFlags)) {
-						throw new InvalidAnnotationException("Multiple m:$flag flags found in property definition: @$annotationType $annotation in entity {$entityReflection->getName()}.");
+						throw new InvalidAnnotationException(
+							"Multiple m:$flag flags found in property definition: @$annotationType $annotation in entity {$entityReflection->getName()}."
+						);
 					}
 					$customFlags[$flag] = $flagArgument;
 				}
@@ -197,7 +219,13 @@ class PropertyFactory
 	 * @return mixed
 	 * @throws InvalidAnnotationException
 	 */
-	private static function createRelationship($sourceClass, PropertyType $propertyType, $relationshipType, $definition = null, IMapper $mapper = null)
+	private static function createRelationship(
+		$sourceClass,
+		PropertyType $propertyType,
+		$relationshipType,
+		$definition = null,
+		IMapper $mapper = null
+	)
 	{
 		if ($relationshipType !== 'hasOne') {
 			$strategy = Result::STRATEGY_IN; // default strategy
@@ -213,13 +241,22 @@ class PropertyFactory
 
 		switch ($relationshipType) {
 		case 'hasOne':
-			$relationshipColumn = ($mapper !== null ? $mapper->getRelationshipColumn($sourceTable, $targetTable) : self::getSurrogateRelationshipColumn($propertyType));
+			$relationshipColumn = ($mapper !== null ? $mapper->getRelationshipColumn(
+				$sourceTable,
+				$targetTable
+			) : self::getSurrogateRelationshipColumn($propertyType));
 			return new Relationship\HasOne($pieces[0] ?: $relationshipColumn, $pieces[1] ?: $targetTable);
 		case 'hasMany':
 			return new Relationship\HasMany(
-				$pieces[0] ?: ($mapper !== null ? $mapper->getRelationshipColumn($mapper->getRelationshipTable($sourceTable, $targetTable), $sourceTable) : null),
+				$pieces[0] ?: ($mapper !== null ? $mapper->getRelationshipColumn(
+					$mapper->getRelationshipTable($sourceTable, $targetTable),
+					$sourceTable
+				) : null),
 				$pieces[1] ?: ($mapper !== null ? $mapper->getRelationshipTable($sourceTable, $targetTable) : null),
-				$pieces[2] ?: ($mapper !== null ? $mapper->getRelationshipColumn($mapper->getRelationshipTable($sourceTable, $targetTable), $targetTable) : null),
+				$pieces[2] ?: ($mapper !== null ? $mapper->getRelationshipColumn(
+					$mapper->getRelationshipTable($sourceTable, $targetTable),
+					$targetTable
+				) : null),
 				$pieces[3] ?: $targetTable,
 				$strategy
 			);

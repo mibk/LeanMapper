@@ -174,7 +174,9 @@ abstract class Repository
 		$primaryKey = $this->mapper->getPrimaryKey($this->getTable());
 		$values = $entity->getModifiedRowData();
 		$this->connection->query(
-			'INSERT INTO %n %v', $this->getTable(), $values
+			'INSERT INTO %n %v',
+			$this->getTable(),
+			$values
 		);
 		return isset($values[$primaryKey]) ? $values[$primaryKey] : $this->connection->getInsertId();
 	}
@@ -190,7 +192,11 @@ abstract class Repository
 		$primaryKey = $this->mapper->getPrimaryKey($this->getTable());
 		$values = $entity->getModifiedRowData();
 		return $this->connection->query(
-			'UPDATE %n SET %a WHERE %n = ?', $this->getTable(), $values, $primaryKey, $this->getIdValue($entity)
+			'UPDATE %n SET %a WHERE %n = ?',
+			$this->getTable(),
+			$values,
+			$primaryKey,
+			$this->getIdValue($entity)
 		);
 	}
 
@@ -207,7 +213,10 @@ abstract class Repository
 
 		$id = ($arg instanceof Entity) ? $arg->$idField : $arg;
 		return $this->connection->query(
-			'DELETE FROM %n WHERE %n = ?', $this->getTable(), $primaryKey, $id
+			'DELETE FROM %n WHERE %n = ?',
+			$this->getTable(),
+			$primaryKey,
+			$id
 		);
 	}
 
@@ -234,13 +243,21 @@ abstract class Repository
 					}
 				} else {
 					$this->connection->query(
-						'DELETE FROM %n WHERE %n = ? AND %n = ? %lmt', $relationshipTable, $columnReferencingSourceTable, $entity->$idField, $columnReferencingTargetTable, $value, -$count
+						'DELETE FROM %n WHERE %n = ? AND %n = ? %lmt',
+						$relationshipTable,
+						$columnReferencingSourceTable,
+						$entity->$idField,
+						$columnReferencingTargetTable,
+						$value,
+						-$count
 					);
 				}
 			}
 			if (!empty($multiInsert)) {
 				$this->connection->query(
-					'INSERT INTO %n %ex', $relationshipTable, $multiInsert
+					'INSERT INTO %n %ex',
+					$relationshipTable,
+					$multiInsert
 				);
 			}
 		}
@@ -290,7 +307,8 @@ abstract class Repository
 		if ($entityClass !== null) {
 			foreach ($rows as $dibiRow) {
 				$entity = $this->entityFactory->createEntity(
-					$entityClass, $collection->getRow($dibiRow->$primaryKey)
+					$entityClass,
+					$collection->getRow($dibiRow->$primaryKey)
 				);
 				$entity->makeAlive($this->entityFactory);
 				$entities[$dibiRow->$primaryKey] = $entity;
@@ -338,7 +356,11 @@ abstract class Repository
 	{
 		$entityClass = $this->mapper->getEntityClass($this->getTable());
 		if (!($entity instanceof $entityClass)) {
-			throw new InvalidArgumentException('Repository ' . get_called_class() . ' can only handle ' . $entityClass . ' entites. Use different repository to handle ' . get_class($entity) . '.');
+			throw new InvalidArgumentException(
+				'Repository ' . get_called_class() . ' can only handle ' . $entityClass . ' entites. Use different repository to handle ' . get_class(
+					$entity
+				) . '.'
+			);
 		}
 	}
 

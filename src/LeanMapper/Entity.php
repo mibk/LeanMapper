@@ -74,7 +74,9 @@ abstract class Entity
 	{
 		if ($arg instanceof Row) {
 			if ($arg->isDetached()) {
-				throw new InvalidArgumentException('It is not allowed to create entity ' . get_called_class() . ' from detached instance of LeanMapper\Row.');
+				throw new InvalidArgumentException(
+					'It is not allowed to create entity ' . get_called_class() . ' from detached instance of LeanMapper\Row.'
+				);
 			}
 			$this->row = $arg;
 			$this->mapper = $arg->getMapper();
@@ -89,7 +91,10 @@ abstract class Entity
 			if ($arg !== null) {
 				if (!is_array($arg) and !($arg instanceof Traversable)) {
 					$type = gettype($arg) !== 'object' ? gettype($arg) : 'instance of ' . get_class($arg);
-					throw new InvalidArgumentException("Argument \$arg in " . get_called_class() . "::__construct must contain either null, array, instance of LeanMapper\\Row or instance of Traversable, $type given.");
+					throw new InvalidArgumentException(
+						"Argument \$arg in " . get_called_class(
+						) . "::__construct must contain either null, array, instance of LeanMapper\\Row or instance of Traversable, $type given."
+					);
 				}
 				$this->assign($arg);
 			}
@@ -230,7 +235,10 @@ abstract class Entity
 			$this->checkMethodArgumentsCount(1, $arguments, $name);
 			$arg = reset($arguments);
 			if (!is_array($arg) and (!($arg instanceof Traversable) or ($arg instanceof Entity))) {
-				throw new InvalidArgumentException("Argument of method $name in entity " . get_called_class() . ' must contain either array or instance of Traversable which is not Entity.');
+				throw new InvalidArgumentException(
+					"Argument of method $name in entity " . get_called_class(
+					) . ' must contain either array or instance of Traversable which is not Entity.'
+				);
 			}
 			$property = lcfirst(substr($name, 10));
 			foreach ($this->$property as $value) {
@@ -256,7 +264,9 @@ abstract class Entity
 		}
 		if (!is_array($values) and !($values instanceof Traversable)) {
 			$givenType = gettype($values) !== 'object' ? gettype($values) : 'instance of ' . get_class($values);
-			throw new InvalidArgumentException("Argument \$values in " . get_called_class() . "::assign must contain either array or instance of Traversable, $givenType given.");
+			throw new InvalidArgumentException(
+				"Argument \$values in " . get_called_class() . "::assign must contain either array or instance of Traversable, $givenType given."
+			);
 		}
 		foreach ($values as $property => $value) {
 			if ($whitelist === null or isset($whitelist[$property])) {
@@ -343,7 +353,10 @@ abstract class Entity
 					$relationship->getStrategy()
 				);
 				if ($difference->mayHaveAny()) {
-					$differences[$relationship->getColumnReferencingSourceTable() . ':' . $relationship->getRelationshipTable() . ':' . $relationship->getColumnReferencingTargetTable()] = $difference->getByPivot($relationship->getColumnReferencingTargetTable());
+					$differences[$relationship->getColumnReferencingSourceTable() . ':' . $relationship->getRelationshipTable(
+					) . ':' . $relationship->getColumnReferencingTargetTable()] = $difference->getByPivot(
+						$relationship->getColumnReferencingTargetTable()
+					);
 				}
 			}
 		}
@@ -472,7 +485,10 @@ abstract class Entity
 			try {
 				$value = $this->row->$column;
 			} catch (LeanMapperException $e) {
-				throw new LeanMapperException("Cannot get value of property '{$property->getName()}' in entity " . get_called_class() . ' due to low-level failure: ' . $e->getMessage(), $e->getCode(), $e);
+				throw new LeanMapperException(
+					"Cannot get value of property '{$property->getName()}' in entity " . get_called_class(
+					) . ' due to low-level failure: ' . $e->getMessage(), $e->getCode(), $e
+				);
 			}
 			if ($pass !== null) {
 				$value = $this->$pass($value);
@@ -485,7 +501,9 @@ abstract class Entity
 			}
 			settype($value, $property->getType());
 			if ($property->containsEnumeration() and !$property->isValueFromEnum($value)) {
-				throw new InvalidValueException("Given value is not from possible values enumeration in property '{$property->getName()}' in entity " . get_called_class() . '.');
+				throw new InvalidValueException(
+					"Given value is not from possible values enumeration in property '{$property->getName()}' in entity " . get_called_class() . '.'
+				);
 			}
 			return $value;
 		} // property doesn't contain basic type
@@ -507,19 +525,44 @@ abstract class Entity
 			}
 			if (!empty($firstFilters) or !empty($secondFilters)) {
 				if ($relationship instanceof Relationship\HasMany) {
-					$relationshipTableFiltering = !empty($firstFilters) ? new Filtering($firstFilters, $filterArgs, $this, $property, (array) $property->getFiltersTargetedArgs(0)) : null;
-					$targetTableFiltering = new Filtering($secondFilters, $filterArgs, $this, $property, array_merge($implicitFilters->getTargetedArgs(), (array) $property->getFiltersTargetedArgs(1)));
+					$relationshipTableFiltering = !empty($firstFilters) ? new Filtering(
+						$firstFilters,
+						$filterArgs,
+						$this,
+						$property,
+						(array) $property->getFiltersTargetedArgs(0)
+					) : null;
+					$targetTableFiltering = new Filtering(
+						$secondFilters,
+						$filterArgs,
+						$this,
+						$property,
+						array_merge($implicitFilters->getTargetedArgs(), (array) $property->getFiltersTargetedArgs(1))
+					);
 				} else {
-					$targetTableFiltering = !empty($firstFilters) ? new Filtering($firstFilters, $filterArgs, $this, $property, array_merge($implicitFilters->getTargetedArgs(), (array) $property->getFiltersTargetedArgs(0))) : null;
+					$targetTableFiltering = !empty($firstFilters) ? new Filtering(
+						$firstFilters,
+						$filterArgs,
+						$this,
+						$property,
+						array_merge($implicitFilters->getTargetedArgs(), (array) $property->getFiltersTargetedArgs(0))
+					) : null;
 				}
 			}
-			return $this->getValueByPropertyWithRelationship($property, isset($targetTableFiltering) ? $targetTableFiltering : null, isset($relationshipTableFiltering) ? $relationshipTableFiltering : null);
+			return $this->getValueByPropertyWithRelationship(
+				$property,
+				isset($targetTableFiltering) ? $targetTableFiltering : null,
+				isset($relationshipTableFiltering) ? $relationshipTableFiltering : null
+			);
 		} // property doesn't contain basic type and doesn't contain relationship
 		$column = $property->getColumn();
 		try {
 			$value = $this->row->$column;
 		} catch (LeanMapperException $e) {
-			throw new LeanMapperException("Cannot get value of property '{$property->getName()}' in entity " . get_called_class() . ' due to low-level failure: ' . $e->getMessage(), $e->getCode(), $e);
+			throw new LeanMapperException(
+				"Cannot get value of property '{$property->getName()}' in entity " . get_called_class(
+				) . ' due to low-level failure: ' . $e->getMessage(), $e->getCode(), $e
+			);
 		}
 		if ($pass !== null) {
 			$value = $this->$pass($value);
@@ -533,12 +576,18 @@ abstract class Entity
 		if (!$property->containsCollection()) {
 			$type = $property->getType();
 			if (!($value instanceof $type)) {
-				throw new InvalidValueException("Property '$name' in entity " . get_called_class() . " is expected to contain an instance of $type, " . (is_object($value) ? 'instance of ' . get_class($value) : gettype($value)) . " given.");
+				throw new InvalidValueException(
+					"Property '$name' in entity " . get_called_class() . " is expected to contain an instance of $type, " . (is_object(
+						$value
+					) ? 'instance of ' . get_class($value) : gettype($value)) . " given."
+				);
 			}
 			return $value;
 		}
 		if (!is_array($value)) {
-			throw new InvalidValueException("Property '$name' in entity " . get_called_class() . " is expected to contain an array of {$property->getType()} instances.");
+			throw new InvalidValueException(
+				"Property '$name' in entity " . get_called_class() . " is expected to contain an array of {$property->getType()} instances."
+			);
 		}
 		return $value;
 	}
@@ -574,7 +623,9 @@ abstract class Entity
 			}
 			settype($value, $property->getType());
 			if ($property->containsEnumeration() and !$property->isValueFromEnum($value)) {
-				throw new InvalidValueException("Given value is not from possible values enumeration in property '{$property->getName()}' in entity " . get_called_class() . '.');
+				throw new InvalidValueException(
+					"Given value is not from possible values enumeration in property '{$property->getName()}' in entity " . get_called_class() . '.'
+				);
 			}
 			$this->row->$column = ($pass !== null ? $this->$pass($value) : $value);
 			return;
@@ -586,10 +637,16 @@ abstract class Entity
 		if ($property->hasRelationship()) {
 			if ($value !== null) {
 				if (!($value instanceof $type)) {
-					throw new InvalidValueException("Unexpected value type given in property '{$property->getName()}' in entity " . get_called_class() . ", {$property->getType()} expected, $givenType given.");
+					throw new InvalidValueException(
+						"Unexpected value type given in property '{$property->getName()}' in entity " . get_called_class(
+						) . ", {$property->getType()} expected, $givenType given."
+					);
 				}
 				if ($value->isDetached()) { // the value should be entity
-					throw new InvalidValueException("Detached entity cannot be assigned to property '{$property->getName()}' with relationship in entity " . get_called_class() . '.');
+					throw new InvalidValueException(
+						"Detached entity cannot be assigned to property '{$property->getName()}' with relationship in entity " . get_called_class(
+						) . '.'
+					);
 				}
 			}
 			$this->assignEntityToProperty($value, $name); // $pass is irrelevant relevant here
@@ -598,13 +655,19 @@ abstract class Entity
 		//property doesn't contain basic type and property doesn't contain relationship
 		if ($property->containsCollection()) {
 			if (!is_array($value)) {
-				throw new InvalidValueException("Unexpected value type given in property '{$property->getName()}' in entity " . get_called_class() . ", array of {$property->getType()} expected, $givenType given.");
+				throw new InvalidValueException(
+					"Unexpected value type given in property '{$property->getName()}' in entity " . get_called_class(
+					) . ", array of {$property->getType()} expected, $givenType given."
+				);
 			}
 			$this->row->$column = ($pass !== null ? $this->$pass($value) : $value);
 			return;
 		}
 		if ($value !== null and !($value instanceof $type)) {
-			throw new InvalidValueException("Unexpected value type given in property '{$property->getName()}' in entity " . get_called_class() . ", {$property->getType()} expected, $givenType given.");
+			throw new InvalidValueException(
+				"Unexpected value type given in property '{$property->getName()}' in entity " . get_called_class(
+				) . ", {$property->getType()} expected, $givenType given."
+			);
 		}
 		$this->row->$column = ($pass !== null ? $this->$pass($value) : $value);
 	}
@@ -629,7 +692,11 @@ abstract class Entity
 	 * @throws LeanMapperException
 	 * @return Entity|Entity[]
 	 */
-	protected function getValueByPropertyWithRelationship($property, Filtering $targetTableFiltering = null, Filtering $relationshipTableFiltering = null)
+	protected function getValueByPropertyWithRelationship(
+		$property,
+		Filtering $targetTableFiltering = null,
+		Filtering $relationshipTableFiltering = null
+	)
 	{
 		if (is_string($property)) {
 			$property = $this->getCurrentReflection()->getEntityProperty($property);
@@ -640,7 +707,10 @@ abstract class Entity
 		try {
 			return $this->$method($property, $relationship, $targetTableFiltering, $relationshipTableFiltering);
 		} catch (Exception $e) {
-			throw new LeanMapperException("Cannot get value of property '{$property->getName()}' in entity " . get_called_class() . ' due to low-level failure: ' . $e->getMessage(), $e->getCode(), $e);
+			throw new LeanMapperException(
+				"Cannot get value of property '{$property->getName()}' in entity " . get_called_class(
+				) . ' due to low-level failure: ' . $e->getMessage(), $e->getCode(), $e
+			);
 		}
 	}
 
@@ -660,7 +730,10 @@ abstract class Entity
 		}
 		$relationship = $property->getRelationship();
 		if (!($relationship instanceof Relationship\HasOne)) {
-			throw new InvalidMethodCallException("Cannot assign value to property '{$property->getName()}' in entity " . get_called_class() . '. Only properties with m:hasOne relationship can be set via magic __set.');
+			throw new InvalidMethodCallException(
+				"Cannot assign value to property '{$property->getName()}' in entity " . get_called_class(
+				) . '. Only properties with m:hasOne relationship can be set via magic __set.'
+			);
 		}
 		$column = $relationship->getColumnReferencingTargetTable();
 
@@ -750,11 +823,21 @@ abstract class Entity
 	 * @return Entity[]
 	 * @throws InvalidValueException
 	 */
-	private function getHasManyValue(Property $property, Relationship\HasMany $relationship, Filtering $targetTableFiltering = null, Filtering $relTableFiltering = null)
+	private function getHasManyValue(
+		Property $property,
+		Relationship\HasMany $relationship,
+		Filtering $targetTableFiltering = null,
+		Filtering $relTableFiltering = null
+	)
 	{
 		$targetTable = $relationship->getTargetTable();
 		$columnReferencingTargetTable = $relationship->getColumnReferencingTargetTable();
-		$rows = $this->row->referencing($relationship->getRelationshipTable(), $relationship->getColumnReferencingSourceTable(), $relTableFiltering, $relationship->getStrategy());
+		$rows = $this->row->referencing(
+			$relationship->getRelationshipTable(),
+			$relationship->getColumnReferencingSourceTable(),
+			$relTableFiltering,
+			$relationship->getStrategy()
+		);
 		$value = array();
 		foreach ($rows as $row) {
 			$valueRow = $row->referenced($targetTable, $columnReferencingTargetTable, $targetTableFiltering);
@@ -782,7 +865,10 @@ abstract class Entity
 		$rows = $this->row->referencing($targetTable, $relationship->getColumnReferencingSourceTable(), $filtering, $relationship->getStrategy());
 		$count = count($rows);
 		if ($count > 1) {
-			throw new InvalidValueException('There cannot be more than one entity referencing to entity ' . get_called_class() . " in property '{$property->getName()}' with m:belongToOne relationship.");
+			throw new InvalidValueException(
+				'There cannot be more than one entity referencing to entity ' . get_called_class(
+				) . " in property '{$property->getName()}' with m:belongToOne relationship."
+			);
 		} elseif ($count === 0) {
 			if (!$property->isNullable()) {
 				$name = $property->getName();
@@ -863,7 +949,9 @@ abstract class Entity
 		if ($this->entityFactory === null) {
 			$this->entityFactory = $entityFactory;
 		} elseif ($this->entityFactory != $entityFactory) { // intentionally !=, we want to ensure that types and states are same
-			throw new InvalidStateException("Given entity factory isn't same as entity factory already present in entity " . get_called_class() . '.');
+			throw new InvalidStateException(
+				"Given entity factory isn't same as entity factory already present in entity " . get_called_class() . '.'
+			);
 		}
 	}
 
@@ -891,20 +979,31 @@ abstract class Entity
 			$method = $action === self::ACTION_ADD ? 'addTo' : 'removeFrom';
 			$property = $this->getCurrentReflection()->getEntityProperty($name);
 			if ($property === null or !$property->hasRelationship() or !($property->getRelationship() instanceof Relationship\HasMany)) {
-				throw new InvalidMethodCallException("Cannot call $method method with '$name' property in entity " . get_called_class() . '. Only properties with m:hasMany relationship can be managed this way.');
+				throw new InvalidMethodCallException(
+					"Cannot call $method method with '$name' property in entity " . get_called_class(
+					) . '. Only properties with m:hasMany relationship can be managed this way.'
+				);
 			}
 			if ($property->getFilters()) {
-				throw new InvalidMethodCallException("Cannot call $method method with '$name' property in entity " . get_called_class() . '. Only properties without filters can be managed this way.'); // deliberate restriction
+				throw new InvalidMethodCallException(
+					"Cannot call $method method with '$name' property in entity " . get_called_class(
+					) . '. Only properties without filters can be managed this way.'
+				); // deliberate restriction
 			}
 			$relationship = $property->getRelationship();
 			if ($arg instanceof Entity) {
 				if ($arg->isDetached()) {
-					throw new InvalidArgumentException('Cannot add or remove detached entity ' . get_class($arg) . " to $name in entity " . get_called_class() . '.');
+					throw new InvalidArgumentException(
+						'Cannot add or remove detached entity ' . get_class($arg) . " to $name in entity " . get_called_class() . '.'
+					);
 				}
 				$type = $property->getType();
 				if (!($arg instanceof $type)) {
 					$type = gettype($arg) !== 'object' ? gettype($arg) : 'instance of ' . get_class($arg);
-					throw new InvalidValueException("Unexpected value type given in property '{$property->getName()}' in entity " . get_called_class() . ", {$property->getType()} expected, $type given.");
+					throw new InvalidValueException(
+						"Unexpected value type given in property '{$property->getName()}' in entity " . get_called_class(
+						) . ", {$property->getType()} expected, $type given."
+					);
 				}
 				$data = $arg->getRowData();
 				$arg = $data[$this->mapper->getPrimaryKey($relationship->getTargetTable())];
@@ -915,7 +1014,13 @@ abstract class Entity
 				$relationship->getColumnReferencingTargetTable() => $arg,
 			);
 			$method .= 'Referencing';
-			$this->row->$method($values, $relationship->getRelationshipTable(), $relationship->getColumnReferencingSourceTable(), null, $relationship->getStrategy());
+			$this->row->$method(
+				$values,
+				$relationship->getRelationshipTable(),
+				$relationship->getColumnReferencingSourceTable(),
+				null,
+				$relationship->getStrategy()
+			);
 		}
 	}
 
@@ -929,7 +1034,10 @@ abstract class Entity
 	{
 		$type = $property->getType();
 		if (!($entity instanceof $type)) {
-			throw new InvalidValueException("Inconsistency found: property '{$property->getName()}' in entity " . get_called_class() . " is supposed to contain an instance of '$type' (due to type hint), but mapper maps it to '$mapperClass'. Please fix getEntityClass method in mapper, property annotation or entities inheritance.");
+			throw new InvalidValueException(
+				"Inconsistency found: property '{$property->getName()}' in entity " . get_called_class(
+				) . " is supposed to contain an instance of '$type' (due to type hint), but mapper maps it to '$mapperClass'. Please fix getEntityClass method in mapper, property annotation or entities inheritance."
+			);
 		}
 	}
 
@@ -945,7 +1053,10 @@ abstract class Entity
 			if ($expectedCount === 0) {
 				throw new InvalidMethodCallException("Method '$methodName' in entity " . get_called_class() . " doesn't expect any arguments.");
 			} else {
-				throw new InvalidMethodCallException("Method '$methodName' in entity " . get_called_class() . " expects exactly $expectedCount argument" . ($expectedCount > 1 ? 's' : '') . '.');
+				throw new InvalidMethodCallException(
+					"Method '$methodName' in entity " . get_called_class(
+					) . " expects exactly $expectedCount argument" . ($expectedCount > 1 ? 's' : '') . '.'
+				);
 			}
 		}
 	}

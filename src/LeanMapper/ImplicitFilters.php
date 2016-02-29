@@ -36,7 +36,9 @@ class ImplicitFilters
 	{
 		if (!is_array($filters)) {
 			if (!is_string($filters) and !($filters instanceof Closure)) {
-				throw new InvalidArgumentException("Argument \$filters must contain either string (name of filter), instance of Closure or array (with names of filters or instances of Closure).");
+				throw new InvalidArgumentException(
+					"Argument \$filters must contain either string (name of filter), instance of Closure or array (with names of filters or instances of Closure)."
+				);
 			}
 			$filters = array($filters);
 		}

@@ -40,7 +40,9 @@ class Connection extends \Dibi\Connection
 	public function registerFilter($name, $callback, $wiringSchema = null)
 	{
 		if (!preg_match('#^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$#', $name)) {
-			throw new InvalidArgumentException("Invalid filter name given: '$name'. For filter names apply the same rules as for function names in PHP.");
+			throw new InvalidArgumentException(
+				"Invalid filter name given: '$name'. For filter names apply the same rules as for function names in PHP."
+			);
 		}
 		if (isset($this->filters[$name])) {
 			throw new InvalidArgumentException("Filter with name '$name' was already registered.");
@@ -133,7 +135,9 @@ class Connection extends \Dibi\Connection
 			}
 			$wiringSchema = $result;
 		} elseif (!preg_match('#^(?:([pe])(?!.*\1))*$#', $wiringSchema)) {
-			throw new InvalidArgumentException("Invalid wiring schema given: '$wiringSchema'. Please use only characters p (Property) and e (Entity) in unique, non-repeating combination.");
+			throw new InvalidArgumentException(
+				"Invalid wiring schema given: '$wiringSchema'. Please use only characters p (Property) and e (Entity) in unique, non-repeating combination."
+			);
 		}
 		return $wiringSchema;
 	}

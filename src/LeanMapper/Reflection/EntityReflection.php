@@ -163,7 +163,9 @@ class EntityReflection extends \ReflectionClass
 					$column = $property->getColumn();
 					if ($column !== null and $property->isWritable()) {
 						if (isset($columns[$column])) {
-							throw new InvalidStateException("Mapping collision in property '{$property->getName()}' (column '$column') in entity {$this->getName()}. Please fix mapping or make chosen properties read only (using property-read).");
+							throw new InvalidStateException(
+								"Mapping collision in property '{$property->getName()}' (column '$column') in entity {$this->getName()}. Please fix mapping or make chosen properties read only (using property-read)."
+							);
 						}
 						$columns[$column] = true;
 					}
@@ -197,7 +199,9 @@ class EntityReflection extends \ReflectionClass
 	{
 		$line = array($member = $this);
 		while ($member = $member->getParentClass()) {
-			if ($member->name === 'LeanMapper\Entity') break;
+			if ($member->name === 'LeanMapper\Entity') {
+				break;
+			}
 			$line[] = $member;
 		}
 		return array_reverse($line);

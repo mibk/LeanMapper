@@ -97,7 +97,9 @@ class Result implements \Iterator
 		if ($data instanceof DibiRow) {
 			$dataArray = array(isset($data->$primaryKey) ? $data->$primaryKey : self::DETACHED_ROW_ID => $data->toArray());
 		} else {
-			$e = new InvalidArgumentException('Invalid type of data given, only \Dibi\Row, \Dibi\Row[], ArrayAccess[] or array of arrays is supported at this moment.');
+			$e = new InvalidArgumentException(
+				'Invalid type of data given, only \Dibi\Row, \Dibi\Row[], ArrayAccess[] or array of arrays is supported at this moment.'
+			);
 			if (!is_array($data)) {
 				throw $e;
 			}
@@ -878,7 +880,9 @@ class Result implements \Iterator
 		}
 		$ids = array();
 		foreach ($this->data as $data) {
-			if (!isset($data[$column]) or $data[$column] === null) continue;
+			if (!isset($data[$column]) or $data[$column] === null) {
+				continue;
+			}
 			$ids[$data[$column]] = true;
 		}
 		return array_keys($ids);
