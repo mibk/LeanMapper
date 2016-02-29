@@ -6,7 +6,7 @@
  * Copyright (c) 2013 Vojtěch Kohout (aka Tharos)
  *
  * For the full copyright and license information, please view the file
- * license-mit.txt that was distributed with this source code.
+ * license.md that was distributed with this source code.
  */
 
 namespace LeanMapper\Relationship;
