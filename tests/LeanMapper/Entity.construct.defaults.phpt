@@ -23,6 +23,31 @@ class Book extends Entity
 	}
 }
 
+/**
+ * @property string $name
+ */
+class Role extends LeanMapper\Entity
+{
+	protected function initDefaults()
+	{
+		$this->assign(array(
+			'name' => 'Guest',
+		));
+	}
+}
+
+/**
+ * @property null|string $firstname
+ * @property string      $surname
+ */
+class User extends LeanMapper\Entity
+{
+	protected function initDefaults()
+	{
+		$this->firstname = null;
+	}
+}
+
 //////////
 
 $book = new Book;
@@ -48,3 +73,16 @@ Assert::exception(function() use ($book) {
 Assert::exception(function() use ($book) {
 	$book->getData();
 }, 'LeanMapper\Exception\Exception', "Cannot get value of property 'id' in entity Book due to low-level failure: Missing 'id' column in row with id -1.");
+
+$user = new User(array(
+	'firstname' => 'Vojtěch',
+	'surname'   => 'Kohout',
+));
+
+Assert::equal('Vojtěch', $user->firstname);
+Assert::equal('Kohout', $user->surname);
+
+$role = new Role(['name' => 'User']);
+Assert::equal('User', $role->name);
+$role = new Role();
+Assert::equal('Guest', $role->name);
