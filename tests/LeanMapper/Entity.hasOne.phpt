@@ -49,7 +49,7 @@ $bookRepository = new BookRepository($connection, $mapper, $entityFactory);
 Assert::exception(function() {
 	$book = new Book();
 	$book->revieverId;
-}, 'LeanMapper\Exception\InvalidStateException', 'Cannot load relationship data from detached entity Book.');
+}, 'LeanMapper\Exception\InvalidStateException', 'Cannot get value of property \'revieverId\' in entity Book due to low-level failure: Cannot get referenced Result for detached Result.');
 
 $book = $bookRepository->find(1);
 Assert::true($book->revieverId === null);
