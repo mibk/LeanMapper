@@ -43,15 +43,19 @@ class AuthorRepository extends LeanMapper\Repository
 ////////////////////
 ////////////////////
 
-$connection->registerFilter('test', function(Fluent $statement, Property $property) {
-	$ids = $statement->getRelatedKeys();
-	$statement->removeClause('where');
-	if ($property->getName() === 'books') {
-		$statement->where('%n.%n IN %in', 'book', 'author_id', $ids);
-	} else {
-		$statement->where('%n.%n = %i', 'book', 'author_id', reset($ids));
-	}
-}, Connection::WIRE_PROPERTY);
+$connection->registerFilter(
+	'test',
+	function(Fluent $statement, Property $property) {
+		$ids = $statement->getRelatedKeys();
+		$statement->removeClause('where');
+		if ($property->getName() === 'books') {
+			$statement->where('%n.%n IN %in', 'book', 'author_id', $ids);
+		} else {
+			$statement->where('%n.%n = %i', 'book', 'author_id', reset($ids));
+		}
+	},
+	Connection::WIRE_PROPERTY
+);
 
 $authorRepository = new AuthorRepository($connection, $mapper, $entityFactory);
 
@@ -61,8 +65,11 @@ $author = reset($authors);
 $author->books;
 $author->unionBooks;
 
-Assert::equal([
-	'SELECT [author].* FROM [author]',
-	'SELECT [book].* FROM [book] WHERE [book].[author_id] IN (1, 2, 3, 4, 5)',
-	'SELECT [book].* FROM [book] WHERE [book].[author_id] = 1 UNION SELECT [book].* FROM [book] WHERE [book].[author_id] = 2 UNION SELECT [book].* FROM [book] WHERE [book].[author_id] = 3 UNION SELECT [book].* FROM [book] WHERE [book].[author_id] = 4 UNION SELECT [book].* FROM [book] WHERE [book].[author_id] = 5'
-], $queries);
+Assert::equal(
+	[
+		'SELECT [author].* FROM [author]',
+		'SELECT [book].* FROM [book] WHERE [book].[author_id] IN (1, 2, 3, 4, 5)',
+		'SELECT * FROM (SELECT [book].* FROM [book] WHERE [book].[author_id] = 1) UNION SELECT * FROM (SELECT [book].* FROM [book] WHERE [book].[author_id] = 2) UNION SELECT * FROM (SELECT [book].* FROM [book] WHERE [book].[author_id] = 3) UNION SELECT * FROM (SELECT [book].* FROM [book] WHERE [book].[author_id] = 4) UNION SELECT * FROM (SELECT [book].* FROM [book] WHERE [book].[author_id] = 5)',
+	],
+	$queries
+);
