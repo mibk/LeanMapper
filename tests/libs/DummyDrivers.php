@@ -18,24 +18,24 @@ class ResultDummyDriver implements \Dibi\ResultDriver
 		$this->position = 0;
 	}
 
-	public function getRowCount()
+	public function getRowCount(): int
 	{
 		return count($this->data);
 	}
 
-	public function seek($row)
+	public function seek(int $row): bool
 	{
 		$this->position = $row;
 	}
 
-	public function fetch($assoc)
+	public function fetch(bool $assoc): ?array
 	{
-		$raw = array_slice($this->data, $this->position, 1, TRUE);
-		$data = reset($raw);
+		$raw = array_slice($this->data, $this->position, 1, true);
+		$data = is_array($raw) && !empty($raw) ? reset($raw) : [];
 		$this->position++;
 
 		if (!is_array($raw)) {
-			return FALSE;
+			return null;
 		}
 
 		if ($assoc) {
@@ -51,7 +51,7 @@ class ResultDummyDriver implements \Dibi\ResultDriver
 		return $tmp;
 	}
 
-	public function getResultColumns()
+	public function getResultColumns(): array
 	{
 		return [];
 	}
@@ -60,13 +60,13 @@ class ResultDummyDriver implements \Dibi\ResultDriver
 	{
 	}
 
-	public function free()
+	public function free(): void
 	{
 		$this->data = [];
 		$this->position = 0;
 	}
 
-	public function unescapeBinary($value)
+	public function unescapeBinary(string $value): string
 	{
 		return $value;
 	}
@@ -91,12 +91,17 @@ class PostgreDummyDriver extends \Dibi\Drivers\PostgreDriver
 	{
 	}
 
-	public function query($sql)
+	public function query(string $sql): ?Dibi\ResultDriver
 	{
 		$sql = trim($sql);
 		if (isset($this->resultData[$sql])) {
 			return new ResultDummyDriver($this->resultData[$sql]);
 		}
 		throw new \RuntimeException("Missing data for query: $sql");
+	}
+
+	public function escapeText(string $value): string
+	{
+		return "'" . strtr($value, ["'" => "\\'"]) . "'";
 	}
 }
