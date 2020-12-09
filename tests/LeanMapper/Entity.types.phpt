@@ -14,6 +14,14 @@ class Book extends LeanMapper\Entity
 {
 }
 
+/**
+ * @property DateTime $published
+ */
+class LegacyBook extends LeanMapper\Entity
+{
+}
+
+
 //////////
 
 $book = new Book;
@@ -60,3 +68,7 @@ $book = new Book(Result::createInstance($dibiRow, 'book', $connection, $mapper)-
 
 Assert::type('\Dibi\DateTime', $book->published);
 Assert::type('DateTimeImmutable', $book->published);
+
+$lb = new LegacyBook(Result::createInstance($dibiRow, 'book', $connection, $mapper)->getRow(Result::DETACHED_ROW_ID));
+
+Assert::type('DateTime', $lb->published);

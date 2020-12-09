@@ -628,6 +628,13 @@ abstract class Entity
         if (!$property->containsCollection()) {
             $type = $property->getType();
             if (!($value instanceof $type)) {
+                // Dibi 4.0 returns instances of \DateTimeImmutable. We want to be
+                // compatible with entities still using \DateTime properties.
+                if ($value instanceof \DateTimeImmutable && $type === 'DateTime') {
+                    $d = new \DateTime;
+                    $d->setTimestamp($value->getTimestamp());
+                    return $d;
+                }
                 throw new InvalidValueException(
                     "Property '$name' in entity " . get_called_class() . " is expected to contain an instance of $type, " . (is_object(
                         $value
