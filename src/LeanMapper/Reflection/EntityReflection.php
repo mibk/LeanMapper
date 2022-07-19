@@ -98,6 +98,7 @@ class EntityReflection extends \ReflectionClass
 	 *
 	 * @return self|null
 	 */
+	#[\ReturnTypeWillChange]
 	public function getParentClass()
 	{
 		return ($reflection = parent::getParentClass()) ? new self($reflection->getName()) : null;
@@ -108,6 +109,7 @@ class EntityReflection extends \ReflectionClass
 	 *
 	 * @return string
 	 */
+	#[\ReturnTypeWillChange]
 	public function getDocComment()
 	{
 		if ($this->docComment === null) {
