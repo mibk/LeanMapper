@@ -71,6 +71,7 @@ class ResultProxy implements \Iterator
     /**
      * @return mixed
      */
+    #[\ReturnTypeWillChange]
     public function current()
     {
         return $this->result->current();
@@ -78,7 +79,7 @@ class ResultProxy implements \Iterator
 
 
 
-    public function next()
+    public function next(): void
     {
         $this->result->next();
     }
@@ -88,6 +89,7 @@ class ResultProxy implements \Iterator
     /**
      * @return int
      */
+    #[\ReturnTypeWillChange]
     public function key()
     {
         return $this->result->key();
@@ -95,17 +97,14 @@ class ResultProxy implements \Iterator
 
 
 
-    /**
-     * @return bool
-     */
-    public function valid()
+    public function valid(): bool
     {
         return $this->result->valid();
     }
 
 
 
-    public function rewind()
+    public function rewind(): void
     {
         $this->result->rewind();
     }
