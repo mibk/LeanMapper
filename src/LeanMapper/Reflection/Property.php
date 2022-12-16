@@ -107,8 +107,13 @@ class Property
     ) {
         if ($relationship !== null) {
             if (!is_subclass_of($type->getType(), 'LeanMapper\Entity')) {
+            	if (!class_exists($type->getType())) {
+            		throw new InvalidArgumentException(
+            			"Property '$name' in entity {$entityReflection->getName()} refers to a non-existing class '{$type->getType()}'."
+            		);
+            	}
                 throw new InvalidArgumentException(
-                    "Property '$name' in entity {$entityReflection->getName()} cannot contain relationship since it doesn't contain entity (or collection of entities)."
+                    "Property '$name' in entity {$entityReflection->getName()} cannot relate to '{$type->getType()}', which does not extend LeanMapper\\Entity."
                 );
             }
             if (($relationship instanceof Relationship\HasMany) or ($relationship instanceof Relationship\BelongsToMany)) {
