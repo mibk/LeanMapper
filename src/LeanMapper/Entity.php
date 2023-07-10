@@ -174,6 +174,8 @@ abstract class Entity
             }
             $this->$customSetter($value);
             return;
+        } elseif (function_exists('enum_exists') && enum_exists($type = $property->getType()) && !($value instanceof \UnitEnum) && $value !== null) {
+            $value = $type::from($value);
         }
         $this->set($property, $value);
     }
@@ -627,6 +629,11 @@ abstract class Entity
         } // property doesn't contain basic type, doesn't contain relationship and doesn't contain null
         if (!$property->containsCollection()) {
             $type = $property->getType();
+
+            if (function_exists('enum_exists') && enum_exists($type) && $value !== null) {
+                return $type::from($value);
+            }
+
             if (!($value instanceof $type)) {
                 // Dibi 4.0 returns instances of \DateTimeImmutable. We want to be
                 // compatible with entities still using \DateTime properties.
