@@ -1,23 +1,21 @@
 <?php
 
-use Tester\Assert;
-
 use PDO as DbLayer;
+use Tester\Assert;
 
 require_once __DIR__ . '/../bootstrap.php';
 
 //////////
 
 /**
- * @property int $id
- * @property string $stateSelf m:enum(self::STATE_*)
+ * @property int    $id
+ * @property string $stateSelf   m:enum(self::STATE_*)
  * @property string $stateStatic m:enum(static::STATE_*)
- * @property int $stateUse m:enum(DbLayer::ATTR_*)
- * @property int $type m:enum(self::TYPE_*)
+ * @property int    $stateUse    m:enum(DbLayer::ATTR_*)
+ * @property int    $type        m:enum(self::TYPE_*)
  */
 class Author extends LeanMapper\Entity
 {
-
 	const STATE_ACTIVE = 'active';
 
 	const STATE_INACTIVE = 'inactive';
@@ -27,7 +25,6 @@ class Author extends LeanMapper\Entity
 	const TYPE_STANDARD = 0;
 
 	const TYPE_EXTRA = 1;
-
 }
 
 /**
@@ -35,9 +32,7 @@ class Author extends LeanMapper\Entity
  */
 class ExtraAuthor extends Author
 {
-
 	const STATE_ACTIVE = 'superactive';
-
 }
 
 //////////
@@ -60,12 +55,11 @@ $extraAuthor->stateParent = Author::STATE_INACTIVE;
 
 Assert::equal(Author::STATE_INACTIVE, $extraAuthor->stateParent);
 
-Assert::exception(function () use ($extraAuthor) {
+Assert::exception(function() use ($extraAuthor) {
 	$extraAuthor->stateParent = ExtraAuthor::STATE_ACTIVE;
 }, 'LeanMapper\Exception\InvalidValueException', "Given value is not from possible values enumeration in property 'stateParent' in entity ExtraAuthor.");
 
-
-Assert::exception(function () use ($extraAuthor) {
+Assert::exception(function() use ($extraAuthor) {
 	$extraAuthor->stateStatic = ExtraAuthor::STATE_ACTIVE;
 }, 'LeanMapper\Exception\InvalidValueException', "Given value is not from possible values enumeration in property 'stateStatic' in entity ExtraAuthor.");
 

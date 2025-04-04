@@ -12,7 +12,6 @@ require_once __DIR__ . '/../bootstrap.php';
 
 class Mapper extends DefaultMapper
 {
-
 	public function getPrimaryKey($table)
 	{
 		if ($table === 'author') {
@@ -28,8 +27,6 @@ class Mapper extends DefaultMapper
 		}
 		return parent::getEntityField($table, $column);
 	}
-
-
 }
 
 /**
@@ -47,7 +44,7 @@ class Author extends BaseEntity
 }
 
 /**
- * @property int $id
+ * @property int    $id
  * @property Author $author m:hasOne
  */
 class Book extends BaseEntity
@@ -63,9 +60,9 @@ $author->name = 'John Doe';
 $author->makeAlive($entityFactory, $connection, $mapper);
 $author->attach(1);
 
-Assert::equal(array (
+Assert::equal(array(
 	'customid' => 1,
-	'name' => 'John Doe',
+	'name'     => 'John Doe',
 ), $author->getData());
 
 $book = new Book;

@@ -1,6 +1,5 @@
 <?php
 
-
 use LeanMapper\Connection;
 use LeanMapper\Entity;
 use LeanMapper\Fluent;
@@ -9,15 +8,15 @@ use Tester\Assert;
 
 require_once __DIR__ . '/../bootstrap.php';
 
-$connection->onEvent[] = function ($event) use (&$queries, &$i) {
+$connection->onEvent[] = function($event) use (&$queries, &$i) {
 	$queries[] = $event->sql;
 };
 
 //////////
 
 /**
- * @property int $id
- * @property Book[] $books m:belongsToMany m:filter(test)
+ * @property int    $id
+ * @property Book[] $books      m:belongsToMany m:filter(test)
  * @property Book[] $unionBooks m:belongsToMany(#union) m:filter(test)
  */
 class Author extends Entity
@@ -33,20 +32,18 @@ class Book extends Entity
 
 class AuthorRepository extends LeanMapper\Repository
 {
-
 	public function findAll()
 	{
 		return $this->createEntities(
 			$this->createFluent()->fetchAll()
 		);
 	}
-
 }
 
 ////////////////////
 ////////////////////
 
-$connection->registerFilter('test', function (Fluent $statement, Property $property) {
+$connection->registerFilter('test', function(Fluent $statement, Property $property) {
 	$ids = $statement->getRelatedKeys();
 	$statement->removeClause('where');
 	if ($property->getName() === 'books') {

@@ -34,13 +34,11 @@ define('TEMP_DIR', __DIR__ . '/tmp');
 
 class TestMapper extends DefaultMapper
 {
-
 	protected $defaultEntityNamespace = null;
-
 }
 
 $connection = new Connection(array(
-	'driver' => 'sqlite3',
+	'driver'   => 'sqlite3',
 	'database' => __DIR__ . '/db/library.sq3',
 ));
 

@@ -11,9 +11,7 @@ require_once __DIR__ . '/../bootstrap.php';
 
 class Mapper extends LeanMapper\DefaultMapper
 {
-
 	protected $defaultEntityNamespace = null;
-
 
 	public function getEntityClass($table, Row $row = null)
 	{
@@ -24,11 +22,10 @@ class Mapper extends LeanMapper\DefaultMapper
 		}
 		return parent::getEntityClass($table, $row);
 	}
-
 }
 
 /**
- * @property int $id
+ * @property int    $id
  * @property string $name
  */
 class Author extends LeanMapper\Entity
@@ -36,7 +33,7 @@ class Author extends LeanMapper\Entity
 }
 
 /**
- * @property int $id
+ * @property int    $id
  * @property string $name
  * @property string $pubdate
  * @property Author $author m:hasOne
@@ -54,7 +51,6 @@ class AuthorWithWeb extends Author
 
 class BaseRepository extends LeanMapper\Repository
 {
-
 	public function findAll()
 	{
 		return $this->createEntities(
@@ -63,7 +59,6 @@ class BaseRepository extends LeanMapper\Repository
 				->fetchAll()
 		);
 	}
-
 }
 
 class AuthorRepository extends BaseRepository
@@ -87,7 +82,7 @@ foreach ($authorRepository->findAll() as $author) {
 		Assert::true(is_string($author->web));
 	} else {
 		Assert::type('Author', $author);
-		Assert::throws(function () use ($author) {
+		Assert::throws(function() use ($author) {
 			$author->web;
 		}, 'LeanMapper\Exception\MemberAccessException', "Cannot access undefined property 'web' in entity Author.");
 	}
@@ -100,7 +95,7 @@ foreach ($bookRepository->findAll() as $book) {
 		Assert::true(is_string($author->web));
 	} else {
 		Assert::type('Author', $author);
-		Assert::throws(function () use ($author) {
+		Assert::throws(function() use ($author) {
 			$author->web;
 		}, 'LeanMapper\Exception\MemberAccessException', "Cannot access undefined property 'web' in entity Author.");
 	}

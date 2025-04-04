@@ -1,12 +1,12 @@
 <?php
 
+use LeanMapper\Connection;
 use LeanMapper\Entity;
 use LeanMapper\Events;
 use LeanMapper\IEntityFactory;
 use LeanMapper\IMapper;
 use LeanMapper\Repository;
 use Tester\Assert;
-use LeanMapper\Connection;
 
 require_once __DIR__ . '/../bootstrap.php';
 
@@ -19,9 +19,7 @@ $log = new ArrayObject;
  */
 class CustomRepository extends Repository
 {
-
 	private $log;
-
 
 	public function __construct(Connection $connection, IMapper $mapper, IEntityFactory $entityFactory, ArrayObject $log)
 	{
@@ -31,25 +29,24 @@ class CustomRepository extends Repository
 
 	protected function initEvents()
 	{
-		$this->onAfterPersist[] = function ($author) {
+		$this->onAfterPersist[] = function($author) {
 			$this->log->append('after persist: ' . $author->name);
 		};
 	}
-
 }
 
 $repository = new CustomRepository($connection, $mapper, $entityFactory, $log);
 
-$repository->onBeforePersist[] = function ($author) use ($log) {
+$repository->onBeforePersist[] = function($author) use ($log) {
 	$log->append('before persist: ' . $author->name);
 };
 
-$repository->onBeforeCreate[] = function ($author) use ($log) {
+$repository->onBeforeCreate[] = function($author) use ($log) {
 	$log->append('before create: ' . $author->name);
 };
 
 /**
- * @property int $id
+ * @property int    $id
  * @property string $name
  */
 class Author extends Entity

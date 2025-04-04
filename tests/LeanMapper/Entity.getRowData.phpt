@@ -7,8 +7,8 @@ require_once __DIR__ . '/../bootstrap.php';
 //////////
 
 /**
- * @property int $id
- * @property string $name
+ * @property int         $id
+ * @property string      $name
  * @property string|null $web
  */
 class Author extends LeanMapper\Entity
@@ -17,20 +17,18 @@ class Author extends LeanMapper\Entity
 
 class AuthorRepository extends LeanMapper\Repository
 {
-
 	protected $defaultEntityNamespace = null;
 
 	public function find($id)
 	{
 		$entry = $this->connection->select('*')->from($this->getTable())->where('id = %i', $id)
-				->fetch();
+			->fetch();
 
 		if ($entry === false) {
 			throw new \Exception('Entity was not found.');
 		}
 		return $this->createEntity($entry);
 	}
-
 }
 
 //////////
@@ -55,15 +53,15 @@ $authorRepository = new AuthorRepository($connection, $mapper, $entityFactory);
 $author = $authorRepository->find(3);
 
 Assert::equal(array(
-	'id' => 3,
+	'id'   => 3,
 	'name' => 'Martin Fowler',
-	'web' => 'http://martinfowler.com'
+	'web'  => 'http://martinfowler.com'
 ), $author->getRowData());
 
 $author->web = null;
 
 Assert::equal(array(
-	'id' => 3,
+	'id'   => 3,
 	'name' => 'Martin Fowler',
-	'web' => null
+	'web'  => null
 ), $author->getRowData());

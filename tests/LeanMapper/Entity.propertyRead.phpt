@@ -1,15 +1,15 @@
 <?php
 
-use Tester\Assert;
-use LeanMapper\Repository;
 use LeanMapper\Entity;
+use LeanMapper\Repository;
+use Tester\Assert;
 
 require_once __DIR__ . '/../bootstrap.php';
 
 //////////
 
 /**
- * @property int $id
+ * @property      int    $id
  * @property-read string $name
  */
 class Author extends Entity
@@ -18,9 +18,7 @@ class Author extends Entity
 
 class AuthorRepository extends \LeanMapper\Repository
 {
-
 	protected $defaultEntityNamespace = null;
-
 
 	public function find($id)
 	{
@@ -30,7 +28,6 @@ class AuthorRepository extends \LeanMapper\Repository
 		}
 		return $this->createEntity($row);
 	}
-
 }
 
 $authorRepository = new AuthorRepository($connection, $mapper, $entityFactory);
@@ -39,11 +36,11 @@ $authorRepository = new AuthorRepository($connection, $mapper, $entityFactory);
 
 $author = new Author;
 
-Assert::exception(function () use ($author) {
+Assert::exception(function() use ($author) {
 	$author->name = 'test';
 }, 'LeanMapper\Exception\MemberAccessException', "Cannot write to read-only property 'name' in entity Author.");
 
-Assert::exception(function () use ($author) {
+Assert::exception(function() use ($author) {
 	$author->setName('test');
 }, 'LeanMapper\Exception\MemberAccessException', "Cannot write to read-only property 'name' in entity Author.");
 
@@ -51,10 +48,10 @@ Assert::exception(function () use ($author) {
 
 $author = $authorRepository->find(1);
 
-Assert::exception(function () use ($author) {
+Assert::exception(function() use ($author) {
 	$author->name = 'test';
 }, 'LeanMapper\Exception\MemberAccessException', "Cannot write to read-only property 'name' in entity Author.");
 
-Assert::exception(function () use ($author) {
+Assert::exception(function() use ($author) {
 	$author->setName('test');
 }, 'LeanMapper\Exception\MemberAccessException', "Cannot write to read-only property 'name' in entity Author.");

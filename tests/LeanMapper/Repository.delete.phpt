@@ -1,7 +1,7 @@
 <?php
 
-use Tester\Assert;
 use LeanMapper\Entity;
+use Tester\Assert;
 
 require_once __DIR__ . '/../bootstrap.php';
 
@@ -9,7 +9,6 @@ require_once __DIR__ . '/../bootstrap.php';
 
 class BookRepository extends LeanMapper\Repository
 {
-
 	protected $defaultEntityNamespace = null;
 
 	public function find($id)
@@ -20,11 +19,10 @@ class BookRepository extends LeanMapper\Repository
 		}
 		return $this->createEntity($row);
 	}
-
 }
 
 /**
- * @property int $id
+ * @property int    $id
  * @property string $name
  */
 class Author extends Entity
@@ -32,7 +30,7 @@ class Author extends Entity
 }
 
 /**
- * @property int $id
+ * @property int    $id
  * @property string $name
  * @property Author $author m:hasOne
  */
@@ -48,7 +46,7 @@ $book = $bookRepository->find(1);
 
 $bookRepository->delete($book);
 
-Assert::exception(function () use ($bookRepository, $book) {
+Assert::exception(function() use ($bookRepository, $book) {
 	$book->author->name;
 }, 'LeanMapper\Exception\InvalidStateException', 'Cannot load relationship data from detached entity Book.');
 

@@ -1,22 +1,21 @@
 <?php
 
-use Tester\Assert;
-use LeanMapper\Repository;
 use LeanMapper\Entity;
+use LeanMapper\Repository;
+use Tester\Assert;
 
 require_once __DIR__ . '/../bootstrap.php';
 
 //////////
 
 /**
- * @property int $id
- * @property string $name
+ * @property int         $id
+ * @property string      $name
  * @property string|null $web
- * @property Book[] $books m:belongsToMany
+ * @property Book[]      $books m:belongsToMany
  */
 class Author extends Entity
 {
-
 	public function getUpperName()
 	{
 		return strtoupper($this->name);
@@ -26,11 +25,10 @@ class Author extends Entity
 	{
 		return substr($this->name, 0, $length);
 	}
-
 }
 
 /**
- * @property int $id
+ * @property int    $id
  * @property string $name
  * @property string $pubdate
  */
@@ -40,9 +38,7 @@ class Book extends Entity
 
 class AuthorRepository extends \LeanMapper\Repository
 {
-
 	protected $defaultEntityNamespace = null;
-
 
 	public function find($id)
 	{
@@ -52,7 +48,6 @@ class AuthorRepository extends \LeanMapper\Repository
 		}
 		return $this->createEntity($row);
 	}
-
 }
 
 $authorRepository = new AuthorRepository($connection, $mapper, $entityFactory);
@@ -68,9 +63,9 @@ Assert::equal(array('id', 'name', 'web', 'books', 'upperName'), array_keys($data
 $reducedData = array_intersect_key($data, array_flip(array('id', 'name', 'web', 'upperName')));
 
 Assert::equal(array(
-	'id' => 3,
-	'name' => 'Martin Fowler',
-	'web' => 'http://martinfowler.com',
+	'id'        => 3,
+	'name'      => 'Martin Fowler',
+	'web'       => 'http://martinfowler.com',
 	'upperName' => 'MARTIN FOWLER',
 ), $reducedData);
 

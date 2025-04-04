@@ -17,18 +17,18 @@ if (!copy(__DIR__ . '/../db/author-ref.sq3', __DIR__ . '/../db/author.sq3')) {
 //////////
 
 /**
- * @property int $id
+ * @property int          $id
  * @property AuthorDetail $authorDetail m:belongsToOne
- * @property string $name
+ * @property string       $name
  */
 class Author extends Entity
 {
 }
 
 /**
- * @property Author $author m:hasOne
+ * @property Author         $author         m:hasOne
  * @property AuthorContract $authorContract m:belongsToOne
- * @property string $address
+ * @property string         $address
  */
 class AuthorDetail extends Entity
 {
@@ -36,18 +36,15 @@ class AuthorDetail extends Entity
 
 /**
  * @property AuthorDetail $authorDetail m:hasOne
- * @property string $number
+ * @property string       $number
  */
 class AuthorContract extends Entity
 {
 }
 
-
 class Mapper extends DefaultMapper
 {
-
 	protected $defaultEntityNamespace = null;
-
 
 	public function getPrimaryKey($table)
 	{
@@ -89,12 +86,10 @@ class Mapper extends DefaultMapper
 		}
 		return parent::getEntityField($table, $column);
 	}
-
 }
 
 abstract class BaseRepository extends Repository
 {
-
 	public function find($id)
 	{
 		$row = $this->createFluent()->where('%n = %i', $this->mapper->getPrimaryKey($this->getTable()), $id)->fetch();
@@ -110,7 +105,6 @@ abstract class BaseRepository extends Repository
 			$this->createFluent()->fetchAll()
 		);
 	}
-
 }
 
 class AuthorRepository extends BaseRepository
@@ -124,13 +118,13 @@ class AuthorContractRepository extends BaseRepository
 //////////
 
 $dbConfig = array(
-	'driver' => 'sqlite3',
+	'driver'   => 'sqlite3',
 	'database' => __DIR__ . '/../db/author.sq3',
 );
 
 $connection = new Connection($dbConfig);
 
-$connection->onEvent[] = function ($event) use (&$queries) {
+$connection->onEvent[] = function($event) use (&$queries) {
 	$queries[] = $event->sql;
 };
 

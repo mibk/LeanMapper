@@ -10,7 +10,7 @@ require_once __DIR__ . '/../bootstrap.php';
 //////////
 
 /**
- * @property int $id
+ * @property int    $id
  * @property string $name
  * @property string $pubdate
  */
@@ -27,8 +27,8 @@ Assert::type('Book', $book);
 //////////
 
 $data = array(
-	'id' => 1,
-	'name' => 'PHP guide',
+	'id'      => 1,
+	'name'    => 'PHP guide',
 	'pubdate' => '2013-06-13',
 );
 
@@ -64,11 +64,11 @@ Assert::equal($data, $book->getData());
 
 //////////
 
-Assert::exception(function () {
+Assert::exception(function() {
 	new Book(false);
 }, 'LeanMapper\Exception\InvalidArgumentException', 'Argument $arg in Book::__construct must contain either null, array, instance of LeanMapper\Row or instance of Traversable, boolean given.');
 
-Assert::exception(function () {
+Assert::exception(function() {
 	new Book('hello');
 }, 'LeanMapper\Exception\InvalidArgumentException', 'Argument $arg in Book::__construct must contain either null, array, instance of LeanMapper\Row or instance of Traversable, string given.');
 
@@ -78,6 +78,6 @@ $dibiRow = new \Dibi\Row($data);
 $row = new Row(Result::createInstance($dibiRow, 'book', $connection, $mapper), 1);
 $row->detach();
 
-Assert::exception(function () use ($row) {
+Assert::exception(function() use ($row) {
 	new Book($row);
 }, 'LeanMapper\Exception\InvalidArgumentException', 'It is not allowed to create entity Book from detached instance of LeanMapper\Row.');

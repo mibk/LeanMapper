@@ -1,9 +1,9 @@
 <?php
 
+use LeanMapper\Connection;
 use LeanMapper\DefaultMapper;
 use LeanMapper\Entity;
 use Tester\Assert;
-use LeanMapper\Connection;
 
 require_once __DIR__ . '/../bootstrap.php';
 
@@ -11,9 +11,7 @@ require_once __DIR__ . '/../bootstrap.php';
 
 class Mapper extends DefaultMapper
 {
-
 	protected $defaultEntityNamespace = null;
-
 }
 
 /**
@@ -24,7 +22,7 @@ class Tag extends Entity
 }
 
 /**
- * @property int $id
+ * @property int   $id
  * @property Tag[] $tags m:hasMany m:filter(first#foobar,second|first)
  */
 class Book extends Entity
@@ -35,11 +33,11 @@ class Book extends Entity
 
 $args = new ArrayObject;
 
-$connection->registerFilter('first', function () use ($args) {
+$connection->registerFilter('first', function() use ($args) {
 	$args->append(func_get_args());
 }, 'ep');
 
-$connection->registerFilter('second', function () use ($args) {
+$connection->registerFilter('second', function() use ($args) {
 	$args->append(func_get_args());
 });
 
