@@ -1,12 +1,12 @@
 <?php
 
 /**
- * This file is part of the Lean Mapper library (http://www.leanmapper.com)
+ * This file is part of the Lean Mapper library (https://www.leanmapper.com)
  *
  * Copyright (c) 2013 Vojtěch Kohout (aka Tharos)
  *
- * For the full copyright and license information, please view the file
- * LICENSE that was distributed with this source code.
+ * For full copyright and license information, please see the LICENSE file
+ * that was distributed with this source code.
  */
 
 namespace LeanMapper\Relationship;
