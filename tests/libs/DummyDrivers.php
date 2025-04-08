@@ -42,7 +42,7 @@ class ResultDummyDriver implements \Dibi\ResultDriver
 			return $data;
 		}
 
-		$tmp = array();
+		$tmp = [];
 
 		foreach ($data as $value) {
 			$tmp[] = $value;
@@ -53,7 +53,7 @@ class ResultDummyDriver implements \Dibi\ResultDriver
 
 	public function getResultColumns()
 	{
-		return array();
+		return [];
 	}
 
 	public function getResultResource()
@@ -62,7 +62,7 @@ class ResultDummyDriver implements \Dibi\ResultDriver
 
 	public function free()
 	{
-		$this->data = array();
+		$this->data = [];
 		$this->position = 0;
 	}
 
@@ -75,7 +75,7 @@ class ResultDummyDriver implements \Dibi\ResultDriver
 class PostgreDummyDriver extends \Dibi\Drivers\PostgreDriver
 {
 	/** @var array */
-	private $resultData = array();
+	private $resultData = [];
 
 	public function __construct()
 	{

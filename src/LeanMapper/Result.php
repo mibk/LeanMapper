@@ -400,7 +400,7 @@ class Result implements \Iterator
 		}
 		$modifiedData = $this->getModifiedData(self::DETACHED_ROW_ID);
 		$this->data = [
-			$id => [$this->mapper->getPrimaryKey($table) => $id] + $modifiedData
+			$id => [$this->mapper->getPrimaryKey($table) => $id] + $modifiedData,
 		];
 		$this->modified = [];
 		$this->table = $table;

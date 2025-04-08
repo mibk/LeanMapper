@@ -55,7 +55,7 @@ $author = $authorRepository->find(3);
 Assert::equal([
 	'id'   => 3,
 	'name' => 'Martin Fowler',
-	'web'  => 'http://martinfowler.com'
+	'web'  => 'http://martinfowler.com',
 ], $author->getRowData());
 
 $author->web = null;
@@ -63,5 +63,5 @@ $author->web = null;
 Assert::equal([
 	'id'   => 3,
 	'name' => 'Martin Fowler',
-	'web'  => null
+	'web'  => null,
 ], $author->getRowData());

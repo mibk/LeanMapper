@@ -9,9 +9,9 @@ require_once __DIR__ . '/../bootstrap.php';
 require_once __DIR__ . '/../libs/DummyDrivers.php';
 
 $driver = new PostgreDummyDriver;
-$connection = new Connection(array(
+$connection = new Connection([
 	'driver' => $driver,
-));
+]);
 
 ////////////////////
 
@@ -55,7 +55,7 @@ $driver->setResultData('SELECT * FROM "book" WHERE "id" = 2 LIMIT 1', [
 	[
 		'id'   => 2,
 		'name' => 'Lorem ipsum dolor',
-	]
+	],
 ]);
 
 $driver->setResultData('SELECT "book_tag".* FROM "book_tag" WHERE "book_tag"."book_id" IN (2)', [
@@ -88,7 +88,7 @@ $bookRepository = new BookRepository($connection, $mapper, $entityFactory);
 
 $book = $bookRepository->find(2);
 
-$sqls = array();
+$sqls = [];
 $connection->onEvent[] = function($event) use (&$sqls) {
 	$sqls[] = $event->sql;
 };

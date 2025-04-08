@@ -91,7 +91,7 @@ class AliasesParser
 					return AliasesParser::STATE_WAITING_FOR_USE;
 				}
 				return AliasesParser::STATE_GATHERING;
-			}
+			},
 		];
 
 		$state = $states[self::STATE_WAITING_FOR_USE];
