@@ -509,7 +509,7 @@ abstract class Entity
 		} // property doesn't contain basic type
 		if ($property->hasRelationship()) {
 			if ($this->isDetached()) {
-				throw new InvalidStateException('Cannot load relationship data from detached entity Book.');
+				throw new InvalidStateException('Cannot load relationship data from detached entity ' . get_called_class() . '.');
 			}
 			if ($this->entityFactory === null) {
 				throw new InvalidStateException('Missing entity factory in ' . get_called_class() . '.');
