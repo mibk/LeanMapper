@@ -8,19 +8,19 @@ require_once __DIR__ . '/../bootstrap.php';
 //////////
 
 /**
- * @property int $id
- * @property string $name
+ * @property int         $id
+ * @property string      $name
  * @property string|null $web
- * @property Book[] $books m:belongsToMany
+ * @property Book[]      $books m:belongsToMany
  */
 class Author extends Entity
 {
 }
 
 /**
- * @property int $id
- * @property string $name
- * @property string $pubdate
+ * @property int         $id
+ * @property string      $name
+ * @property string      $pubdate
  * @property NULL|Author $author m:hasOne
  */
 class Book extends Entity
@@ -29,16 +29,14 @@ class Book extends Entity
 
 class BookRepository extends \LeanMapper\Repository
 {
-
-    public function find($id)
-    {
-        $row = $this->connection->select('*')->from($this->getTable())->where('id = %i', $id)->fetch();
-        if ($row === false) {
-            throw new \Exception('Entity was not found.');
-        }
-        return $this->createEntity($row);
-    }
-
+	public function find($id)
+	{
+		$row = $this->connection->select('*')->from($this->getTable())->where('id = %i', $id)->fetch();
+		if ($row === false) {
+			throw new \Exception('Entity was not found.');
+		}
+		return $this->createEntity($row);
+	}
 }
 
 //////////
@@ -56,10 +54,10 @@ $book->author = null;
 Assert::equal(null, $book->author);
 
 Assert::equal(
-    [
-        'author_id' => null,
-    ],
-    $book->getModifiedRowData()
+	[
+		'author_id' => null,
+	],
+	$book->getModifiedRowData()
 );
 
 $book->author = $author;

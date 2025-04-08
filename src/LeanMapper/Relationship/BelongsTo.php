@@ -18,64 +18,54 @@ namespace LeanMapper\Relationship;
  */
 abstract class BelongsTo
 {
+	/** @var string|null */
+	private $columnReferencingSourceTable;
 
-    /** @var string|null */
-    private $columnReferencingSourceTable;
+	/** @var string|null */
+	private $targetTable;
 
-    /** @var string|null */
-    private $targetTable;
+	/** @var string */
+	private $strategy;
 
-    /** @var string */
-    private $strategy;
+	/**
+	 * @param string|null $columnReferencingSourceTable
+	 * @param string|null $targetTable
+	 * @param string      $strategy
+	 */
+	public function __construct($columnReferencingSourceTable, $targetTable, $strategy)
+	{
+		$this->columnReferencingSourceTable = $columnReferencingSourceTable;
+		$this->targetTable = $targetTable;
+		$this->strategy = $strategy;
+	}
 
+	/**
+	 * Gets name of column referencing source table
+	 *
+	 * @return string|null
+	 */
+	public function getColumnReferencingSourceTable()
+	{
+		return $this->columnReferencingSourceTable;
+	}
 
+	/**
+	 * Gets name of target table
+	 *
+	 * @return string|null
+	 */
+	public function getTargetTable()
+	{
+		return $this->targetTable;
+	}
 
-    /**
-     * @param string|null $columnReferencingSourceTable
-     * @param string|null $targetTable
-     * @param string $strategy
-     */
-    public function __construct($columnReferencingSourceTable, $targetTable, $strategy)
-    {
-        $this->columnReferencingSourceTable = $columnReferencingSourceTable;
-        $this->targetTable = $targetTable;
-        $this->strategy = $strategy;
-    }
-
-
-
-    /**
-     * Gets name of column referencing source table
-     *
-     * @return string|null
-     */
-    public function getColumnReferencingSourceTable()
-    {
-        return $this->columnReferencingSourceTable;
-    }
-
-
-
-    /**
-     * Gets name of target table
-     *
-     * @return string|null
-     */
-    public function getTargetTable()
-    {
-        return $this->targetTable;
-    }
-
-
-
-    /**
-     * Gets strategy used to get referencing result
-     *
-     * @return string strategy
-     */
-    public function getStrategy()
-    {
-        return $this->strategy;
-    }
-
+	/**
+	 * Gets strategy used to get referencing result
+	 *
+	 * @return string strategy
+	 */
+	public function getStrategy()
+	{
+		return $this->strategy;
+	}
 }

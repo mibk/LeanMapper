@@ -6,14 +6,14 @@ use Tester\Assert;
 
 require_once __DIR__ . '/../bootstrap.php';
 
-$connection->onEvent[] = function ($event) use (&$queries, &$i) {
-    $queries[] = $event->sql;
+$connection->onEvent[] = function($event) use (&$queries, &$i) {
+	$queries[] = $event->sql;
 };
 
 //////////
 
 /**
- * @property int $id
+ * @property int    $id
  * @property Book[] $books m:belongsToMany m:filter(orderBy#id,orderBy#name)
  */
 class Author extends Entity
@@ -29,26 +29,24 @@ class Book extends Entity
 
 class AuthorRepository extends LeanMapper\Repository
 {
-
-    public function find($id)
-    {
-        $entry = $this->createFluent()->where('[id] = %i', $id)->fetch();
-        if ($entry === false) {
-            throw new \Exception('Entity was not found.');
-        }
-        return $this->createEntity($entry);
-    }
-
+	public function find($id)
+	{
+		$entry = $this->createFluent()->where('[id] = %i', $id)->fetch();
+		if ($entry === false) {
+			throw new \Exception('Entity was not found.');
+		}
+		return $this->createEntity($entry);
+	}
 }
 
 ////////////////////
 ////////////////////
 
 $connection->registerFilter(
-    'orderBy',
-    function (Fluent $statement, $orderBy) {
-        $statement->orderBy($orderBy);
-    }
+	'orderBy',
+	function(Fluent $statement, $orderBy) {
+		$statement->orderBy($orderBy);
+	}
 );
 
 $authorRepository = new AuthorRepository($connection, $mapper, $entityFactory);

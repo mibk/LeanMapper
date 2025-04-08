@@ -20,119 +20,97 @@ use LeanMapper\Exception\InvalidStateException;
  */
 class DefaultMapper implements IMapper
 {
+	/** @var string */
+	protected $defaultEntityNamespace = 'Model\Entity';
 
-    /** @var string */
-    protected $defaultEntityNamespace = 'Model\Entity';
+	/** @var string */
+	protected $relationshipTableGlue = '_';
 
-    /** @var string */
-    protected $relationshipTableGlue = '_';
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getPrimaryKey($table)
+	{
+		return 'id';
+	}
 
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getTable($entityClass)
+	{
+		return strtolower($this->trimNamespace($entityClass));
+	}
 
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getEntityClass($table, Row $row = null)
+	{
+		return ($this->defaultEntityNamespace !== null ? $this->defaultEntityNamespace . '\\' : '') . ucfirst($table);
+	}
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getPrimaryKey($table)
-    {
-        return 'id';
-    }
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getColumn($entityClass, $field)
+	{
+		return $field;
+	}
 
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getEntityField($table, $column)
+	{
+		return $column;
+	}
 
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getRelationshipTable($sourceTable, $targetTable)
+	{
+		return $sourceTable . $this->relationshipTableGlue . $targetTable;
+	}
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getTable($entityClass)
-    {
-        return strtolower($this->trimNamespace($entityClass));
-    }
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getRelationshipColumn($sourceTable, $targetTable)
+	{
+		return $targetTable . '_' . $this->getPrimaryKey($targetTable);
+	}
 
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getTableByRepositoryClass($repositoryClass)
+	{
+		$matches = [];
+		if (preg_match('#([a-z0-9]+)repository$#i', $repositoryClass, $matches)) {
+			return strtolower($matches[1]);
+		}
+		throw new InvalidStateException('Cannot determine table name.');
+	}
 
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getImplicitFilters($entityClass, Caller $caller = null)
+	{
+		return [];
+	}
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getEntityClass($table, Row $row = null)
-    {
-        return ($this->defaultEntityNamespace !== null ? $this->defaultEntityNamespace . '\\' : '') . ucfirst($table);
-    }
-
-
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getColumn($entityClass, $field)
-    {
-        return $field;
-    }
-
-
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getEntityField($table, $column)
-    {
-        return $column;
-    }
-
-
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getRelationshipTable($sourceTable, $targetTable)
-    {
-        return $sourceTable . $this->relationshipTableGlue . $targetTable;
-    }
-
-
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getRelationshipColumn($sourceTable, $targetTable)
-    {
-        return $targetTable . '_' . $this->getPrimaryKey($targetTable);
-    }
-
-
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getTableByRepositoryClass($repositoryClass)
-    {
-        $matches = [];
-        if (preg_match('#([a-z0-9]+)repository$#i', $repositoryClass, $matches)) {
-            return strtolower($matches[1]);
-        }
-        throw new InvalidStateException('Cannot determine table name.');
-    }
-
-
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getImplicitFilters($entityClass, Caller $caller = null)
-    {
-        return [];
-    }
-
-
-
-    /**
-     * Trims namespace part from fully qualified class name
-     *
-     * @param $class
-     * @return string
-     */
-    protected function trimNamespace($class)
-    {
-        $class = explode('\\', $class);
-        return end($class);
-    }
-
+	/**
+	 * Trims namespace part from fully qualified class name
+	 *
+	 * @param  string $class
+	 * @return string
+	 */
+	protected function trimNamespace($class)
+	{
+		$class = explode('\\', $class);
+		return end($class);
+	}
 }

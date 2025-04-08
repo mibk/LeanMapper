@@ -10,25 +10,21 @@ require_once __DIR__ . '/../bootstrap.php';
 
 class Mapper extends DefaultMapper
 {
+	public function getPrimaryKey($table)
+	{
+		if ($table === 'author') {
+			return 'customid';
+		}
+		return parent::getPrimaryKey($table);
+	}
 
-    public function getPrimaryKey($table)
-    {
-        if ($table === 'author') {
-            return 'customid';
-        }
-        return parent::getPrimaryKey($table);
-    }
-
-
-
-    public function getEntityField($table, $column)
-    {
-        if ($table === 'author' and $column === $this->getPrimaryKey($table)) {
-            return 'customid';
-        }
-        return parent::getEntityField($table, $column);
-    }
-
+	public function getEntityField($table, $column)
+	{
+		if ($table === 'author' and $column === $this->getPrimaryKey($table)) {
+			return 'customid';
+		}
+		return parent::getEntityField($table, $column);
+	}
 }
 
 /**
@@ -46,7 +42,7 @@ class Author extends BaseEntity
 }
 
 /**
- * @property int $id
+ * @property int    $id
  * @property Author $author m:hasOne
  */
 class Book extends BaseEntity
@@ -63,11 +59,11 @@ $author->makeAlive($entityFactory, $connection, $mapper);
 $author->attach(1);
 
 Assert::equal(
-    [
-        'customid' => 1,
-        'name' => 'John Doe',
-    ],
-    $author->getData()
+	[
+		'customid' => 1,
+		'name'     => 'John Doe',
+	],
+	$author->getData()
 );
 
 $book = new Book;

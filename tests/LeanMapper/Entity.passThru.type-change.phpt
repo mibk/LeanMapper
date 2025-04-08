@@ -7,40 +7,38 @@ require_once __DIR__ . '/../bootstrap.php';
 //////////
 
 /**
- * @property int $id
- * @property string $name m:passThru(|serialize)
+ * @property int       $id
+ * @property string    $name    m:passThru(|serialize)
  * @property \DateTime $pubdate m:passThru(convertDate|)
  */
 class Book extends LeanMapper\Entity
 {
-    public function serialize($name)
-    {
-        return strtolower(implode($name));
-    }
+	public function serialize($name)
+	{
+		return strtolower(implode($name));
+	}
 
-
-    protected function convertDate($date)
-    {
-        return is_string($date) ? new DateTime($date) : $date;
-    }
+	protected function convertDate($date)
+	{
+		return is_string($date) ? new DateTime($date) : $date;
+	}
 }
-
 
 class BookRepository extends \LeanMapper\Repository
 {
-    /**
-     * @param $id
-     * @return Book
-     * @throws Exception
-     */
-    public function find($id)
-    {
-        $row = $this->connection->select('*')->from($this->getTable())->where('id = %i', $id)->fetch();
-        if ($row === false) {
-            throw new \Exception('Entity was not found.');
-        }
-        return $this->createEntity($row);
-    }
+	/**
+	 * @param  int $id
+	 * @return Book
+	 * @throws Exception
+	 */
+	public function find($id)
+	{
+		$row = $this->connection->select('*')->from($this->getTable())->where('id = %i', $id)->fetch();
+		if ($row === false) {
+			throw new \Exception('Entity was not found.');
+		}
+		return $this->createEntity($row);
+	}
 }
 
 //////////

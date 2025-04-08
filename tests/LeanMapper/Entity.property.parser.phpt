@@ -8,13 +8,13 @@ require_once __DIR__ . '/../bootstrap.php';
 //////////
 
 /**
- * @property int $id
- * @property int $author (author_id)
- * @property int|null $reviewer(reviewer_id)
- * @property string $pubDate (pubdate) = 'foo1'     # default WILL NOT work
- * @property string $myName(name) = 'foo2'          # default WILL NOT work
- * @property string $description = 'foo3' (description)
- * @property string|null $web m:default("foo4") m:column(website) m:custom-flag(value)
+ * @property int         $id
+ * @property int         $author      (author_id)
+ * @property int|null    $reviewer    (reviewer_id)
+ * @property string      $pubDate     (pubdate) = 'foo1'     # default WILL NOT work
+ * @property string      $myName      (name) = 'foo2'          # default WILL NOT work
+ * @property string      $description = 'foo3' (description)
+ * @property string|null $web         m:default("foo4") m:column(website) m:custom-flag(value)
  */
 class Book extends Entity
 {
@@ -22,15 +22,14 @@ class Book extends Entity
 
 class BookRepository extends \LeanMapper\Repository
 {
-    public function find($id)
-    {
-        $row = $this->connection->select('*')->from($this->getTable())->where('id = %i', $id)->fetch();
-        if ($row === false) {
-            throw new \Exception('Entity was not found.');
-        }
-        return $this->createEntity($row);
-    }
-
+	public function find($id)
+	{
+		$row = $this->connection->select('*')->from($this->getTable())->where('id = %i', $id)->fetch();
+		if ($row === false) {
+			throw new \Exception('Entity was not found.');
+		}
+		return $this->createEntity($row);
+	}
 }
 
 $bookRepository = new BookRepository($connection, $mapper, $entityFactory);

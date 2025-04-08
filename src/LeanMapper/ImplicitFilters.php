@@ -21,52 +21,44 @@ use LeanMapper\Exception\InvalidArgumentException;
  */
 class ImplicitFilters
 {
+	/** @var array */
+	private $filters;
 
-    /** @var array */
-    private $filters;
+	/** @var array */
+	private $targetedArgs;
 
-    /** @var array */
-    private $targetedArgs;
+	/**
+	 * @param  array|string|Closure $filters
+	 * @param  array|null           $targetedArgs
+	 * @throws InvalidArgumentException
+	 */
+	public function __construct($filters, array $targetedArgs = [])
+	{
+		if (!is_array($filters)) {
+			if (!is_string($filters) and !($filters instanceof Closure)) {
+				throw new InvalidArgumentException(
+					"Argument \$filters must contain either string (name of filter), instance of Closure or array (with names of filters or instances of Closure)."
+				);
+			}
+			$filters = [$filters];
+		}
+		$this->filters = $filters;
+		$this->targetedArgs = $targetedArgs;
+	}
 
+	/**
+	 * @return array
+	 */
+	public function getFilters()
+	{
+		return $this->filters;
+	}
 
-
-    /**
-     * @param array|string|Closure $filters
-     * @param array|null $targetedArgs
-     * @throws InvalidArgumentException
-     */
-    public function __construct($filters, array $targetedArgs = [])
-    {
-        if (!is_array($filters)) {
-            if (!is_string($filters) and !($filters instanceof Closure)) {
-                throw new InvalidArgumentException(
-                    "Argument \$filters must contain either string (name of filter), instance of Closure or array (with names of filters or instances of Closure)."
-                );
-            }
-            $filters = [$filters];
-        }
-        $this->filters = $filters;
-        $this->targetedArgs = $targetedArgs;
-    }
-
-
-
-    /**
-     * @return array
-     */
-    public function getFilters()
-    {
-        return $this->filters;
-    }
-
-
-
-    /**
-     * @return array
-     */
-    public function getTargetedArgs()
-    {
-        return $this->targetedArgs;
-    }
-
+	/**
+	 * @return array
+	 */
+	public function getTargetedArgs()
+	{
+		return $this->targetedArgs;
+	}
 }

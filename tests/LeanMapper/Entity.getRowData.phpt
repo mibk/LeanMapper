@@ -7,8 +7,8 @@ require_once __DIR__ . '/../bootstrap.php';
 //////////
 
 /**
- * @property int $id
- * @property string $name
+ * @property int         $id
+ * @property string      $name
  * @property string|null $web
  */
 class Author extends LeanMapper\Entity
@@ -17,22 +17,18 @@ class Author extends LeanMapper\Entity
 
 class AuthorRepository extends LeanMapper\Repository
 {
+	protected $defaultEntityNamespace = null;
 
-    protected $defaultEntityNamespace = null;
+	public function find($id)
+	{
+		$entry = $this->connection->select('*')->from($this->getTable())->where('id = %i', $id)
+			->fetch();
 
-
-
-    public function find($id)
-    {
-        $entry = $this->connection->select('*')->from($this->getTable())->where('id = %i', $id)
-            ->fetch();
-
-        if ($entry === false) {
-            throw new \Exception('Entity was not found.');
-        }
-        return $this->createEntity($entry);
-    }
-
+		if ($entry === false) {
+			throw new \Exception('Entity was not found.');
+		}
+		return $this->createEntity($entry);
+	}
 }
 
 //////////
@@ -57,21 +53,21 @@ $authorRepository = new AuthorRepository($connection, $mapper, $entityFactory);
 $author = $authorRepository->find(3);
 
 Assert::equal(
-    [
-        'id' => 3,
-        'name' => 'Martin Fowler',
-        'web' => 'http://martinfowler.com',
-    ],
-    $author->getRowData()
+	[
+		'id'   => 3,
+		'name' => 'Martin Fowler',
+		'web'  => 'http://martinfowler.com',
+	],
+	$author->getRowData()
 );
 
 $author->web = null;
 
 Assert::equal(
-    [
-        'id' => 3,
-        'name' => 'Martin Fowler',
-        'web' => null,
-    ],
-    $author->getRowData()
+	[
+		'id'   => 3,
+		'name' => 'Martin Fowler',
+		'web'  => null,
+	],
+	$author->getRowData()
 );

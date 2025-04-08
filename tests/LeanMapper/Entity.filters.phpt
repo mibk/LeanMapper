@@ -11,9 +11,7 @@ require_once __DIR__ . '/../bootstrap.php';
 
 class Mapper extends DefaultMapper
 {
-
-    protected $defaultEntityNamespace = null;
-
+	protected $defaultEntityNamespace = null;
 }
 
 /**
@@ -24,7 +22,7 @@ class Tag extends Entity
 }
 
 /**
- * @property int $id
+ * @property int   $id
  * @property Tag[] $tags m:hasMany m:filter(first#foobar,second|first)
  */
 class Book extends Entity
@@ -36,18 +34,18 @@ class Book extends Entity
 $args = new ArrayObject;
 
 $connection->registerFilter(
-    'first',
-    function () use ($args) {
-        $args->append(func_get_args());
-    },
-    'ep'
+	'first',
+	function() use ($args) {
+		$args->append(func_get_args());
+	},
+	'ep'
 );
 
 $connection->registerFilter(
-    'second',
-    function () use ($args) {
-        $args->append(func_get_args());
-    }
+	'second',
+	function() use ($args) {
+		$args->append(func_get_args());
+	}
 );
 
 $book = new Book;
@@ -56,7 +54,7 @@ $book->attach(1);
 
 $book->getTags(1, 'argument', true);
 
-$args = (array)$args;
+$args = (array) $args;
 
 Assert::equal(4, count($args));
 

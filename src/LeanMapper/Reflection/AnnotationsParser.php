@@ -20,45 +20,39 @@ use LeanMapper\Exception\UtilityClassException;
  */
 class AnnotationsParser
 {
+	/**
+	 * @throws UtilityClassException
+	 */
+	public function __construct()
+	{
+		throw new UtilityClassException('Cannot instantiate utility class ' . get_called_class() . '.');
+	}
 
-    /**
-     * @throws UtilityClassException
-     */
-    public function __construct()
-    {
-        throw new UtilityClassException('Cannot instantiate utility class ' . get_called_class() . '.');
-    }
+	/**
+	 * Parse value of requested simple annotation from given doc comment
+	 *
+	 * @param  string $annotation
+	 * @param  string $docComment
+	 * @return string|null
+	 */
+	public static function parseSimpleAnnotationValue($annotation, $docComment)
+	{
+		$matches = [];
+		preg_match("#@$annotation\\s+([^\\s]+)#", $docComment, $matches);
+		return !empty($matches) ? $matches[1] : null;
+	}
 
-
-
-    /**
-     * Parse value of requested simple annotation from given doc comment
-     *
-     * @param string $annotation
-     * @param string $docComment
-     * @return string|null
-     */
-    public static function parseSimpleAnnotationValue($annotation, $docComment)
-    {
-        $matches = [];
-        preg_match("#@$annotation\\s+([^\\s]+)#", $docComment, $matches);
-        return !empty($matches) ? $matches[1] : null;
-    }
-
-
-
-    /**
-     * Parse value pieces of requested annotation from given doc comment
-     *
-     * @param string $annotation
-     * @param string $docComment
-     * @return array
-     */
-    public static function parseAnnotationValues($annotation, $docComment)
-    {
-        $matches = [];
-        preg_match_all("#@$annotation\\s+([^@\\n\\r]*)#", $docComment, $matches);
-        return $matches[1];
-    }
-
+	/**
+	 * Parse value pieces of requested annotation from given doc comment
+	 *
+	 * @param  string $annotation
+	 * @param  string $docComment
+	 * @return array
+	 */
+	public static function parseAnnotationValues($annotation, $docComment)
+	{
+		$matches = [];
+		preg_match_all("#@$annotation\\s+([^@\\n\\r]*)#", $docComment, $matches);
+		return $matches[1];
+	}
 }

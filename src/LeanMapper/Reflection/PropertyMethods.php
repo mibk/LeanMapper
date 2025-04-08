@@ -20,73 +20,65 @@ use LeanMapper\Exception\InvalidAnnotationException;
  */
 class PropertyMethods
 {
+	/** @var string */
+	private $getter;
 
-    /** @var string */
-    private $getter;
+	/** @var string */
+	private $setter;
 
-    /** @var string */
-    private $setter;
+	/**
+	 * @param  string $propertyName
+	 * @param  bool   $isWritable
+	 * @param  string $definition
+	 * @throws InvalidAnnotationException
+	 */
+	public function __construct($propertyName, $isWritable, $definition)
+	{
+		$ucName = ucfirst($propertyName);
+		$this->getter = 'get' . $ucName;
+		if ($isWritable) {
+			$this->setter = 'set' . $ucName;
+		}
+		$counter = 0;
+		foreach (preg_split('#\s*\|\s*#', trim($definition)) as $method) {
+			$counter++;
+			if ($counter > 2) {
+				throw new InvalidAnnotationException('Property methods cannot have more than two parts.');
+			}
+			if ($method === '') {
+				continue;
+			}
+			if (!preg_match('#^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$#', $method)) {
+				throw new InvalidAnnotationException("Malformed access method name given: '$method'.");
+			}
+			if ($counter === 1) {
+				$this->getter = $method;
+			} else { // $counter === 2
+				if (!$isWritable) {
+					throw new InvalidAnnotationException('Property methods can have one part only in read-only properties.');
+				}
+				$this->setter = $method;
+			}
+		}
+	}
 
+	/**
+	 * Gets getter method
+	 *
+	 * @return string|null
+	 */
+	public function getGetter()
+	{
+		return $this->getter;
+	}
 
-
-    /**
-     * @param string $propertyName
-     * @param bool $isWritable
-     * @param string $definition
-     * @throws InvalidAnnotationException
-     */
-    public function __construct($propertyName, $isWritable, $definition)
-    {
-        $ucName = ucfirst($propertyName);
-        $this->getter = 'get' . $ucName;
-        if ($isWritable) {
-            $this->setter = 'set' . $ucName;
-        }
-        $counter = 0;
-        foreach (preg_split('#\s*\|\s*#', trim($definition)) as $method) {
-            $counter++;
-            if ($counter > 2) {
-                throw new InvalidAnnotationException('Property methods cannot have more than two parts.');
-            }
-            if ($method === '') {
-                continue;
-            }
-            if (!preg_match('#^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$#', $method)) {
-                throw new InvalidAnnotationException("Malformed access method name given: '$method'.");
-            }
-            if ($counter === 1) {
-                $this->getter = $method;
-            } else { // $counter === 2
-                if (!$isWritable) {
-                    throw new InvalidAnnotationException('Property methods can have one part only in read-only properties.');
-                }
-                $this->setter = $method;
-            }
-        }
-    }
-
-
-
-    /**
-     * Gets getter method
-     *
-     * @return string|null
-     */
-    public function getGetter()
-    {
-        return $this->getter;
-    }
-
-
-
-    /**
-     * Gets setter method
-     *
-     * @return string|null
-     */
-    public function getSetter()
-    {
-        return $this->setter;
-    }
-
+	/**
+	 * Gets setter method
+	 *
+	 * @return string|null
+	 */
+	public function getSetter()
+	{
+		return $this->setter;
+	}
 }

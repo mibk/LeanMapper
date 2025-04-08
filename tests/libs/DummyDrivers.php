@@ -9,112 +9,99 @@ require_once __DIR__ . '/../bootstrap.php';
 
 class ResultDummyDriver implements \Dibi\ResultDriver
 {
-    private $data;
-    private $position;
+	private $data;
+	private $position;
 
+	public function __construct(array $data)
+	{
+		$this->data = $data;
+		$this->position = 0;
+	}
 
-    public function __construct(array $data)
-    {
-        $this->data = $data;
-        $this->position = 0;
-    }
+	public function getRowCount(): int
+	{
+		return count($this->data);
+	}
 
+	public function seek(int $row): bool
+	{
+		$this->position = $row;
+	}
 
-    public function getRowCount(): int
-    {
-        return count($this->data);
-    }
+	public function fetch(bool $assoc): ?array
+	{
+		$raw = array_slice($this->data, $this->position, 1, true);
+		$data = is_array($raw) && !empty($raw) ? reset($raw) : [];
+		$this->position++;
 
+		if (!is_array($raw)) {
+			return null;
+		}
 
-    public function seek(int $row): bool
-    {
-        $this->position = $row;
-    }
+		if ($assoc) {
+			return $data;
+		}
 
+		$tmp = [];
 
-    public function fetch(bool $assoc): ?array
-    {
-        $raw = array_slice($this->data, $this->position, 1, true);
-        $data = is_array($raw) && !empty($raw) ? reset($raw) : [];
-        $this->position++;
+		foreach ($data as $value) {
+			$tmp[] = $value;
+		}
 
-        if (!is_array($raw)) {
-            return null;
-        }
+		return $tmp;
+	}
 
-        if ($assoc) {
-            return $data;
-        }
+	public function getResultColumns(): array
+	{
+		return [];
+	}
 
-        $tmp = [];
+	public function getResultResource()
+	{
+	}
 
-        foreach ($data as $value) {
-            $tmp[] = $value;
-        }
+	public function free(): void
+	{
+		$this->data = [];
+		$this->position = 0;
+	}
 
-        return $tmp;
-    }
-
-
-    public function getResultColumns(): array
-    {
-        return [];
-    }
-
-
-    public function getResultResource()
-    {
-    }
-
-
-    public function free(): void
-    {
-        $this->data = [];
-        $this->position = 0;
-    }
-
-
-    public function unescapeBinary(string $value): string
-    {
-        return $value;
-    }
+	public function unescapeBinary(string $value): string
+	{
+		return $value;
+	}
 }
 
 class PostgreDummyDriver extends \Dibi\Drivers\PostgreDriver
 {
-    /** @var array */
-    private $resultData = [];
+	/** @var array */
+	private $resultData = [];
 
+	public function __construct()
+	{
+	}
 
-    public function __construct()
-    {
-    }
+	public function setResultData($sql, array $resultData)
+	{
+		$sql = trim($sql);
+		$this->resultData[$sql] = $resultData;
+	}
 
+	public function connect(array &$config)
+	{
+	}
 
-    public function setResultData($sql, array $resultData)
-    {
-        $sql = trim($sql);
-        $this->resultData[$sql] = $resultData;
-    }
+	public function query(string $sql): ?Dibi\ResultDriver
+	{
+		$sql = trim($sql);
+		if (isset($this->resultData[$sql])) {
+			return new ResultDummyDriver($this->resultData[$sql]);
+		}
+		throw new \RuntimeException("Missing data for query: $sql");
+	}
 
-
-    public function connect(array & $config)
-    {
-    }
-
-
-    public function query(string $sql): ?Dibi\ResultDriver
-    {
-        $sql = trim($sql);
-        if (isset($this->resultData[$sql])) {
-            return new ResultDummyDriver($this->resultData[$sql]);
-        }
-        throw new \RuntimeException("Missing data for query: $sql");
-    }
-
-
-    public function escapeText(string $value): string
-    {
-        return "'" . strtr($value, ["'" => "\\'"]) . "'";
-    }
+	public function escapeText(string $value): string
+	{
+		return "'" . strtr($value, ["'" => "\\'"]) . "'";
+	}
 }

@@ -8,8 +8,8 @@ require_once __DIR__ . '/../bootstrap.php';
 //////////
 
 /**
- * @property int $id
- * @property string $name
+ * @property int         $id
+ * @property string      $name
  * @property string|null $web
  */
 class Author extends LeanMapper\Entity
@@ -18,18 +18,14 @@ class Author extends LeanMapper\Entity
 
 class AuthorRepository extends Repository
 {
+	protected $defaultEntityNamespace = null;
 
-    protected $defaultEntityNamespace = null;
-
-
-
-    public function findAll()
-    {
-        return $this->createEntities(
-            $this->connection->select('*')->from($this->getTable())->fetchAll()
-        );
-    }
-
+	public function findAll()
+	{
+		return $this->createEntities(
+			$this->connection->select('*')->from($this->getTable())->fetchAll()
+		);
+	}
 }
 
 //////////
@@ -43,11 +39,11 @@ $author = $authors[3];
 $author->detach();
 
 Assert::exception(
-    function () use ($authorRepository, $author) {
-        $authorRepository->persist($author);
-    },
-    '\Dibi\DriverException',
-    'UNIQUE constraint failed: author.id'
+	function() use ($authorRepository, $author) {
+		$authorRepository->persist($author);
+	},
+	'\Dibi\DriverException',
+	'UNIQUE constraint failed: author.id'
 );
 
 //////////
@@ -66,9 +62,9 @@ Assert::equal('John Doe', $authors[3]->name);
 //////////
 
 $author = new Author(
-    [
-        'name' => 'Steve Lee',
-    ]
+	[
+		'name' => 'Steve Lee',
+	]
 );
 
 $authorRepository->persist($author);
@@ -82,9 +78,9 @@ Assert::equal(7, $author->id);
 //////////
 
 Assert::exception(
-    function () use ($authorRepository, $author) {
-        $author->id = 8;
-    },
-    'LeanMapper\Exception\InvalidArgumentException',
-    "ID can only be set in detached rows."
+	function() use ($authorRepository, $author) {
+		$author->id = 8;
+	},
+	'LeanMapper\Exception\InvalidArgumentException',
+	"ID can only be set in detached rows."
 );

@@ -9,16 +9,14 @@ require_once __DIR__ . '/../bootstrap.php';
 
 class CustomEntityFactory extends DefaultEntityFactory
 {
-
-    public function createCollection(array $entites)
-    {
-        return new ArrayObject($entites);
-    }
-
+	public function createCollection(array $entites)
+	{
+		return new ArrayObject($entites);
+	}
 }
 
 /**
- * @property int $id
+ * @property int    $id
  * @property string $name
  * @property string $pubdate
  * @property Author $author m:hasOne
@@ -28,10 +26,10 @@ class Book extends LeanMapper\Entity
 }
 
 /**
- * @property int $id
- * @property string $name
+ * @property int         $id
+ * @property string      $name
  * @property string|null $web
- * @property Book[] $books m:belongsToMany
+ * @property Book[]      $books m:belongsToMany
  */
 class Author extends LeanMapper\Entity
 {
@@ -39,24 +37,20 @@ class Author extends LeanMapper\Entity
 
 class AuthorRepository extends LeanMapper\Repository
 {
+	public function find($id)
+	{
+		$primaryKey = $this->mapper->getPrimaryKey($this->getTable());
+		return $this->createEntity(
+			$this->createFluent()->where('%n = %i', $primaryKey, $id)->fetch()
+		);
+	}
 
-    public function find($id)
-    {
-        $primaryKey = $this->mapper->getPrimaryKey($this->getTable());
-        return $this->createEntity(
-            $this->createFluent()->where('%n = %i', $primaryKey, $id)->fetch()
-        );
-    }
-
-
-
-    public function findAll()
-    {
-        return $this->createEntities(
-            $this->createFluent()->fetchAll()
-        );
-    }
-
+	public function findAll()
+	{
+		return $this->createEntities(
+			$this->createFluent()->fetchAll()
+		);
+	}
 }
 
 //////////

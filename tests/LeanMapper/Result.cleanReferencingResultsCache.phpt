@@ -10,13 +10,11 @@ require_once __DIR__ . '/../bootstrap.php';
 
 class Mapper extends DefaultMapper
 {
-
-    protected $defaultEntityNamespace = null;
-
+	protected $defaultEntityNamespace = null;
 }
 
 /**
- * @property int $id
+ * @property int    $id
  * @property string $name
  */
 class Tag extends Entity
@@ -24,46 +22,42 @@ class Tag extends Entity
 }
 
 /**
- * @property int $id
+ * @property int    $id
  * @property string $name
- * @property Tag[] $tags m:hasMany
+ * @property Tag[]  $tags m:hasMany
  */
 class Book extends Entity
 {
-
-    public function refreshTags()
-    {
-        $this->row->cleanReferencingRowsCache('book_tag', 'book_id');
-    }
-
+	public function refreshTags()
+	{
+		$this->row->cleanReferencingRowsCache('book_tag', 'book_id');
+	}
 }
 
 class BookRepository extends \LeanMapper\Repository
 {
-
-    /**
-     * @param int $id
-     * @return Book
-     * @throws Exception
-     */
-    public function find($id)
-    {
-        $row = $this->connection->select('*')->from($this->getTable())->where('id = %i', $id)->fetch();
-        if ($row === false) {
-            throw new \Exception('Entity was not found.');
-        }
-        return $this->createEntity($row);
-    }
-
+	/**
+	 * @param  int $id
+	 * @return Book
+	 * @throws Exception
+	 */
+	public function find($id)
+	{
+		$row = $this->connection->select('*')->from($this->getTable())->where('id = %i', $id)->fetch();
+		if ($row === false) {
+			throw new \Exception('Entity was not found.');
+		}
+		return $this->createEntity($row);
+	}
 }
 
 function implodeTags(array $tags)
 {
-    $result = [];
-    foreach ($tags as $tag) {
-        $result[] = $tag->name;
-    }
-    return implode(',', $result);
+	$result = [];
+	foreach ($tags as $tag) {
+		$result[] = $tag->name;
+	}
+	return implode(',', $result);
 }
 
 ////////////////////

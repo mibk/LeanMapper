@@ -18,47 +18,39 @@ namespace LeanMapper\Relationship;
  */
 class HasOne
 {
+	/** @var string|null */
+	private $columnReferencingTargetTable;
 
-    /** @var string|null */
-    private $columnReferencingTargetTable;
+	/** @var string|null */
+	private $targetTable;
 
-    /** @var string|null */
-    private $targetTable;
+	/**
+	 * @param string|null $columnReferencingTargetTable
+	 * @param string|null $targetTable
+	 */
+	public function __construct($columnReferencingTargetTable, $targetTable)
+	{
+		$this->columnReferencingTargetTable = $columnReferencingTargetTable;
+		$this->targetTable = $targetTable;
+	}
 
+	/**
+	 * Gets name of column referencing target table
+	 *
+	 * @return string|null
+	 */
+	public function getColumnReferencingTargetTable()
+	{
+		return $this->columnReferencingTargetTable;
+	}
 
-
-    /**
-     * @param string|null $columnReferencingTargetTable
-     * @param string|null $targetTable
-     */
-    public function __construct($columnReferencingTargetTable, $targetTable)
-    {
-        $this->columnReferencingTargetTable = $columnReferencingTargetTable;
-        $this->targetTable = $targetTable;
-    }
-
-
-
-    /**
-     * Gets name of column referencing target table
-     *
-     * @return string|null
-     */
-    public function getColumnReferencingTargetTable()
-    {
-        return $this->columnReferencingTargetTable;
-    }
-
-
-
-    /**
-     * Gets name of target table
-     *
-     * @return string|null
-     */
-    public function getTargetTable()
-    {
-        return $this->targetTable;
-    }
-
+	/**
+	 * Gets name of target table
+	 *
+	 * @return string|null
+	 */
+	public function getTargetTable()
+	{
+		return $this->targetTable;
+	}
 }

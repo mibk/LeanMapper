@@ -7,8 +7,8 @@ require_once __DIR__ . '/../bootstrap.php';
 
 $queries = [];
 
-$connection->onEvent[] = function ($event) use (&$queries) {
-    $queries[] = $event->sql;
+$connection->onEvent[] = function($event) use (&$queries) {
+	$queries[] = $event->sql;
 };
 
 //////////
@@ -18,9 +18,9 @@ class Author extends Entity
 }
 
 /**
- * @property int $id
+ * @property int         $id
  * @property Author|null $author m:hasOne
- * @property string $name
+ * @property string      $name
  */
 class Book extends Entity
 {

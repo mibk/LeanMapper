@@ -20,66 +20,58 @@ use LeanMapper\Exception\InvalidAnnotationException;
  */
 class PropertyPasses
 {
+	/** @var string */
+	private $getterPass;
 
-    /** @var string */
-    private $getterPass;
+	/** @var string */
+	private $setterPass;
 
-    /** @var string */
-    private $setterPass;
+	/**
+	 * @param  string $definition
+	 * @throws InvalidAnnotationException
+	 */
+	public function __construct($definition)
+	{
+		$counter = 0;
+		foreach (preg_split('#\s*\|\s*#', trim($definition)) as $pass) {
+			$counter++;
+			if ($counter > 2) {
+				throw new InvalidAnnotationException('Property passes cannot have more than two parts.');
+			}
+			if ($pass === '') {
+				continue;
+			}
+			if (!preg_match('#^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$#', $pass)) {
+				throw new InvalidAnnotationException("Malformed method pass name given: '$pass'.");
+			}
+			if ($counter === 1) {
+				$this->getterPass = $pass;
+			} else { // $counter === 2
+				$this->setterPass = $pass;
+			}
+		}
+		if ($counter === 1) {
+			$this->setterPass = $this->getterPass;
+		}
+	}
 
+	/**
+	 * Gets getter pass
+	 *
+	 * @return string|null
+	 */
+	public function getGetterPass()
+	{
+		return $this->getterPass;
+	}
 
-
-    /**
-     * @param string $definition
-     * @throws InvalidAnnotationException
-     */
-    public function __construct($definition)
-    {
-        $counter = 0;
-        foreach (preg_split('#\s*\|\s*#', trim($definition)) as $pass) {
-            $counter++;
-            if ($counter > 2) {
-                throw new InvalidAnnotationException('Property passes cannot have more than two parts.');
-            }
-            if ($pass === '') {
-                continue;
-            }
-            if (!preg_match('#^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$#', $pass)) {
-                throw new InvalidAnnotationException("Malformed method pass name given: '$pass'.");
-            }
-            if ($counter === 1) {
-                $this->getterPass = $pass;
-            } else { // $counter === 2
-                $this->setterPass = $pass;
-            }
-        }
-        if ($counter === 1) {
-            $this->setterPass = $this->getterPass;
-        }
-    }
-
-
-
-    /**
-     * Gets getter pass
-     *
-     * @return string|null
-     */
-    public function getGetterPass()
-    {
-        return $this->getterPass;
-    }
-
-
-
-    /**
-     * Gets setter pass
-     *
-     * @return string|null
-     */
-    public function getSetterPass()
-    {
-        return $this->setterPass;
-    }
-
+	/**
+	 * Gets setter pass
+	 *
+	 * @return string|null
+	 */
+	public function getSetterPass()
+	{
+		return $this->setterPass;
+	}
 }

@@ -18,40 +18,34 @@ $log = new ArrayObject;
  */
 class CustomRepository extends Repository
 {
+	private $log;
 
-    private $log;
+	public function __construct(Connection $connection, IMapper $mapper, IEntityFactory $entityFactory, ArrayObject $log)
+	{
+		parent::__construct($connection, $mapper, $entityFactory);
+		$this->log = $log;
+	}
 
-
-
-    public function __construct(Connection $connection, IMapper $mapper, IEntityFactory $entityFactory, ArrayObject $log)
-    {
-        parent::__construct($connection, $mapper, $entityFactory);
-        $this->log = $log;
-    }
-
-
-
-    protected function initEvents()
-    {
-        $this->onAfterPersist[] = function ($author) {
-            $this->log->append('after persist: ' . $author->name);
-        };
-    }
-
+	protected function initEvents()
+	{
+		$this->onAfterPersist[] = function($author) {
+			$this->log->append('after persist: ' . $author->name);
+		};
+	}
 }
 
 $repository = new CustomRepository($connection, $mapper, $entityFactory, $log);
 
-$repository->onBeforePersist[] = function ($author) use ($log) {
-    $log->append('before persist: ' . $author->name);
+$repository->onBeforePersist[] = function($author) use ($log) {
+	$log->append('before persist: ' . $author->name);
 };
 
-$repository->onBeforeCreate[] = function ($author) use ($log) {
-    $log->append('before create: ' . $author->name);
+$repository->onBeforeCreate[] = function($author) use ($log) {
+	$log->append('before create: ' . $author->name);
 };
 
 /**
- * @property int $id
+ * @property int    $id
  * @property string $name
  */
 class Author extends Entity
@@ -69,10 +63,10 @@ $repository->persist($author);
 $repository->delete($author);
 
 Assert::equal(
-    [
-        'before persist: John Doe',
-        'before create: John Doe',
-        'after persist: John Doe',
-    ],
-    $log->getArrayCopy()
+	[
+		'before persist: John Doe',
+		'before create: John Doe',
+		'after persist: John Doe',
+	],
+	$log->getArrayCopy()
 );

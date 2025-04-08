@@ -25,7 +25,6 @@ $mapper = $container->getService('LeanMapper.mapper');
 
 class MyMapper extends \LeanMapper\DefaultMapper
 {
-
 }
 
 $configurator = new Configurator;
