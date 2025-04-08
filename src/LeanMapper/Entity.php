@@ -31,7 +31,6 @@ use Traversable;
  */
 abstract class Entity
 {
-
 	const ACTION_ADD = 'add';
 
 	const ACTION_REMOVE = 'remove';
@@ -51,11 +50,10 @@ abstract class Entity
 	/** @var EntityReflection */
 	private $currentReflection;
 
-
 	/**
 	 * Gets reflection of current entity
 	 *
-	 * @param IMapper|null $mapper
+	 * @param  IMapper|null $mapper
 	 * @return EntityReflection
 	 */
 	public static function getReflection(IMapper $mapper = null)
@@ -69,7 +67,7 @@ abstract class Entity
 	}
 
 	/**
-	 * @param Row|Traversable|array|null $arg
+	 * @param  Row|Traversable|array|null $arg
 	 * @throws InvalidArgumentException
 	 */
 	public function __construct($arg = null)
@@ -100,7 +98,7 @@ abstract class Entity
 	}
 
 	/**
-	 * @param string $name
+	 * @param  string $name
 	 * @return mixed
 	 * @throws InvalidMethodCallException
 	 * @throws MemberAccessException
@@ -131,8 +129,8 @@ abstract class Entity
 	}
 
 	/**
-	 * @param string $name
-	 * @param mixed $value
+	 * @param  string $name
+	 * @param  mixed  $value
 	 * @throws InvalidMethodCallException
 	 * @throws MemberAccessException
 	 */
@@ -169,7 +167,7 @@ abstract class Entity
 	/**
 	 * Tells whether given property exists and is not null
 	 *
-	 * @param string $name
+	 * @param  string $name
 	 * @throws LeanMapperException
 	 * @return bool
 	 */
@@ -188,8 +186,8 @@ abstract class Entity
 	}
 
 	/**
-	 * @param string $name
-	 * @param array $arguments
+	 * @param  string $name
+	 * @param  array  $arguments
 	 * @return mixed|void
 	 * @throws InvalidMethodCallException
 	 * @throws InvalidArgumentException
@@ -202,7 +200,6 @@ abstract class Entity
 		}
 		if (substr($name, 0, 3) === 'get') { // get<Name>
 			return $this->get(lcfirst(substr($name, 3)), $arguments);
-
 		} elseif (substr($name, 0, 3) === 'set') { // set<Name>
 			if (count($arguments) !== 1) {
 				throw new InvalidMethodCallException("Method $name in entity " . get_called_class() . ' expects exactly one argument.');
@@ -217,22 +214,18 @@ abstract class Entity
 				throw new MemberAccessException("Cannot write to read-only property '$propertyName' in entity " . get_called_class() . '.');
 			}
 			$this->set($property, reset($arguments));
-
 		} elseif (substr($name, 0, 5) === 'addTo' and strlen($name) > 5) { // addTo<Name>
 			$this->checkMethodArgumentsCount(1, $arguments, $name);
 			$this->addToOrRemoveFrom(self::ACTION_ADD, lcfirst(substr($name, 5)), reset($arguments));
-
 		} elseif (substr($name, 0, 10) === 'removeFrom' and strlen($name) > 10) { // removeFrom<Name>
 			$this->checkMethodArgumentsCount(1, $arguments, $name);
 			$this->addToOrRemoveFrom(self::ACTION_REMOVE, lcfirst(substr($name, 10)), reset($arguments));
-
 		} elseif (substr($name, 0, 9) === 'removeAll' and strlen($name) > 9) { // removeAll<Name>
 			$this->checkMethodArgumentsCount(0, $arguments, $name);
 			$property = lcfirst(substr($name, 9));
 			foreach ($this->$property as $value) {
 				$this->addToOrRemoveFrom(self::ACTION_REMOVE, $property, $value);
 			}
-
 		} elseif (substr($name, 0, 10) === 'replaceAll' and strlen($name) > 10) { // replaceAll<Name>
 			$this->checkMethodArgumentsCount(1, $arguments, $name);
 			$arg = reset($arguments);
@@ -244,7 +237,6 @@ abstract class Entity
 				$this->addToOrRemoveFrom(self::ACTION_REMOVE, $property, $value);
 			}
 			$this->addToOrRemoveFrom(self::ACTION_ADD, $property, reset($arguments));
-
 		} else {
 			throw $e;
 		}
@@ -253,8 +245,8 @@ abstract class Entity
 	/**
 	 * Performs mass value assignment (using setters)
 	 *
-	 * @param array|Traversable $values
-	 * @param array|null $whitelist
+	 * @param  array|Traversable $values
+	 * @param  array|null        $whitelist
 	 * @throws InvalidArgumentException
 	 */
 	public function assign($values, array $whitelist = null)
@@ -276,7 +268,7 @@ abstract class Entity
 	/**
 	 * Gets high-level values of properties
 	 *
-	 * @param array|null $whitelist
+	 * @param  array|null $whitelist
 	 * @return array
 	 */
 	public function getData(array $whitelist = null)
@@ -400,7 +392,7 @@ abstract class Entity
 	/**
 	 * Attaches entity
 	 *
-	 * @param int $id
+	 * @param  int $id
 	 * @throws InvalidStateException
 	 */
 	public function attach($id)
@@ -424,9 +416,9 @@ abstract class Entity
 	/**
 	 * Provides dependencies
 	 *
-	 * @param IEntityFactory|null $entityFactory
-	 * @param Connection|null $connection
-	 * @param IMapper|null $mapper
+	 * @param  IEntityFactory|null $entityFactory
+	 * @param  Connection|null     $connection
+	 * @param  IMapper|null        $mapper
 	 * @throws InvalidArgumentException
 	 * @throws InvalidStateException
 	 */
@@ -456,8 +448,8 @@ abstract class Entity
 	}
 
 	/**
-	 * @param $property
-	 * @param array $filterArgs
+	 * @param  Property|string $property
+	 * @param  array           $filterArgs
 	 * @throws InvalidValueException
 	 * @throws InvalidStateException
 	 * @throws MemberAccessException
@@ -552,8 +544,8 @@ abstract class Entity
 	}
 
 	/**
-	 * @param Property|string $property
-	 * @param mixed $value
+	 * @param  Property|string $property
+	 * @param  mixed           $value
 	 * @throws InvalidMethodCallException
 	 * @throws InvalidValueException
 	 * @throws MemberAccessException
@@ -631,9 +623,9 @@ abstract class Entity
 	}
 
 	/**
-	 * @param Property|string $property micro-optimalization
-	 * @param Filtering|null $targetTableFiltering
-	 * @param Filtering|null $relationshipTableFiltering
+	 * @param  Property|string $property micro-optimalization
+	 * @param  Filtering|null  $targetTableFiltering
+	 * @param  Filtering|null  $relationshipTableFiltering
 	 * @throws LeanMapperException
 	 * @return Entity|Entity[]
 	 */
@@ -653,8 +645,8 @@ abstract class Entity
 	}
 
 	/**
-	 * @param Entity|null $entity
-	 * @param Property|string $property micro-optimalization
+	 * @param  Entity|null     $entity
+	 * @param  Property|string $property micro-optimalization
 	 * @throws InvalidMethodCallException
 	 */
 	protected function assignEntityToProperty(Entity $entity = null, $property)
@@ -686,8 +678,8 @@ abstract class Entity
 	}
 
 	/**
-	 * @param string $entityClass
-	 * @param Caller $caller
+	 * @param  string $entityClass
+	 * @param  Caller $caller
 	 * @return ImplicitFilters
 	 */
 	protected function createImplicitFilters($entityClass, Caller $caller = null)
@@ -697,8 +689,8 @@ abstract class Entity
 	}
 
 	/**
-	 * @param array $filters1
-	 * @param array $filters2
+	 * @param  array $filters1
+	 * @param  array $filters2
 	 * @return array
 	 */
 	protected function mergeFilters(array $filters1, array $filters2)
@@ -724,9 +716,9 @@ abstract class Entity
 	////////////////////
 
 	/**
-	 * @param Property $property
-	 * @param Relationship\HasOne $relationship micro-optimalization
-	 * @param Filtering|null $filtering
+	 * @param  Property            $property
+	 * @param  Relationship\HasOne $relationship micro-optimalization
+	 * @param  Filtering|null      $filtering
 	 * @throws InvalidValueException
 	 * @return Entity
 	 */
@@ -753,8 +745,8 @@ abstract class Entity
 	/**
 	 * @param Property $property
 	 * * @param Relationship\HasMany $relationship micro-optimalization
-	 * @param Filtering|null $targetTableFiltering
-	 * @param Filtering|null $relTableFiltering
+	 * @param  Filtering|null $targetTableFiltering
+	 * @param  Filtering|null $relTableFiltering
 	 * @return Entity[]
 	 * @throws InvalidValueException
 	 */
@@ -778,9 +770,9 @@ abstract class Entity
 	}
 
 	/**
-	 * @param Property $property
-	 * @param Relationship\BelongsToOne $relationship micro-optimalization
-	 * @param Filtering|null $filtering
+	 * @param  Property                  $property
+	 * @param  Relationship\BelongsToOne $relationship micro-optimalization
+	 * @param  Filtering|null            $filtering
 	 * @return Entity
 	 * @throws InvalidValueException
 	 */
@@ -808,9 +800,9 @@ abstract class Entity
 	}
 
 	/**
-	 * @param Property $property
-	 * @param Relationship\BelongsToMany $relationship micro-optimalization
-	 * @param Filtering|null $filtering
+	 * @param  Property                   $property
+	 * @param  Relationship\BelongsToMany $relationship micro-optimalization
+	 * @param  Filtering|null             $filtering
 	 * @return Entity[]
 	 */
 	private function getBelongsToManyValue(Property $property, Relationship\BelongsToMany $relationship, Filtering $filtering = null)
@@ -831,7 +823,7 @@ abstract class Entity
 	/**
 	 * Provides an mapper for entity
 	 *
-	 * @param IMapper $mapper
+	 * @param  IMapper $mapper
 	 * @throws InvalidMethodCallException
 	 * @throws InvalidStateException
 	 */
@@ -863,7 +855,7 @@ abstract class Entity
 	}
 
 	/**
-	 * @param IEntityFactory $entityFactory
+	 * @param  IEntityFactory $entityFactory
 	 * @throws InvalidStateException
 	 */
 	private function setEntityFactory(IEntityFactory $entityFactory)
@@ -876,9 +868,9 @@ abstract class Entity
 	}
 
 	/**
-	 * @param string $action
-	 * @param string $name
-	 * @param mixed $arg
+	 * @param  string $action
+	 * @param  string $name
+	 * @param  mixed  $arg
 	 * @throws InvalidMethodCallException
 	 * @throws InvalidArgumentException
 	 * @throws InvalidValueException
@@ -928,9 +920,9 @@ abstract class Entity
 	}
 
 	/**
-	 * @param Property $property
-	 * @param string $mapperClass
-	 * @param Entity $entity
+	 * @param  Property $property
+	 * @param  string   $mapperClass
+	 * @param  Entity   $entity
 	 * @throws InvalidValueException
 	 */
 	private function checkConsistency(Property $property, $mapperClass, Entity $entity)
@@ -942,9 +934,9 @@ abstract class Entity
 	}
 
 	/**
-	 * @param int $expectedCount
-	 * @param array $arguments
-	 * @param string $methodName
+	 * @param  int    $expectedCount
+	 * @param  array  $arguments
+	 * @param  string $methodName
 	 * @throws InvalidMethodCallException
 	 */
 	private function checkMethodArgumentsCount($expectedCount, array $arguments, $methodName)
@@ -957,5 +949,4 @@ abstract class Entity
 			}
 		}
 	}
-
 }

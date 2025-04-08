@@ -16,17 +16,15 @@ namespace LeanMapper;
  */
 class FilteringResultDecorator
 {
-
 	/** @var FilteringResult */
 	private $filteringResult;
 
 	/** @var array */
 	private $baseArgs;
 
-
 	/**
 	 * @param FilteringResult $filteringResult
-	 * @param array $baseArgs
+	 * @param array           $baseArgs
 	 */
 	public function __construct(FilteringResult $filteringResult, array $baseArgs)
 	{
@@ -43,8 +41,8 @@ class FilteringResultDecorator
 	}
 
 	/**
-	 * @param array $relatedKeys
-	 * @param array $args
+	 * @param  array $relatedKeys
+	 * @param  array $args
 	 * @return bool
 	 */
 	public function isValidFor(array $relatedKeys, array $args)
@@ -57,5 +55,4 @@ class FilteringResultDecorator
 			array_merge(array($relatedKeys), $this->baseArgs, $args)
 		);
 	}
-
 }

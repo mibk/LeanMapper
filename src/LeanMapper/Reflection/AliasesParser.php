@@ -20,7 +20,6 @@ use LeanMapper\Exception\UtilityClassException;
  */
 class AliasesParser
 {
-
 	const STATE_WAITING_FOR_USE = 1;
 
 	const STATE_GATHERING = 2;
@@ -28,7 +27,6 @@ class AliasesParser
 	const STATE_IN_AS_PART = 3;
 
 	const STATE_JUST_FINISHED = 4;
-
 
 	/**
 	 * @throws UtilityClassException
@@ -41,8 +39,8 @@ class AliasesParser
 	/**
 	 * Creates Aliases instance relevant to given class source code
 	 *
-	 * @param string $source
-	 * @param string $namespace
+	 * @param  string $source
+	 * @param  string $namespace
 	 * @return array
 	 */
 	public static function parseSource($source, $namespace = '')
@@ -54,14 +52,14 @@ class AliasesParser
 		$builder = new AliasesBuilder;
 
 		$states = array(
-			self::STATE_WAITING_FOR_USE => function ($token) use ($builder) {
+			self::STATE_WAITING_FOR_USE => function($token) use ($builder) {
 				if (is_array($token) and $token[0] === T_USE) {
 					$builder->resetCurrent();
 					return AliasesParser::STATE_GATHERING;
 				}
 				return AliasesParser::STATE_WAITING_FOR_USE;
 			},
-			self::STATE_GATHERING => function ($token) use ($builder) {
+			self::STATE_GATHERING => function($token) use ($builder) {
 				if (is_array($token)) {
 					if ($token[0] === T_STRING) {
 						$builder->appendToCurrent($token[1]);
@@ -78,7 +76,7 @@ class AliasesParser
 				}
 				return AliasesParser::STATE_GATHERING;
 			},
-			self::STATE_IN_AS_PART => function ($token) use ($builder) {
+			self::STATE_IN_AS_PART => function($token) use ($builder) {
 				if (is_array($token)) {
 					if ($token[0] === T_STRING) {
 						$builder->setLast($token[1]);
@@ -88,7 +86,7 @@ class AliasesParser
 				}
 				return AliasesParser::STATE_IN_AS_PART;
 			},
-			self::STATE_JUST_FINISHED => function ($token) use ($builder) {
+			self::STATE_JUST_FINISHED => function($token) use ($builder) {
 				if ($token === ';') {
 					return AliasesParser::STATE_WAITING_FOR_USE;
 				}
@@ -106,5 +104,4 @@ class AliasesParser
 
 		return $builder->getAliases($namespace);
 	}
-
 }

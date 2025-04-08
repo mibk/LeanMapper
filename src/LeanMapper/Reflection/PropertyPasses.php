@@ -20,16 +20,14 @@ use LeanMapper\Exception\InvalidAnnotationException;
  */
 class PropertyPasses
 {
-
 	/** @var string */
 	private $getterPass;
 
 	/** @var string */
 	private $setterPass;
 
-
 	/**
-	 * @param string $definition
+	 * @param  string $definition
 	 * @throws InvalidAnnotationException
 	 */
 	public function __construct($definition)
@@ -76,5 +74,4 @@ class PropertyPasses
 	{
 		return $this->setterPass;
 	}
-
 }

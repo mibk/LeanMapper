@@ -20,7 +20,6 @@ use LeanMapper\Exception\UtilityClassException;
  */
 class AnnotationsParser
 {
-
 	/**
 	 * @throws UtilityClassException
 	 */
@@ -32,8 +31,8 @@ class AnnotationsParser
 	/**
 	 * Parse value of requested simple annotation from given doc comment
 	 *
-	 * @param string $annotation
-	 * @param string $docComment
+	 * @param  string $annotation
+	 * @param  string $docComment
 	 * @return string|null
 	 */
 	public static function parseSimpleAnnotationValue($annotation, $docComment)
@@ -46,8 +45,8 @@ class AnnotationsParser
 	/**
 	 * Parse value pieces of requested annotation from given doc comment
 	 *
-	 * @param string $annotation
-	 * @param string $docComment
+	 * @param  string $annotation
+	 * @param  string $docComment
 	 * @return array
 	 */
 	public static function parseAnnotationValues($annotation, $docComment)
@@ -56,5 +55,4 @@ class AnnotationsParser
 		preg_match_all("#@$annotation\\s+([^@\\n\\r]*)#", $docComment, $matches);
 		return $matches[1];
 	}
-
 }

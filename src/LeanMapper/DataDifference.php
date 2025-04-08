@@ -20,13 +20,11 @@ use LeanMapper\Exception\InvalidArgumentException;
  */
 class DataDifference
 {
-
 	/** @var array */
 	private $added;
 
 	/** @var array */
 	private $removed;
-
 
 	/**
 	 * @param array $added
@@ -51,7 +49,7 @@ class DataDifference
 	/**
 	 * Gets differences by given pivot
 	 *
-	 * @param mixed $pivot
+	 * @param  mixed $pivot
 	 * @return array
 	 * @throws InvalidArgumentException
 	 */
@@ -83,5 +81,4 @@ class DataDifference
 		}
 		return $result;
 	}
-
 }

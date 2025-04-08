@@ -22,7 +22,6 @@ use ReflectionMethod;
  */
 class EntityReflection extends \ReflectionClass
 {
-
 	/** @var IMapper */
 	private $mapper;
 
@@ -44,9 +43,8 @@ class EntityReflection extends \ReflectionClass
 	/** @var array */
 	private $internalGetters = array('getData', 'getRowData', 'getModifiedRowData', 'getCurrentReflection', 'getReflection', 'getHasManyRowDifferences', 'getEntityClass');
 
-
 	/**
-	 * @param mixed $argument
+	 * @param mixed        $argument
 	 * @param IMapper|null $mapper
 	 */
 	public function __construct($argument, IMapper $mapper = null)
@@ -60,7 +58,7 @@ class EntityReflection extends \ReflectionClass
 	/**
 	 * Gets requested entity's property
 	 *
-	 * @param string $name
+	 * @param  string $name
 	 * @return Property|null
 	 */
 	public function getEntityProperty($name)
@@ -117,7 +115,7 @@ class EntityReflection extends \ReflectionClass
 	/**
 	 * Gets requested getter's reflection
 	 *
-	 * @param string $name
+	 * @param  string $name
 	 * @return ReflectionMethod|null
 	 */
 	public function getGetter($name)
@@ -138,7 +136,7 @@ class EntityReflection extends \ReflectionClass
 	/**
 	 * Gets requested setter's reflection
 	 *
-	 * @param string $name
+	 * @param  string $name
 	 * @return ReflectionMethod|null
 	 */
 	public function getSetter($name)
@@ -204,5 +202,4 @@ class EntityReflection extends \ReflectionClass
 		}
 		return array_reverse($line);
 	}
-
 }

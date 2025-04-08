@@ -20,18 +20,16 @@ use LeanMapper\Exception\InvalidAnnotationException;
  */
 class PropertyMethods
 {
-
 	/** @var string */
 	private $getter;
 
 	/** @var string */
 	private $setter;
 
-
 	/**
-	 * @param string $propertyName
-	 * @param bool $isWritable
-	 * @param string $definition
+	 * @param  string $propertyName
+	 * @param  bool   $isWritable
+	 * @param  string $definition
 	 * @throws InvalidAnnotationException
 	 */
 	public function __construct($propertyName, $isWritable, $definition)
@@ -83,5 +81,4 @@ class PropertyMethods
 	{
 		return $this->setter;
 	}
-
 }

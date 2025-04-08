@@ -19,16 +19,14 @@ use LeanMapper\Exception\InvalidMethodCallException;
  */
 class FilteringResult
 {
-
 	/** @var Result */
 	private $result;
 
 	/** @var Closure */
 	private $validationFunction;
 
-
 	/**
-	 * @param Result $result
+	 * @param Result  $result
 	 * @param Closure $validationFunction
 	 */
 	public function __construct(Result $result, Closure $validationFunction = null)
@@ -64,5 +62,4 @@ class FilteringResult
 	{
 		return $this->validationFunction !== null;
 	}
-
 }

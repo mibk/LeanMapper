@@ -18,11 +18,10 @@ namespace LeanMapper;
  */
 interface IMapper
 {
-
 	/**
 	 * Gets primary key name from given table name
 	 *
-	 * @param string $table
+	 * @param  string $table
 	 * @return string
 	 */
 	public function getPrimaryKey($table);
@@ -30,7 +29,7 @@ interface IMapper
 	/**
 	 * Gets table name from given fully qualified entity class name
 	 *
-	 * @param string $entityClass
+	 * @param  string $entityClass
 	 * @return string
 	 */
 	public function getTable($entityClass);
@@ -38,8 +37,8 @@ interface IMapper
 	/**
 	 * Gets fully qualified entity class name from given table name
 	 *
-	 * @param string $table
-	 * @param Row|null $row
+	 * @param  string   $table
+	 * @param  Row|null $row
 	 * @return string
 	 */
 	public function getEntityClass($table, Row $row = null);
@@ -47,8 +46,8 @@ interface IMapper
 	/**
 	 * Gets table column name from given fully qualified entity class name and entity field name
 	 *
-	 * @param string $entityClass
-	 * @param string $field
+	 * @param  string $entityClass
+	 * @param  string $field
 	 * @return string
 	 */
 	public function getColumn($entityClass, $field);
@@ -56,8 +55,8 @@ interface IMapper
 	/**
 	 * Gets entity field (property) name from given table name and table column
 	 *
-	 * @param string $table
-	 * @param string $column
+	 * @param  string $table
+	 * @param  string $column
 	 * @return string
 	 */
 	public function getEntityField($table, $column);
@@ -65,8 +64,8 @@ interface IMapper
 	/**
 	 * Gets relationship table name from given source table name and target table name
 	 *
-	 * @param string $sourceTable
-	 * @param string $targetTable
+	 * @param  string $sourceTable
+	 * @param  string $targetTable
 	 * @return string
 	 */
 	public function getRelationshipTable($sourceTable, $targetTable);
@@ -74,8 +73,8 @@ interface IMapper
 	/**
 	 * Gets name of column that contains foreign key from given source table name and target table name
 	 *
-	 * @param string $sourceTable
-	 * @param string $targetTable
+	 * @param  string $sourceTable
+	 * @param  string $targetTable
 	 * @return string
 	 */
 	public function getRelationshipColumn($sourceTable, $targetTable);
@@ -83,7 +82,7 @@ interface IMapper
 	/**
 	 * Gets table name from repository class name
 	 *
-	 * @param string $repositoryClass
+	 * @param  string $repositoryClass
 	 * @return string
 	 */
 	public function getTableByRepositoryClass($repositoryClass);
@@ -91,10 +90,9 @@ interface IMapper
 	/**
 	 * Gets filters that should be used used every time when given entity is loaded from database
 	 *
-	 * @param string $entityClass
-	 * @param Caller|null $caller
+	 * @param  string      $entityClass
+	 * @param  Caller|null $caller
 	 * @return array|ImplicitFilters
 	 */
 	public function getImplicitFilters($entityClass, Caller $caller = null);
-
 }

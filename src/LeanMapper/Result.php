@@ -26,7 +26,6 @@ use LeanMapper\Exception\InvalidStateException;
  */
 class Result implements \Iterator
 {
-
 	const STRATEGY_IN = 'in';
 
 	const STRATEGY_UNION = 'union';
@@ -81,14 +80,13 @@ class Result implements \Iterator
 	/** @var ResultProxy */
 	private $proxy;
 
-
 	/**
 	 * Creates new common instance (it means persisted)
 	 *
-	 * @param \Dibi\Row|\Dibi\Row[] $data
-	 * @param string $table
-	 * @param Connection $connection
-	 * @param IMapper $mapper
+	 * @param  \Dibi\Row|\Dibi\Row[] $data
+	 * @param  string                $table
+	 * @param  Connection            $connection
+	 * @param  IMapper               $mapper
 	 * @return self
 	 * @throws InvalidArgumentException
 	 */
@@ -144,7 +142,7 @@ class Result implements \Iterator
 	}
 
 	/**
-	 * @param Connection $connection
+	 * @param  Connection $connection
 	 * @throws InvalidStateException
 	 */
 	public function setConnection(Connection $connection)
@@ -183,7 +181,7 @@ class Result implements \Iterator
 	/**
 	 * Creates new Row instance pointing to specific row within Result
 	 *
-	 * @param int $id
+	 * @param  int $id
 	 * @throws InvalidArgumentException
 	 * @return Row|null
 	 */
@@ -206,8 +204,8 @@ class Result implements \Iterator
 	/**
 	 * Gets value of given column from row with given id
 	 *
-	 * @param mixed $id
-	 * @param string $key
+	 * @param  mixed  $id
+	 * @param  string $key
 	 * @return mixed
 	 * @throws InvalidArgumentException
 	 */
@@ -228,9 +226,9 @@ class Result implements \Iterator
 	/**
 	 * Sets value of given column in row with given id
 	 *
-	 * @param mixed $id
-	 * @param string $key
-	 * @param mixed $value
+	 * @param  mixed  $id
+	 * @param  string $key
+	 * @param  mixed  $value
 	 * @throws InvalidArgumentException
 	 */
 	public function setDataEntry($id, $key, $value)
@@ -248,8 +246,8 @@ class Result implements \Iterator
 	/**
 	 * Tells whether row with given id has given column
 	 *
-	 * @param mixed $id
-	 * @param string $column
+	 * @param  mixed  $id
+	 * @param  string $column
 	 * @return bool
 	 */
 	public function hasDataEntry($id, $column)
@@ -260,8 +258,8 @@ class Result implements \Iterator
 	/**
 	 * Unsets given column in row with given id
 	 *
-	 * @param mixed $id
-	 * @param string $column
+	 * @param  mixed  $id
+	 * @param  string $column
 	 * @throws InvalidArgumentException
 	 * @throws InvalidStateException
 	 */
@@ -276,7 +274,7 @@ class Result implements \Iterator
 	/**
 	 * Adds new data entry
 	 *
-	 * @param array $values
+	 * @param  array $values
 	 * @throws InvalidStateException
 	 */
 	public function addDataEntry(array $values)
@@ -292,7 +290,7 @@ class Result implements \Iterator
 	/**
 	 * Removes given data entry
 	 *
-	 * @param array $values
+	 * @param  array $values
 	 * @throws InvalidStateException
 	 */
 	public function removeDataEntry(array $values)
@@ -312,7 +310,7 @@ class Result implements \Iterator
 	/**
 	 * Returns values of columns of requested row
 	 *
-	 * @param int $id
+	 * @param  int $id
 	 * @return array
 	 */
 	public function getData($id)
@@ -323,7 +321,7 @@ class Result implements \Iterator
 	/**
 	 * Returns values of columns of requested row that were modified
 	 *
-	 * @param int $id
+	 * @param  int $id
 	 * @return array
 	 */
 	public function getModifiedData($id)
@@ -350,7 +348,7 @@ class Result implements \Iterator
 	/**
 	 * Tells whether requested row is in modified state
 	 *
-	 * @param int $id
+	 * @param  int $id
 	 * @return bool
 	 */
 	public function isModified($id)
@@ -371,7 +369,7 @@ class Result implements \Iterator
 	/**
 	 * Marks requested row as non-modified (isModified returns false right after this method call)
 	 *
-	 * @param int $id
+	 * @param  int $id
 	 * @throws InvalidMethodCallException
 	 */
 	public function markAsUpdated($id)
@@ -383,8 +381,8 @@ class Result implements \Iterator
 	}
 
 	/**
-	 * @param mixed $id
-	 * @param string $table
+	 * @param  mixed  $id
+	 * @param  string $table
 	 * @throws InvalidStateException
 	 */
 	public function attach($id, $table)
@@ -416,10 +414,10 @@ class Result implements \Iterator
 	/**
 	 * Creates new Row instance pointing to requested row in referenced Result
 	 *
-	 * @param int $id
-	 * @param string $table
-	 * @param string|null $viaColumn
-	 * @param Filtering|null $filtering
+	 * @param  int            $id
+	 * @param  string         $table
+	 * @param  string|null    $viaColumn
+	 * @param  Filtering|null $filtering
 	 * @throws InvalidStateException
 	 * @return Row|null
 	 */
@@ -436,11 +434,11 @@ class Result implements \Iterator
 	/**
 	 * Creates new array of Row instances pointing to requested row in referencing Result
 	 *
-	 * @param int $id
-	 * @param string $table
-	 * @param string|null $viaColumn
-	 * @param Filtering|null $filtering
-	 * @param string $strategy
+	 * @param  int            $id
+	 * @param  string         $table
+	 * @param  string|null    $viaColumn
+	 * @param  Filtering|null $filtering
+	 * @param  string         $strategy
 	 * @throws InvalidStateException
 	 * @return Row[]
 	 */
@@ -465,7 +463,7 @@ class Result implements \Iterator
 	}
 
 	/**
-	 * @param self $referencedResult
+	 * @param self   $referencedResult
 	 * @param string $table
 	 * @param string $viaColumn
 	 */
@@ -496,11 +494,11 @@ class Result implements \Iterator
 	/**
 	 * Adds new data entry to referencing Result
 	 *
-	 * @param array $values
-	 * @param string $table
-	 * @param string|null $viaColumn
+	 * @param array          $values
+	 * @param string         $table
+	 * @param string|null    $viaColumn
 	 * @param Filtering|null $filtering
-	 * @param string|null $strategy
+	 * @param string|null    $strategy
 	 */
 	public function addToReferencing(array $values, $table, $viaColumn = null, Filtering $filtering = null, $strategy = self::STRATEGY_IN)
 	{
@@ -512,11 +510,11 @@ class Result implements \Iterator
 	/**
 	 * Remove given data entry from referencing Result
 	 *
-	 * @param array $values
-	 * @param string $table
-	 * @param string|null $viaColumn
+	 * @param array          $values
+	 * @param string         $table
+	 * @param string|null    $viaColumn
 	 * @param Filtering|null $filtering
-	 * @param string|null $strategy
+	 * @param string|null    $strategy
 	 */
 	public function removeFromReferencing(array $values, $table, $viaColumn = null, Filtering $filtering = null, $strategy = self::STRATEGY_IN)
 	{
@@ -526,16 +524,16 @@ class Result implements \Iterator
 	}
 
 	/**
-	 * @param string $table
-	 * @param string|null $viaColumn
-	 * @param Filtering|null $filtering
-	 * @param string|null $strategy
+	 * @param  string         $table
+	 * @param  string|null    $viaColumn
+	 * @param  Filtering|null $filtering
+	 * @param  string|null    $strategy
 	 * @return DataDifference
 	 */
 	public function createReferencingDataDifference($table, $viaColumn = null, Filtering $filtering = null, $strategy = self::STRATEGY_IN)
 	{
 		return $this->getReferencingResult($table, $viaColumn, $filtering, $strategy)
-				->createDataDifference();
+			->createDataDifference();
 	}
 
 	/**
@@ -579,19 +577,19 @@ class Result implements \Iterator
 	}
 
 	/**
-	 * @param string $table
-	 * @param string|null $viaColumn
+	 * @param string         $table
+	 * @param string|null    $viaColumn
 	 * @param Filtering|null $filtering
-	 * @param string|null $strategy
+	 * @param string|null    $strategy
 	 */
 	public function cleanReferencingAddedAndRemovedMeta($table, $viaColumn = null, Filtering $filtering = null, $strategy = self::STRATEGY_IN)
 	{
 		$this->getReferencingResult($table, $viaColumn, $filtering, $strategy)
-				->cleanAddedAndRemovedMeta();
+			->cleanAddedAndRemovedMeta();
 	}
 
 	/**
-	 * @param string $proxyClass
+	 * @param  string $proxyClass
 	 * @throws InvalidArgumentException
 	 * @return ResultProxy
 	 */
@@ -667,10 +665,10 @@ class Result implements \Iterator
 	////////////////////
 
 	/**
-	 * @param array|null $data
-	 * @param string|null $table
+	 * @param array|null      $data
+	 * @param string|null     $table
 	 * @param Connection|null $connection
-	 * @param IMapper|null $mapper
+	 * @param IMapper|null    $mapper
 	 */
 	private function __construct(array $data = null, $table = null, Connection $connection = null, IMapper $mapper = null)
 	{
@@ -682,9 +680,9 @@ class Result implements \Iterator
 	}
 
 	/**
-	 * @param string $table
-	 * @param string $viaColumn
-	 * @param Filtering|null $filtering
+	 * @param  string         $table
+	 * @param  string         $viaColumn
+	 * @param  Filtering|null $filtering
 	 * @throws InvalidArgumentException
 	 * @throws InvalidStateException
 	 * @return self
@@ -752,10 +750,10 @@ class Result implements \Iterator
 	}
 
 	/**
-	 * @param string $table
-	 * @param string $viaColumn
-	 * @param Filtering|null $filtering
-	 * @param string $strategy
+	 * @param  string         $table
+	 * @param  string         $viaColumn
+	 * @param  Filtering|null $filtering
+	 * @param  string         $strategy
 	 * @throws InvalidArgumentException
 	 * @throws InvalidStateException
 	 * @return self
@@ -870,7 +868,7 @@ class Result implements \Iterator
 	}
 
 	/**
-	 * @param string $column
+	 * @param  string $column
 	 * @return array
 	 */
 	private function extractIds($column)
@@ -887,10 +885,10 @@ class Result implements \Iterator
 	}
 
 	/**
-	 * @param array $ids
-	 * @param string $table
-	 * @param string $viaColumn
-	 * @param Filtering|null $filtering
+	 * @param  array          $ids
+	 * @param  string         $table
+	 * @param  string         $viaColumn
+	 * @param  Filtering|null $filtering
 	 * @return mixed
 	 */
 	private function buildUnionStrategySql(array $ids, $table, $viaColumn, Filtering $filtering = null)
@@ -928,8 +926,8 @@ class Result implements \Iterator
 	}
 
 	/**
-	 * @param string $table
-	 * @param array $relatedKeys
+	 * @param  string $table
+	 * @param  array  $relatedKeys
 	 * @return Fluent
 	 */
 	private function createTableSelection($table, $relatedKeys = null)
@@ -939,7 +937,7 @@ class Result implements \Iterator
 	}
 
 	/**
-	 * @param string|null $strategy
+	 * @param  string|null $strategy
 	 * @throws InvalidArgumentException
 	 * @return string
 	 */
@@ -956,8 +954,8 @@ class Result implements \Iterator
 	}
 
 	/**
-	 * @param Fluent $statement
-	 * @param Filtering|null $filtering
+	 * @param  Fluent         $statement
+	 * @param  Filtering|null $filtering
 	 * @return FilteringResult|null
 	 * @throws InvalidArgumentException
 	 */
@@ -986,7 +984,7 @@ class Result implements \Iterator
 	}
 
 	/**
-	 * @param array $arguments
+	 * @param  array $arguments
 	 * @return string
 	 */
 	private function calculateArgumentsHash(array $arguments)
@@ -995,7 +993,7 @@ class Result implements \Iterator
 	}
 
 	/**
-	 * @param string $column
+	 * @param  string $column
 	 * @return bool
 	 */
 	private function isAlias($column)
@@ -1004,12 +1002,11 @@ class Result implements \Iterator
 	}
 
 	/**
-	 * @param string $column
+	 * @param  string $column
 	 * @return string
 	 */
 	private function trimAlias($column)
 	{
 		return substr($column, 1);
 	}
-
 }

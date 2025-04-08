@@ -21,7 +21,6 @@ use LeanMapper\Exception\InvalidArgumentException;
  */
 class Fluent extends \Dibi\Fluent
 {
-
 	/** @var array */
 	public static $masks = array( // fixes missing UNION in dibi
 		'SELECT' => array('SELECT', 'DISTINCT', 'FROM', 'WHERE', 'GROUP BY',
@@ -34,12 +33,11 @@ class Fluent extends \Dibi\Fluent
 	/** @var array */
 	private $relatedKeys;
 
-
 	/**
 	 * Applies given filter to current statement
 	 *
-	 * @param Closure|string $filter
-	 * @param mixed|null $args
+	 * @param  Closure|string $filter
+	 * @param  mixed|null     $args
 	 * @return FilteringResult|null
 	 */
 	public function applyFilter($filter, $args = null)
@@ -53,7 +51,7 @@ class Fluent extends \Dibi\Fluent
 	}
 
 	/**
-	 * @param array|null $args
+	 * @param  array|null $args
 	 * @return self
 	 */
 	public function createSelect($args = null)
@@ -64,8 +62,8 @@ class Fluent extends \Dibi\Fluent
 	/**
 	 * Exports current state
 	 *
-	 * @param string|null $clause
-	 * @param array|null $args
+	 * @param  string|null $clause
+	 * @param  array|null  $args
 	 * @return string
 	 */
 	public function _export($clause = null, $args = null)
@@ -82,7 +80,7 @@ class Fluent extends \Dibi\Fluent
 	}
 
 	/**
-	 * @param array|null $keys
+	 * @param  array|null $keys
 	 * @return self
 	 * @throws InvalidArgumentException
 	 */
@@ -94,5 +92,4 @@ class Fluent extends \Dibi\Fluent
 		$this->relatedKeys = $keys;
 		return $this;
 	}
-
 }

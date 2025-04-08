@@ -18,7 +18,6 @@ namespace LeanMapper;
  */
 class Row
 {
-
 	/** @var Result */
 	private $result;
 
@@ -28,10 +27,9 @@ class Row
 	/** @var array */
 	private $referencedRows = array();
 
-
 	/**
 	 * @param Result $result
-	 * @param int $id
+	 * @param int    $id
 	 */
 	public function __construct(Result $result, $id)
 	{
@@ -42,7 +40,7 @@ class Row
 	/**
 	 * Gets value of given column
 	 *
-	 * @param string $name
+	 * @param  string $name
 	 * @return mixed
 	 */
 	public function __get($name)
@@ -54,7 +52,7 @@ class Row
 	 * Sets value of given column
 	 *
 	 * @param string $name
-	 * @param mixed $value
+	 * @param mixed  $value
 	 */
 	public function __set($name, $value)
 	{
@@ -71,7 +69,7 @@ class Row
 	/**
 	 * Tells whether Row has given column and is not null
 	 *
-	 * @param string $name
+	 * @param  string $name
 	 * @return bool
 	 */
 	public function __isset($name)
@@ -82,7 +80,7 @@ class Row
 	/**
 	 * Tells whether Row has given column
 	 *
-	 * @param string $name
+	 * @param  string $name
 	 * @return bool
 	 */
 	public function hasColumn($name)
@@ -188,7 +186,7 @@ class Row
 	/**
 	 * Marks Row as attached
 	 *
-	 * @param int $id
+	 * @param int    $id
 	 * @param string $table
 	 */
 	public function attach($id, $table)
@@ -208,9 +206,9 @@ class Row
 	/**
 	 * Gets referenced Row instance
 	 *
-	 * @param string $table
-	 * @param string|null $viaColumn
-	 * @param Filtering|null $filtering
+	 * @param  string         $table
+	 * @param  string|null    $viaColumn
+	 * @param  Filtering|null $filtering
 	 * @return Row|null
 	 */
 	public function referenced($table, $viaColumn = null, Filtering $filtering = null)
@@ -224,10 +222,10 @@ class Row
 	/**
 	 * Gets array of Row instances referencing current Row
 	 *
-	 * @param string $table
-	 * @param string|null $viaColumn
-	 * @param Filtering|null $filtering
-	 * @param string|null $strategy
+	 * @param  string         $table
+	 * @param  string|null    $viaColumn
+	 * @param  Filtering|null $filtering
+	 * @param  string|null    $strategy
 	 * @return Row[]
 	 */
 	public function referencing($table, $viaColumn = null, Filtering $filtering = null, $strategy = null)
@@ -236,7 +234,7 @@ class Row
 	}
 
 	/**
-	 * @param Row $row
+	 * @param Row    $row
 	 * @param string $viaColumn
 	 */
 	public function setReferencedRow(self $row = null, $viaColumn)
@@ -247,11 +245,11 @@ class Row
 	/**
 	 * Adds new data entry to referencing Result
 	 *
-	 * @param array $values
-	 * @param string $table
-	 * @param string|null $viaColumn
+	 * @param array          $values
+	 * @param string         $table
+	 * @param string|null    $viaColumn
 	 * @param Filtering|null $filtering
-	 * @param string|null $strategy
+	 * @param string|null    $strategy
 	 */
 	public function addToReferencing(array $values, $table, $viaColumn = null, Filtering $filtering = null, $strategy = null)
 	{
@@ -261,11 +259,11 @@ class Row
 	/**
 	 * Remove given data entry from referencing Result
 	 *
-	 * @param array $values
-	 * @param string $table
-	 * @param string|null $viaColumn
+	 * @param array          $values
+	 * @param string         $table
+	 * @param string|null    $viaColumn
 	 * @param Filtering|null $filtering
-	 * @param string|null $strategy
+	 * @param string|null    $strategy
 	 */
 	public function removeFromReferencing(array $values, $table, $viaColumn = null, Filtering $filtering = null, $strategy = null)
 	{
@@ -273,10 +271,10 @@ class Row
 	}
 
 	/**
-	 * @param string $table
-	 * @param string|null $viaColumn
-	 * @param Filtering|null $filtering
-	 * @param string|null $strategy
+	 * @param  string         $table
+	 * @param  string|null    $viaColumn
+	 * @param  Filtering|null $filtering
+	 * @param  string|null    $strategy
 	 * @return DataDifference
 	 */
 	public function createReferencingDataDifference($table, $viaColumn = null, Filtering $filtering = null, $strategy = null)
@@ -307,10 +305,10 @@ class Row
 	}
 
 	/**
-	 * @param string $table
-	 * @param string|null $viaColumn
+	 * @param string         $table
+	 * @param string|null    $viaColumn
 	 * @param Filtering|null $filtering
-	 * @param string|null $strategy
+	 * @param string|null    $strategy
 	 */
 	public function cleanReferencingAddedAndRemovedMeta($table, $viaColumn = null, Filtering $filtering = null, $strategy = null)
 	{
@@ -318,12 +316,11 @@ class Row
 	}
 
 	/**
-	 * @param string $proxyClass
+	 * @param  string $proxyClass
 	 * @return ResultProxy
 	 */
 	public function getResultProxy($proxyClass = 'LeanMapper\ResultProxy')
 	{
 		return $this->result->getProxy($proxyClass);
 	}
-
 }

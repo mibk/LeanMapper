@@ -21,17 +21,15 @@ use LeanMapper\Exception\InvalidArgumentException;
  */
 class ImplicitFilters
 {
-
 	/** @var array */
 	private $filters;
 
 	/** @var array */
 	private $targetedArgs;
 
-
 	/**
-	 * @param array|string|Closure $filters
-	 * @param array|null $targetedArgs
+	 * @param  array|string|Closure $filters
+	 * @param  array|null           $targetedArgs
 	 * @throws InvalidArgumentException
 	 */
 	public function __construct($filters, array $targetedArgs = array())
@@ -61,5 +59,4 @@ class ImplicitFilters
 	{
 		return $this->targetedArgs;
 	}
-
 }

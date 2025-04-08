@@ -22,7 +22,6 @@ use LeanMapper\Result;
  */
 class PropertyFactory
 {
-
 	/**
 	 * @throws UtilityClassException
 	 */
@@ -34,10 +33,10 @@ class PropertyFactory
 	/**
 	 * Creates new Property instance from given annotation
 	 *
-	 * @param string $annotationType
-	 * @param string $annotation
-	 * @param EntityReflection $entityReflection
-	 * @param IMapper|null $mapper
+	 * @param  string           $annotationType
+	 * @param  string           $annotation
+	 * @param  EntityReflection $entityReflection
+	 * @param  IMapper|null     $mapper
 	 * @return Property
 	 * @throws InvalidAnnotationException
 	 */
@@ -111,53 +110,53 @@ class PropertyFactory
 				$flagArgument = (isset($match[2]) and $match[2] !== '') ? $match[2] : null;
 
 				switch ($flag) {
-					case 'hasOne':
-					case 'hasMany':
-					case 'belongsToOne':
-					case 'belongsToMany':
-						if ($relationship !== null) {
-							throw new InvalidAnnotationException("It doesn't make sense to have multiple relationship definitions in property definition: @$annotationType $annotation in entity {$entityReflection->getName()}.");
-						}
-						$relationship = self::createRelationship(
-							$entityReflection->getName(),
-							$propertyType,
-							$flag,
-							$flagArgument,
-							$mapper
-						);
-						break;
-					case 'useMethods':
-						if ($propertyMethods !== null) {
-							throw new InvalidAnnotationException("Multiple m:useMethods flags found in property definition: @$annotationType $annotation in entity {$entityReflection->getName()}.");
-						}
-						$propertyMethods = new PropertyMethods($name, $isWritable, $flagArgument);
-						break;
-					case 'filter':
-						if ($propertyFilters !== null) {
-							throw new InvalidAnnotationException("Multiple m:filter flags found in property definition: @$annotationType $annotation in entity {$entityReflection->getName()}.");
-						}
-						$propertyFilters =  new PropertyFilters($flagArgument);
-						break;
-					case 'passThru':
-						if ($propertyPasses !== null) {
-							throw new InvalidAnnotationException("Multiple m:passThru flags found in property definition: @$annotationType $annotation in entity {$entityReflection->getName()}.");
-						}
-						$propertyPasses = new PropertyPasses($flagArgument);
-						break;
-					case 'enum':
-						if ($propertyValuesEnum !== null) {
-							throw new InvalidAnnotationException("Multiple values enumerations found in property definition: @$annotationType $annotation in entity {$entityReflection->getName()}.");
-						}
-						if ($flagArgument === null) {
-							throw new InvalidAnnotationException("Parameter of m:enum flag was not found in property definition: @$annotationType $annotation in entity {$entityReflection->getName()}.");
-						}
-						$propertyValuesEnum = new PropertyValuesEnum($flagArgument, $entityReflection);
-						break;
-					default:
-						if (array_key_exists($flag, $customFlags)) {
-							throw new InvalidAnnotationException("Multiple m:$flag flags found in property definition: @$annotationType $annotation in entity {$entityReflection->getName()}.");
-						}
-						$customFlags[$flag] = $flagArgument;
+				case 'hasOne':
+				case 'hasMany':
+				case 'belongsToOne':
+				case 'belongsToMany':
+					if ($relationship !== null) {
+						throw new InvalidAnnotationException("It doesn't make sense to have multiple relationship definitions in property definition: @$annotationType $annotation in entity {$entityReflection->getName()}.");
+					}
+					$relationship = self::createRelationship(
+						$entityReflection->getName(),
+						$propertyType,
+						$flag,
+						$flagArgument,
+						$mapper
+					);
+					break;
+				case 'useMethods':
+					if ($propertyMethods !== null) {
+						throw new InvalidAnnotationException("Multiple m:useMethods flags found in property definition: @$annotationType $annotation in entity {$entityReflection->getName()}.");
+					}
+					$propertyMethods = new PropertyMethods($name, $isWritable, $flagArgument);
+					break;
+				case 'filter':
+					if ($propertyFilters !== null) {
+						throw new InvalidAnnotationException("Multiple m:filter flags found in property definition: @$annotationType $annotation in entity {$entityReflection->getName()}.");
+					}
+					$propertyFilters = new PropertyFilters($flagArgument);
+					break;
+				case 'passThru':
+					if ($propertyPasses !== null) {
+						throw new InvalidAnnotationException("Multiple m:passThru flags found in property definition: @$annotationType $annotation in entity {$entityReflection->getName()}.");
+					}
+					$propertyPasses = new PropertyPasses($flagArgument);
+					break;
+				case 'enum':
+					if ($propertyValuesEnum !== null) {
+						throw new InvalidAnnotationException("Multiple values enumerations found in property definition: @$annotationType $annotation in entity {$entityReflection->getName()}.");
+					}
+					if ($flagArgument === null) {
+						throw new InvalidAnnotationException("Parameter of m:enum flag was not found in property definition: @$annotationType $annotation in entity {$entityReflection->getName()}.");
+					}
+					$propertyValuesEnum = new PropertyValuesEnum($flagArgument, $entityReflection);
+					break;
+				default:
+					if (array_key_exists($flag, $customFlags)) {
+						throw new InvalidAnnotationException("Multiple m:$flag flags found in property definition: @$annotationType $annotation in entity {$entityReflection->getName()}.");
+					}
+					$customFlags[$flag] = $flagArgument;
 				}
 			}
 		}
@@ -190,11 +189,11 @@ class PropertyFactory
 	////////////////////
 
 	/**
-	 * @param string $sourceClass
-	 * @param PropertyType $propertyType
-	 * @param string $relationshipType
-	 * @param string|null $definition
-	 * @param IMapper|null $mapper
+	 * @param  string       $sourceClass
+	 * @param  PropertyType $propertyType
+	 * @param  string       $relationshipType
+	 * @param  string|null  $definition
+	 * @param  IMapper|null $mapper
 	 * @return mixed
 	 * @throws InvalidAnnotationException
 	 */
@@ -213,29 +212,29 @@ class PropertyFactory
 		$targetTable = ($mapper !== null ? $mapper->getTable($propertyType->getType()) : null);
 
 		switch ($relationshipType) {
-			case 'hasOne':
-				$relationshipColumn = ($mapper !== null ? $mapper->getRelationshipColumn($sourceTable, $targetTable) : self::getSurrogateRelationshipColumn($propertyType));
-				return new Relationship\HasOne($pieces[0] ?: $relationshipColumn, $pieces[1] ?: $targetTable);
-			case 'hasMany':
-				return new Relationship\HasMany(
-					$pieces[0] ?: ($mapper !== null ? $mapper->getRelationshipColumn($mapper->getRelationshipTable($sourceTable, $targetTable), $sourceTable) : null),
-					$pieces[1] ?: ($mapper !== null ? $mapper->getRelationshipTable($sourceTable, $targetTable) : null),
-					$pieces[2] ?: ($mapper !== null ? $mapper->getRelationshipColumn($mapper->getRelationshipTable($sourceTable, $targetTable), $targetTable) : null),
-					$pieces[3] ?: $targetTable,
-					$strategy
-				);
-			case 'belongsToOne':
-				$relationshipColumn = ($mapper !== null ? $mapper->getRelationshipColumn($targetTable, $sourceTable) : $sourceTable);
-				return new Relationship\BelongsToOne($pieces[0] ?: $relationshipColumn, $pieces[1] ?: $targetTable, $strategy);
-			case 'belongsToMany':
-				$relationshipColumn = ($mapper !== null ? $mapper->getRelationshipColumn($targetTable, $sourceTable) : $sourceTable);
-				return new Relationship\BelongsToMany($pieces[0] ?: $relationshipColumn, $pieces[1] ?: $targetTable, $strategy);
+		case 'hasOne':
+			$relationshipColumn = ($mapper !== null ? $mapper->getRelationshipColumn($sourceTable, $targetTable) : self::getSurrogateRelationshipColumn($propertyType));
+			return new Relationship\HasOne($pieces[0] ?: $relationshipColumn, $pieces[1] ?: $targetTable);
+		case 'hasMany':
+			return new Relationship\HasMany(
+				$pieces[0] ?: ($mapper !== null ? $mapper->getRelationshipColumn($mapper->getRelationshipTable($sourceTable, $targetTable), $sourceTable) : null),
+				$pieces[1] ?: ($mapper !== null ? $mapper->getRelationshipTable($sourceTable, $targetTable) : null),
+				$pieces[2] ?: ($mapper !== null ? $mapper->getRelationshipColumn($mapper->getRelationshipTable($sourceTable, $targetTable), $targetTable) : null),
+				$pieces[3] ?: $targetTable,
+				$strategy
+			);
+		case 'belongsToOne':
+			$relationshipColumn = ($mapper !== null ? $mapper->getRelationshipColumn($targetTable, $sourceTable) : $sourceTable);
+			return new Relationship\BelongsToOne($pieces[0] ?: $relationshipColumn, $pieces[1] ?: $targetTable, $strategy);
+		case 'belongsToMany':
+			$relationshipColumn = ($mapper !== null ? $mapper->getRelationshipColumn($targetTable, $sourceTable) : $sourceTable);
+			return new Relationship\BelongsToMany($pieces[0] ?: $relationshipColumn, $pieces[1] ?: $targetTable, $strategy);
 		}
 		return null;
 	}
 
 	/**
-	 * @param PropertyType $propertyType
+	 * @param  PropertyType $propertyType
 	 * @return string
 	 */
 	private static function getSurrogateRelationshipColumn(PropertyType $propertyType)
@@ -244,7 +243,7 @@ class PropertyFactory
 	}
 
 	/**
-	 * @param string $class
+	 * @param  string $class
 	 * @return string
 	 */
 	private static function trimNamespace($class)
@@ -254,7 +253,7 @@ class PropertyFactory
 	}
 
 	/**
-	 * @param int $length
+	 * @param  int $length
 	 * @return string
 	 */
 	private static function generateRandomString($length)
@@ -263,9 +262,9 @@ class PropertyFactory
 	}
 
 	/**
-	 * @param mixed $value
-	 * @param PropertyType $propertyType
-	 * @param bool $isNullable
+	 * @param  mixed        $value
+	 * @param  PropertyType $propertyType
+	 * @param  bool         $isNullable
 	 * @return mixed
 	 * @throws InvalidAnnotationException
 	 */
@@ -277,35 +276,34 @@ class PropertyFactory
 			throw new InvalidAnnotationException('Only properties of basic types may have default values specified.');
 		}
 		switch ($propertyType->getType()) {
-			case 'boolean':
-				$lower = strtolower($value);
-				if ($lower !== 'true' and $lower !== 'false') {
-					throw new InvalidAnnotationException("Property of type boolean cannot have default value '$value'.");
-				}
-				return $lower === 'true';
-			case 'integer':
-				if (!is_numeric($value) && !preg_match('~0x[0-9a-f]+~', $value)) {
-					throw new InvalidAnnotationException("Property of type integer cannot have default value '$value'.");
-				}
-				return intval($value, 0);
-			case 'float':
-				if (!is_numeric($value)) {
-					throw new InvalidAnnotationException("Property of type float cannot have default value '$value'.");
-				}
-				return floatval($value);
-			case 'array':
-				if (strtolower($value) !== 'array()' and $value !== '[]') {
-					throw new InvalidAnnotationException("Property of type array cannot have default value '$value'.");
-				}
-				return array();
-			case 'string':
-				if ($value === '\'\'' or $value === '""') {
-					return '';
-				}
-				return $value;
-			default:
-				return $value;
+		case 'boolean':
+			$lower = strtolower($value);
+			if ($lower !== 'true' and $lower !== 'false') {
+				throw new InvalidAnnotationException("Property of type boolean cannot have default value '$value'.");
+			}
+			return $lower === 'true';
+		case 'integer':
+			if (!is_numeric($value) && !preg_match('~0x[0-9a-f]+~', $value)) {
+				throw new InvalidAnnotationException("Property of type integer cannot have default value '$value'.");
+			}
+			return intval($value, 0);
+		case 'float':
+			if (!is_numeric($value)) {
+				throw new InvalidAnnotationException("Property of type float cannot have default value '$value'.");
+			}
+			return floatval($value);
+		case 'array':
+			if (strtolower($value) !== 'array()' and $value !== '[]') {
+				throw new InvalidAnnotationException("Property of type array cannot have default value '$value'.");
+			}
+			return array();
+		case 'string':
+			if ($value === '\'\'' or $value === '""') {
+				return '';
+			}
+			return $value;
+		default:
+			return $value;
 		}
 	}
-
 }

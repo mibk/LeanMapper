@@ -18,7 +18,6 @@ namespace LeanMapper\Relationship;
  */
 class HasMany
 {
-
 	/** @var string|null */
 	private $columnReferencingSourceTable;
 
@@ -34,13 +33,12 @@ class HasMany
 	/** @var string */
 	private $strategy;
 
-
 	/**
 	 * @param string|null $columnReferencingSourceTable
 	 * @param string|null $relationshipTable
 	 * @param string|null $columnReferencingTargetTable
 	 * @param string|null $targetTable
-	 * @param string $strategy
+	 * @param string      $strategy
 	 */
 	public function __construct($columnReferencingSourceTable, $relationshipTable, $columnReferencingTargetTable, $targetTable, $strategy)
 	{
@@ -100,5 +98,4 @@ class HasMany
 	{
 		return $this->strategy;
 	}
-
 }

@@ -20,16 +20,14 @@ use LeanMapper\Exception\InvalidAnnotationException;
  */
 class PropertyFilters
 {
-
 	/** @var array */
 	private $filters = array();
 
 	/** @var array */
 	private $targetedArgs = array();
 
-
 	/**
-	 * @param string $definition
+	 * @param  string $definition
 	 * @throws InvalidAnnotationException
 	 */
 	public function __construct($definition)
@@ -63,7 +61,7 @@ class PropertyFilters
 	/**
 	 * Gets array of entity's filters (array of filter names)
 	 *
-	 * @param int $index
+	 * @param  int $index
 	 * @return array
 	 */
 	public function getFilters($index = 0)
@@ -77,7 +75,7 @@ class PropertyFilters
 	/**
 	 * Gets filters arguments hard-coded in annotation
 	 *
-	 * @param int $index
+	 * @param  int $index
 	 * @return array
 	 */
 	public function getFiltersTargetedArgs($index = 0)
@@ -87,5 +85,4 @@ class PropertyFilters
 		}
 		return $this->targetedArgs[$index];
 	}
-
 }

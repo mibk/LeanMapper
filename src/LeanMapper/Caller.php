@@ -16,16 +16,14 @@ namespace LeanMapper;
  */
 class Caller
 {
-
 	/** @var mixed */
 	private $instance;
 
 	/** @var mixed */
 	private $complement;
 
-
 	/**
-	 * @param mixed $instance
+	 * @param mixed      $instance
 	 * @param mixed|null $complement
 	 */
 	public function __construct($instance, $complement = null)
@@ -65,5 +63,4 @@ class Caller
 	{
 		return $this->instance instanceof Repository;
 	}
-
 }

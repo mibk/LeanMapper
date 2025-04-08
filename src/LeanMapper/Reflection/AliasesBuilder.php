@@ -16,7 +16,6 @@ namespace LeanMapper\Reflection;
  */
 class AliasesBuilder
 {
-
 	/** @var array */
 	private $aliases = array();
 
@@ -25,7 +24,6 @@ class AliasesBuilder
 
 	/** @var string */
 	private $lastPart = '';
-
 
 	/**
 	 * Sets current definition to empty string
@@ -70,12 +68,11 @@ class AliasesBuilder
 	/**
 	 * Creates new Aliases instance
 	 *
-	 * @param string $namespace
+	 * @param  string $namespace
 	 * @return Aliases
 	 */
 	public function getAliases($namespace = '')
 	{
 		return new Aliases($this->aliases, $namespace);
 	}
-
 }

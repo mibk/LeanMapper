@@ -21,17 +21,15 @@ use ReflectionClass;
  */
 class PropertyValuesEnum
 {
-
 	/** @var array */
 	private $values = array();
 
 	/** @var array */
 	private $index = array();
 
-
 	/**
-	 * @param string $definition
-	 * @param EntityReflection $reflection
+	 * @param  string           $definition
+	 * @param  EntityReflection $reflection
 	 * @throws InvalidAnnotationException
 	 */
 	public function __construct($definition, EntityReflection $reflection)
@@ -63,7 +61,7 @@ class PropertyValuesEnum
 	/**
 	 * Tells wheter given value is from enumeration
 	 *
-	 * @param mixed $value
+	 * @param  mixed $value
 	 * @return bool
 	 */
 	public function isValueFromEnum($value)
@@ -80,5 +78,4 @@ class PropertyValuesEnum
 	{
 		return $this->values;
 	}
-
 }

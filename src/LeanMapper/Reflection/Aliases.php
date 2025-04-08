@@ -18,16 +18,14 @@ namespace LeanMapper\Reflection;
  */
 class Aliases
 {
-
 	/** @var array */
 	private $aliases;
 
 	/** @var string */
 	private $namespace;
 
-
 	/**
-	 * @param array $aliases
+	 * @param array  $aliases
 	 * @param string $namespace
 	 */
 	public function __construct(array $aliases, $namespace = '')
@@ -39,7 +37,7 @@ class Aliases
 	/**
 	 * Determines fully qualified class name
 	 *
-	 * @param string $identifier
+	 * @param  string $identifier
 	 * @return string
 	 */
 	public function translate($identifier)
@@ -56,5 +54,4 @@ class Aliases
 		}
 		return $return;
 	}
-
 }

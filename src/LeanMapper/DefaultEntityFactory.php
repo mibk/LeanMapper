@@ -18,7 +18,6 @@ namespace LeanMapper;
  */
 class DefaultEntityFactory implements IEntityFactory
 {
-
 	/**
 	 * @inheritdoc
 	 */
@@ -34,5 +33,4 @@ class DefaultEntityFactory implements IEntityFactory
 	{
 		return $entities;
 	}
-
 }

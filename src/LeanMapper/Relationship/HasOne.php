@@ -18,13 +18,11 @@ namespace LeanMapper\Relationship;
  */
 class HasOne
 {
-
 	/** @var string|null */
 	private $columnReferencingTargetTable;
 
 	/** @var string|null */
 	private $targetTable;
-
 
 	/**
 	 * @param string|null $columnReferencingTargetTable
@@ -55,5 +53,4 @@ class HasOne
 	{
 		return $this->targetTable;
 	}
-
 }

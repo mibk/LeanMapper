@@ -20,12 +20,11 @@ use Traversable;
  */
 interface IEntityFactory
 {
-
 	/**
 	 * Creates entity instance from given entity class name and argument
 	 *
-	 * @param string $entityClass
-	 * @param Row|Traversable|array|null $arg
+	 * @param  string                     $entityClass
+	 * @param  Row|Traversable|array|null $arg
 	 * @return Entity
 	 */
 	public function createEntity($entityClass, $arg = null);
@@ -33,9 +32,8 @@ interface IEntityFactory
 	/**
 	 * Allows wrap set of entities in custom collection
 	 *
-	 * @param Entity[] $entities
+	 * @param  Entity[] $entities
 	 * @return mixed
 	 */
 	public function createCollection(array $entities);
-
 }

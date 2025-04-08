@@ -16,10 +16,8 @@ namespace LeanMapper;
  */
 class ResultProxy implements \Iterator
 {
-
 	/** @var Result */
 	private $result;
-
 
 	/**
 	 * @param Result $result
@@ -30,7 +28,7 @@ class ResultProxy implements \Iterator
 	}
 
 	/**
-	 * @param int $id
+	 * @param  int $id
 	 * @return array
 	 */
 	public function getData($id)
@@ -94,5 +92,4 @@ class ResultProxy implements \Iterator
 	{
 		$this->result->rewind();
 	}
-
 }

@@ -20,13 +20,11 @@ use LeanMapper\Exception\InvalidStateException;
  */
 class DefaultMapper implements IMapper
 {
-
 	/** @var string */
 	protected $defaultEntityNamespace = 'Model\Entity';
 
 	/** @var string */
 	protected $relationshipTableGlue = '_';
-
 
 	/**
 	 * @inheritdoc
@@ -107,7 +105,7 @@ class DefaultMapper implements IMapper
 	/**
 	 * Trims namespace part from fully qualified class name
 	 *
-	 * @param $class
+	 * @param  string $class
 	 * @return string
 	 */
 	protected function trimNamespace($class)
@@ -115,5 +113,4 @@ class DefaultMapper implements IMapper
 		$class = explode('\\', $class);
 		return end($class);
 	}
-
 }

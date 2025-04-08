@@ -24,7 +24,6 @@ use ReflectionClass;
  */
 abstract class Repository
 {
-
 	/** @var Connection */
 	protected $connection;
 
@@ -49,10 +48,9 @@ abstract class Repository
 	/** @var bool */
 	private $tableAnnotationChecked = false;
 
-
 	/**
-	 * @param Connection $connection
-	 * @param IMapper $mapper
+	 * @param Connection     $connection
+	 * @param IMapper        $mapper
 	 * @param IEntityFactory $entityFactory
 	 */
 	public function __construct(Connection $connection, IMapper $mapper, IEntityFactory $entityFactory)
@@ -65,7 +63,7 @@ abstract class Repository
 	}
 
 	/**
-	 * @param string $name
+	 * @param  string $name
 	 * @return array|null
 	 */
 	public function &__get($name)
@@ -113,7 +111,7 @@ abstract class Repository
 	/**
 	 * Stores values of entity's modified properties into database (inserts new row when entity is in detached state)
 	 *
-	 * @param Entity $entity
+	 * @param  Entity $entity
 	 * @return mixed
 	 */
 	public function persist(Entity $entity)
@@ -144,7 +142,7 @@ abstract class Repository
 	/**
 	 * Removes given entity (or entity with given id) from database
 	 *
-	 * @param mixed $arg
+	 * @param  mixed $arg
 	 * @return mixed
 	 * @throws InvalidStateException
 	 */
@@ -168,7 +166,7 @@ abstract class Repository
 	/**
 	 * Performs database insert (can be customized)
 	 *
-	 * @param Entity $entity
+	 * @param  Entity $entity
 	 * @return mixed
 	 */
 	protected function insertIntoDatabase(Entity $entity)
@@ -184,7 +182,7 @@ abstract class Repository
 	/**
 	 * Performs database update (can be customized)
 	 *
-	 * @param Entity $entity
+	 * @param  Entity $entity
 	 * @return mixed
 	 */
 	protected function updateInDatabase(Entity $entity)
@@ -199,7 +197,7 @@ abstract class Repository
 	/**
 	 * Performs database delete (can be customized)
 	 *
-	 * @param mixed $arg
+	 * @param  mixed $arg
 	 * @return mixed
 	 */
 	protected function deleteFromDatabase($arg)
@@ -251,9 +249,9 @@ abstract class Repository
 	/**
 	 * Creates new Entity instance from given \Dibi\Row instance
 	 *
-	 * @param \Dibi\Row $dibiRow
-	 * @param string|null $entityClass
-	 * @param string|null $table
+	 * @param  \Dibi\Row   $dibiRow
+	 * @param  string|null $entityClass
+	 * @param  string|null $table
 	 * @return mixed
 	 */
 	protected function createEntity(DibiRow $dibiRow, $entityClass = null, $table = null)
@@ -276,9 +274,9 @@ abstract class Repository
 	/**
 	 * Creates new set of Entity's instances from given array of \Dibi\Row instances
 	 *
-	 * @param \Dibi\Row[] $rows
-	 * @param string|null $entityClass
-	 * @param string|null $table
+	 * @param  \Dibi\Row[] $rows
+	 * @param  string|null $entityClass
+	 * @param  string|null $table
 	 * @return array
 	 */
 	protected function createEntities(array $rows, $entityClass = null, $table = null)
@@ -333,7 +331,7 @@ abstract class Repository
 	/**
 	 * Checks whether give entity is instance of required type
 	 *
-	 * @param Entity $entity
+	 * @param  Entity $entity
 	 * @throws InvalidArgumentException
 	 */
 	protected function checkEntityType(Entity $entity)
@@ -360,7 +358,7 @@ abstract class Repository
 	}
 
 	/**
-	 * @param Entity $entity
+	 * @param  Entity $entity
 	 * @return mixed
 	 */
 	private function getIdValue(Entity $entity)
@@ -377,5 +375,4 @@ abstract class Repository
 			$table = $this->mapper->getTable(get_class($entity));
 		} while (true);
 	}
-
 }

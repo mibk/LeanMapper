@@ -22,7 +22,6 @@ use LeanMapper\Relationship;
  */
 class Property
 {
-
 	/** @var string */
 	private $name;
 
@@ -68,23 +67,22 @@ class Property
 	/** @var array */
 	private $customFlags;
 
-
 	/**
-	 * @param string $name
-	 * @param EntityReflection $entityReflection
-	 * @param string|null $column
-	 * @param PropertyType $type
-	 * @param bool $isWritable
-	 * @param bool $isNullable
-	 * @param bool $containsCollection
-	 * @param bool $hasDefaultValue
-	 * @param mixed|null $defaultValue
-	 * @param Relationship\HasOne|Relationship\HasMany|Relationship\BelongsToOne|Relationship\BelongsToMany|null $relationship
-	 * @param PropertyMethods|null $propertyMethods
-	 * @param PropertyFilters|null $propertyFilters
-	 * @param PropertyPasses|null $propertyPasses
-	 * @param PropertyValuesEnum|null $propertyValuesEnum
-	 * @param array|null $customFlags
+	 * @param  string                                                                                             $name
+	 * @param  EntityReflection                                                                                   $entityReflection
+	 * @param  string|null                                                                                        $column
+	 * @param  PropertyType                                                                                       $type
+	 * @param  bool                                                                                               $isWritable
+	 * @param  bool                                                                                               $isNullable
+	 * @param  bool                                                                                               $containsCollection
+	 * @param  bool                                                                                               $hasDefaultValue
+	 * @param  mixed|null                                                                                         $defaultValue
+	 * @param  Relationship\HasOne|Relationship\HasMany|Relationship\BelongsToOne|Relationship\BelongsToMany|null $relationship
+	 * @param  PropertyMethods|null                                                                               $propertyMethods
+	 * @param  PropertyFilters|null                                                                               $propertyFilters
+	 * @param  PropertyPasses|null                                                                                $propertyPasses
+	 * @param  PropertyValuesEnum|null                                                                            $propertyValuesEnum
+	 * @param  array|null                                                                                         $customFlags
 	 * @throws InvalidArgumentException
 	 */
 	public function __construct($name, EntityReflection $entityReflection, $column, PropertyType $type, $isWritable, $isNullable, $containsCollection, $hasDefaultValue, $defaultValue = null, $relationship = null, PropertyMethods $propertyMethods = null, PropertyFilters $propertyFilters = null, PropertyPasses $propertyPasses = null, PropertyValuesEnum $propertyValuesEnum = null, array $customFlags = array())
@@ -126,7 +124,6 @@ class Property
 		$this->propertyPasses = $propertyPasses;
 		$this->propertyValuesEnum = $propertyValuesEnum;
 		$this->customFlags = $customFlags;
-
 	}
 
 	/**
@@ -262,7 +259,7 @@ class Property
 	/**
 	 * Gets property filters
 	 *
-	 * @param int $index
+	 * @param  int $index
 	 * @return array|null
 	 */
 	public function getFilters($index = 0)
@@ -273,7 +270,7 @@ class Property
 	/**
 	 * Gets filters arguments hard-coded in annotation
 	 *
-	 * @param int $index
+	 * @param  int $index
 	 * @return array|null
 	 */
 	public function getFiltersTargetedArgs($index = 0)
@@ -314,7 +311,7 @@ class Property
 	/**
 	 * Tells wheter given value is from enumeration
 	 *
-	 * @param mixed $value
+	 * @param  mixed $value
 	 * @return bool
 	 * @throws InvalidMethodCallException
 	 */
@@ -338,7 +335,7 @@ class Property
 	/**
 	 * Tells whether property has custom flag
 	 *
-	 * @param string $name
+	 * @param  string $name
 	 * @return bool
 	 */
 	public function hasCustomFlag($name)
@@ -349,7 +346,7 @@ class Property
 	/**
 	 * Gets value of requested custom flag
 	 *
-	 * @param string $name
+	 * @param  string $name
 	 * @return string
 	 * @throws InvalidArgumentException
 	 */
@@ -372,5 +369,4 @@ class Property
 			throw new InvalidMethodCallException("It doesn't make sense to call enumeration related method on property '{$this->name}' in entity {$this->entityReflection->getName()} since it doesn't contain enumeration.");
 		}
 	}
-
 }

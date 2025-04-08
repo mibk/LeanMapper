@@ -18,7 +18,6 @@ use LeanMapper\Exception\InvalidArgumentException;
  */
 class Events
 {
-
 	const EVENT_BEFORE_PERSIST = 'beforePersist';
 
 	const EVENT_BEFORE_CREATE = 'beforeCreate';
@@ -38,21 +37,20 @@ class Events
 	/** @var array */
 	private $events = array(
 		self::EVENT_BEFORE_PERSIST => array(),
-		self::EVENT_BEFORE_CREATE => array(),
-		self::EVENT_BEFORE_UPDATE => array(),
-		self::EVENT_BEFORE_DELETE => array(),
-		self::EVENT_AFTER_PERSIST => array(),
-		self::EVENT_AFTER_CREATE => array(),
-		self::EVENT_AFTER_UPDATE => array(),
-		self::EVENT_AFTER_DELETE => array(),
+		self::EVENT_BEFORE_CREATE  => array(),
+		self::EVENT_BEFORE_UPDATE  => array(),
+		self::EVENT_BEFORE_DELETE  => array(),
+		self::EVENT_AFTER_PERSIST  => array(),
+		self::EVENT_AFTER_CREATE   => array(),
+		self::EVENT_AFTER_UPDATE   => array(),
+		self::EVENT_AFTER_DELETE   => array(),
 	);
-
 
 	/**
 	 * Registers new callback for given event
 	 *
 	 * @param string $event
-	 * @param mixed $callback
+	 * @param mixed  $callback
 	 */
 	public function registerCallback($event, $callback)
 	{
@@ -63,8 +61,8 @@ class Events
 	/**
 	 * Invokes callbacks registered for given event
 	 *
-	 * @param string $event
-	 * @param mixed $arg
+	 * @param  string $event
+	 * @param  mixed  $arg
 	 * @throws InvalidArgumentException
 	 */
 	public function invokeCallbacks($event, $arg)
@@ -78,7 +76,7 @@ class Events
 	/**
 	 * Gets reference to array of registered events
 	 *
-	 * @param string $event
+	 * @param  string $event
 	 * @return array
 	 */
 	public function &getCallbacksReference($event)
@@ -91,7 +89,7 @@ class Events
 	//////////////////////
 
 	/**
-	 * @param string $event
+	 * @param  string $event
 	 * @throws InvalidArgumentException
 	 */
 	private function checkEventType($event)
@@ -100,5 +98,4 @@ class Events
 			throw new InvalidArgumentException("Unknown event type given: '$event'.");
 		}
 	}
-
 }

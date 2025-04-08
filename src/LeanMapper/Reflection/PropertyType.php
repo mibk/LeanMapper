@@ -18,16 +18,14 @@ namespace LeanMapper\Reflection;
  */
 class PropertyType
 {
-
 	/** @var string */
 	private $type;
 
 	/** @var bool */
 	private $isBasicType;
 
-
 	/**
-	 * @param string $type
+	 * @param string  $type
 	 * @param Aliases $aliases
 	 */
 	public function __construct($type, Aliases $aliases)
@@ -70,5 +68,4 @@ class PropertyType
 	{
 		return $this->isBasicType;
 	}
-
 }

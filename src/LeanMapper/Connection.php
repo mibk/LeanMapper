@@ -20,7 +20,6 @@ use LeanMapper\Exception\InvalidArgumentException;
  */
 class Connection extends \Dibi\Connection
 {
-
 	const WIRE_ENTITY = 1;
 
 	const WIRE_PROPERTY = 2;
@@ -30,13 +29,12 @@ class Connection extends \Dibi\Connection
 	/** @var array */
 	private $filters;
 
-
 	/**
 	 * Registers new filter
 	 *
-	 * @param string $name
-	 * @param mixed $callback
-	 * @param string|int|null $wiringSchema
+	 * @param  string          $name
+	 * @param  mixed           $callback
+	 * @param  string|int|null $wiringSchema
 	 * @throws InvalidArgumentException
 	 */
 	public function registerFilter($name, $callback, $wiringSchema = null)
@@ -54,7 +52,7 @@ class Connection extends \Dibi\Connection
 	}
 
 	/**
-	 * @param string $name
+	 * @param  string $name
 	 * @return bool
 	 */
 	public function hasFilter($name)
@@ -70,7 +68,7 @@ class Connection extends \Dibi\Connection
 	/**
 	 * Gets callable filter's callback
 	 *
-	 * @param string $name
+	 * @param  string $name
 	 * @return callable
 	 */
 	public function getFilterCallback($name)
@@ -82,7 +80,7 @@ class Connection extends \Dibi\Connection
 	/**
 	 * Gets wiring schema
 	 *
-	 * @param string $filterName
+	 * @param  string $filterName
 	 * @return string
 	 */
 	public function getWiringSchema($filterName)
@@ -105,7 +103,7 @@ class Connection extends \Dibi\Connection
 	////////////////////
 
 	/**
-	 * @param string $name
+	 * @param  string $name
 	 * @throws InvalidArgumentException
 	 */
 	private function checkFilterExistence($name)
@@ -116,7 +114,7 @@ class Connection extends \Dibi\Connection
 	}
 
 	/**
-	 * @param string|int|null $wiringSchema
+	 * @param  string|int|null $wiringSchema
 	 * @return string
 	 * @throws InvalidArgumentException
 	 */
@@ -139,5 +137,4 @@ class Connection extends \Dibi\Connection
 		}
 		return $wiringSchema;
 	}
-
 }

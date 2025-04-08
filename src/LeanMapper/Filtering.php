@@ -22,7 +22,6 @@ use LeanMapper\Reflection\Property;
  */
 class Filtering
 {
-
 	/** @var array */
 	private $filters;
 
@@ -38,13 +37,12 @@ class Filtering
 	/** @var array */
 	private $targetedArgs;
 
-
 	/**
-	 * @param array|string|Closure $filters
-	 * @param array|null $args
-	 * @param Entity|null $entity
-	 * @param Property|null $property
-	 * @param array|null $targetedArgs
+	 * @param  array|string|Closure $filters
+	 * @param  array|null           $args
+	 * @param  Entity|null          $entity
+	 * @param  Property|null        $property
+	 * @param  array|null           $targetedArgs
 	 * @throws InvalidArgumentException
 	 */
 	public function __construct($filters, array $args = null, Entity $entity = null, Property $property = null, array $targetedArgs = array())
@@ -101,5 +99,4 @@ class Filtering
 	{
 		return $this->targetedArgs;
 	}
-
 }
