@@ -41,7 +41,7 @@ class EntityReflection extends \ReflectionClass
 	private $docComment;
 
 	/** @var array */
-	private $internalGetters = array('getData', 'getRowData', 'getModifiedRowData', 'getCurrentReflection', 'getReflection', 'getHasManyRowDifferences', 'getEntityClass');
+	private $internalGetters = ['getData', 'getRowData', 'getModifiedRowData', 'getCurrentReflection', 'getReflection', 'getHasManyRowDifferences', 'getEntityClass'];
 
 	/**
 	 * @param mixed        $argument
@@ -152,9 +152,9 @@ class EntityReflection extends \ReflectionClass
 	 */
 	private function parseProperties()
 	{
-		$this->properties = array();
-		$annotationTypes = array('property', 'property-read');
-		$columns = array();
+		$this->properties = [];
+		$annotationTypes = ['property', 'property-read'];
+		$columns = [];
 		foreach ($this->getFamilyLine() as $member) {
 			foreach ($annotationTypes as $annotationType) {
 				foreach (AnnotationsParser::parseAnnotationValues($annotationType, $member->getDocComment()) as $definition) {
@@ -177,7 +177,7 @@ class EntityReflection extends \ReflectionClass
 
 	private function initGettersAndSetters()
 	{
-		$this->getters = $this->setters = array();
+		$this->getters = $this->setters = [];
 		foreach ($this->getMethods() as $method) {
 			$name = $method->getName();
 			if (strlen($name) > 3) {
@@ -197,7 +197,7 @@ class EntityReflection extends \ReflectionClass
 	 */
 	private function getFamilyLine()
 	{
-		$line = array($member = $this);
+		$line = [$member = $this];
 		while ($member = $member->getParentClass()) {
 			if ($member->name === 'LeanMapper\Entity') {
 				break;

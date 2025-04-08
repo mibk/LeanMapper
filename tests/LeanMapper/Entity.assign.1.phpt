@@ -58,10 +58,10 @@ $author->name = 'John Doe';
 $author->makeAlive($entityFactory, $connection, $mapper);
 $author->attach(1);
 
-Assert::equal(array(
+Assert::equal([
 	'customid' => 1,
 	'name'     => 'John Doe',
-), $author->getData());
+], $author->getData());
 
 $book = new Book;
 $book->author = $author;
@@ -69,4 +69,4 @@ $book->author = $author;
 $result = $book->getModifiedRowData();
 list($key, $value) = each($result);
 
-Assert::equal(array('author_customid' => 1), $book->getRowData());
+Assert::equal(['author_customid' => 1], $book->getRowData());

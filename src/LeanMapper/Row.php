@@ -25,7 +25,7 @@ class Row
 	private $id;
 
 	/** @var array */
-	private $referencedRows = array();
+	private $referencedRows = [];
 
 	/**
 	 * @param Result $result

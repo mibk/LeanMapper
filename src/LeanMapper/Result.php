@@ -48,13 +48,13 @@ class Result implements \Iterator
 	private $data;
 
 	/** @var array */
-	private $modified = array();
+	private $modified = [];
 
 	/** @var array */
-	private $added = array();
+	private $added = [];
 
 	/** @var array */
-	private $removed = array();
+	private $removed = [];
 
 	/** @var string */
 	private $table;
@@ -69,13 +69,13 @@ class Result implements \Iterator
 	private $keys;
 
 	/** @var self[] */
-	private $referenced = array();
+	private $referenced = [];
 
 	/** @var self[] */
-	private $referencing = array();
+	private $referencing = [];
 
 	/** @var array */
-	private $index = array();
+	private $index = [];
 
 	/** @var ResultProxy */
 	private $proxy;
@@ -92,10 +92,10 @@ class Result implements \Iterator
 	 */
 	public static function createInstance($data, $table, Connection $connection, IMapper $mapper)
 	{
-		$dataArray = array();
+		$dataArray = [];
 		$primaryKey = $mapper->getPrimaryKey($table);
 		if ($data instanceof DibiRow) {
-			$dataArray = array(isset($data->$primaryKey) ? $data->$primaryKey : self::DETACHED_ROW_ID => $data->toArray());
+			$dataArray = [isset($data->$primaryKey) ? $data->$primaryKey : self::DETACHED_ROW_ID => $data->toArray()];
 		} else {
 			$e = new InvalidArgumentException(
 				'Invalid type of data given, only \Dibi\Row, \Dibi\Row[], ArrayAccess[] or array of arrays is supported at this moment.'
@@ -301,7 +301,7 @@ class Result implements \Iterator
 			throw new InvalidStateException('Cannot remove data entry to detached Result.');
 		}
 		foreach ($this->data as $key => $entry) {
-			if (array_diff_assoc($values, $entry) === array()) {
+			if (array_diff_assoc($values, $entry) === []) {
 				$this->removed[] = $entry;
 				unset($this->data[$key], $this->modified[$key]);
 				break;
@@ -317,7 +317,7 @@ class Result implements \Iterator
 	 */
 	public function getData($id)
 	{
-		return isset($this->data[$id]) ? $this->data[$id] : array();
+		return isset($this->data[$id]) ? $this->data[$id] : [];
 	}
 
 	/**
@@ -328,7 +328,7 @@ class Result implements \Iterator
 	 */
 	public function getModifiedData($id)
 	{
-		$result = array();
+		$result = [];
 		if (isset($this->modified[$id])) {
 			foreach (array_keys($this->modified[$id]) as $column) {
 				$result[$column] = $this->data[$id][$column];
@@ -399,18 +399,18 @@ class Result implements \Iterator
 			throw new InvalidStateException('Missing mapper.');
 		}
 		$modifiedData = $this->getModifiedData(self::DETACHED_ROW_ID);
-		$this->data = array(
-			$id => array($this->mapper->getPrimaryKey($table) => $id) + $modifiedData
-		);
-		$this->modified = array();
+		$this->data = [
+			$id => [$this->mapper->getPrimaryKey($table) => $id] + $modifiedData
+		];
+		$this->modified = [];
 		$this->table = $table;
 		$this->isDetached = false;
 	}
 
 	public function cleanAddedAndRemovedMeta()
 	{
-		$this->added = array();
-		$this->removed = array();
+		$this->added = [];
+		$this->removed = [];
 	}
 
 	/**
@@ -453,13 +453,13 @@ class Result implements \Iterator
 		$resultHash = spl_object_hash($referencingResult);
 		if (!isset($this->index[$resultHash])) {
 			$column = $this->isAlias($viaColumn) ? $this->trimAlias($viaColumn) : $viaColumn;
-			$this->index[$resultHash] = array();
+			$this->index[$resultHash] = [];
 			foreach ($referencingResult as $key => $row) {
 				$this->index[$resultHash][$row[$column]][] = new Row($referencingResult, $key);
 			}
 		}
 		if (!isset($this->index[$resultHash][$id])) {
-			return array();
+			return [];
 		}
 		return $this->index[$resultHash][$id];
 	}
@@ -547,7 +547,7 @@ class Result implements \Iterator
 	public function cleanReferencedResultsCache($table = null, $viaColumn = null)
 	{
 		if ($table === null or $viaColumn === null) {
-			$this->referenced = array();
+			$this->referenced = [];
 		} else {
 			foreach ($this->referenced as $key => $value) {
 				if (preg_match("~^$table\\($viaColumn\\)(#.*)?$~", $key)) {
@@ -566,7 +566,7 @@ class Result implements \Iterator
 	public function cleanReferencingResultsCache($table = null, $viaColumn = null)
 	{
 		if ($table === null or $viaColumn === null) {
-			$this->referencing = $this->index = array();
+			$this->referencing = $this->index = [];
 		} else {
 			foreach ($this->referencing as $key => $value) {
 				$strategies = '(' . self::STRATEGY_IN . '|' . self::STRATEGY_UNION . ')';
@@ -615,7 +615,7 @@ class Result implements \Iterator
 			self::enableSerialization($this->connection);
 		}
 
-		return array('isDetached', 'data', 'modified', 'added', 'removed', 'table', 'mapper', 'keys', 'referenced', 'referencing', 'index', 'proxy');
+		return ['isDetached', 'data', 'modified', 'added', 'removed', 'table', 'mapper', 'keys', 'referenced', 'referencing', 'index', 'proxy'];
 	}
 
 	public function __wakeup()
@@ -674,7 +674,7 @@ class Result implements \Iterator
 	 */
 	private function __construct(array $data = null, $table = null, Connection $connection = null, IMapper $mapper = null)
 	{
-		$this->data = $data !== null ? $data : array(self::DETACHED_ROW_ID => array());
+		$this->data = $data !== null ? $data : [self::DETACHED_ROW_ID => []];
 		$this->table = $table;
 		$this->connection = $connection;
 		$this->mapper = $mapper;
@@ -714,7 +714,7 @@ class Result implements \Iterator
 					$ids = $this->extractIds($viaColumn);
 					$primaryKey = $this->mapper->getPrimaryKey($table);
 				}
-				$data = array();
+				$data = [];
 				if (!empty($ids)) {
 					$data = $this->createTableSelection($table, $ids)
 						->where('%n.%n IN %in', $table, $primaryKey, $ids)
@@ -735,7 +735,7 @@ class Result implements \Iterator
 
 		if ($filteringResult instanceof FilteringResultDecorator) {
 			if (!isset($this->referenced[$forcedKey])) {
-				$this->referenced[$forcedKey] = array();
+				$this->referenced[$forcedKey] = [];
 			}
 			$this->referenced[$forcedKey][] = $filteringResult;
 			return $filteringResult->getResult();
@@ -806,7 +806,7 @@ class Result implements \Iterator
 
 				if ($filteringResult instanceof FilteringResultDecorator) {
 					if (!isset($this->referencing[$forcedKey])) {
-						$this->referencing[$forcedKey] = array();
+						$this->referencing[$forcedKey] = [];
 					}
 					$this->referencing[$forcedKey][] = $filteringResult;
 					return $filteringResult->getResult();
@@ -827,7 +827,7 @@ class Result implements \Iterator
 			if (!isset($this->referencing[$key])) {
 				isset($ids) or $ids = $this->extractIds($this->mapper->getPrimaryKey($this->table));
 				if (count($ids) === 0) {
-					$data = array();
+					$data = [];
 				} else {
 					$data = $this->connection->query(
 						$this->buildUnionStrategySql($ids, $table, $viaColumn)
@@ -838,9 +838,9 @@ class Result implements \Iterator
 		} else {
 			isset($ids) or $ids = $this->extractIds($this->mapper->getPrimaryKey($this->table));
 			if (count($ids) === 0) {
-				$this->referencing[$key] = self::createInstance(array(), $table, $this->connection, $this->mapper);
+				$this->referencing[$key] = self::createInstance([], $table, $this->connection, $this->mapper);
 			} else {
-				$firstStatement = $this->createTableSelection($table, array(reset($ids)));
+				$firstStatement = $this->createTableSelection($table, [reset($ids)]);
 				if ($this->isAlias($viaColumn)) {
 					$firstStatement->where('%n = ?', $this->trimAlias($viaColumn), reset($ids));
 				} else {
@@ -850,7 +850,7 @@ class Result implements \Iterator
 
 				if ($filteringResult instanceof FilteringResultDecorator) {
 					if (!isset($this->referencing[$forcedKey])) {
-						$this->referencing[$forcedKey] = array();
+						$this->referencing[$forcedKey] = [];
 					}
 					$this->referencing[$forcedKey][] = $filteringResult;
 					return $filteringResult->getResult();
@@ -878,7 +878,7 @@ class Result implements \Iterator
 		if ($this->isAlias($column)) {
 			$column = $this->trimAlias($column);
 		}
-		$ids = array();
+		$ids = [];
 		foreach ($this->data as $data) {
 			if (!isset($data[$column]) or $data[$column] === null) {
 				continue;
@@ -902,7 +902,7 @@ class Result implements \Iterator
 			$viaColumn = $this->trimAlias($viaColumn);
 		}
 		foreach ($ids as $id) {
-			$statement = $this->createTableSelection($table, array($id));
+			$statement = $this->createTableSelection($table, [$id]);
 			if ($isAlias) {
 				$statement->where('%n = ?', $viaColumn, $id);
 			} else {
@@ -967,7 +967,7 @@ class Result implements \Iterator
 	{
 		$targetedArgs = $filtering->getTargetedArgs();
 		foreach ($filtering->getFilters() as $filter) {
-			$baseArgs = array();
+			$baseArgs = [];
 			if (!($filter instanceof Closure)) {
 				foreach (str_split($this->connection->getWiringSchema($filter)) as $autowiredArg) {
 					if ($autowiredArg === 'e') {
@@ -980,7 +980,7 @@ class Result implements \Iterator
 					$baseArgs = array_merge($baseArgs, $targetedArgs[$filter]);
 				}
 			}
-			$result = call_user_func_array(array($statement, 'applyFilter'), array_merge(array($filter), $baseArgs, $filtering->getArgs()));
+			$result = call_user_func_array([$statement, 'applyFilter'], array_merge([$filter], $baseArgs, $filtering->getArgs()));
 			if ($result instanceof FilteringResult) {
 				return new FilteringResultDecorator($result, $baseArgs);
 			}

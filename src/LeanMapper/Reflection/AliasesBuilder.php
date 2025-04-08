@@ -17,7 +17,7 @@ namespace LeanMapper\Reflection;
 class AliasesBuilder
 {
 	/** @var array */
-	private $aliases = array();
+	private $aliases = [];
 
 	/** @var string */
 	private $current = '';

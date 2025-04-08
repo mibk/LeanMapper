@@ -61,8 +61,8 @@ $author = reset($authors);
 $author->books;
 $author->unionBooks;
 
-Assert::equal(array(
+Assert::equal([
 	'SELECT [author].* FROM [author]',
 	'SELECT [book].* FROM [book] WHERE [book].[author_id] IN (1, 2, 3, 4, 5)',
 	'SELECT [book].* FROM [book] WHERE [book].[author_id] = 1 UNION SELECT [book].* FROM [book] WHERE [book].[author_id] = 2 UNION SELECT [book].* FROM [book] WHERE [book].[author_id] = 3 UNION SELECT [book].* FROM [book] WHERE [book].[author_id] = 4 UNION SELECT [book].* FROM [book] WHERE [book].[author_id] = 5'
-), $queries);
+], $queries);

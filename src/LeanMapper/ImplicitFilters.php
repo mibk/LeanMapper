@@ -32,7 +32,7 @@ class ImplicitFilters
 	 * @param  array|null           $targetedArgs
 	 * @throws InvalidArgumentException
 	 */
-	public function __construct($filters, array $targetedArgs = array())
+	public function __construct($filters, array $targetedArgs = [])
 	{
 		if (!is_array($filters)) {
 			if (!is_string($filters) and !($filters instanceof Closure)) {
@@ -40,7 +40,7 @@ class ImplicitFilters
 					"Argument \$filters must contain either string (name of filter), instance of Closure or array (with names of filters or instances of Closure)."
 				);
 			}
-			$filters = array($filters);
+			$filters = [$filters];
 		}
 		$this->filters = $filters;
 		$this->targetedArgs = $targetedArgs;

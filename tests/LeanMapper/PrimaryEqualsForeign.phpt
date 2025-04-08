@@ -117,10 +117,10 @@ class AuthorContractRepository extends BaseRepository
 
 //////////
 
-$dbConfig = array(
+$dbConfig = [
 	'driver'   => 'sqlite3',
 	'database' => __DIR__ . '/../db/author.sq3',
-);
+];
 
 $connection = new Connection($dbConfig);
 
@@ -148,7 +148,7 @@ Assert::equal('John Doe', $author->name);
 Assert::equal('New York', $author->authorDetail->address);
 Assert::equal('ABC1234', $author->authorDetail->authorContract->number);
 
-$queries = array();
+$queries = [];
 
 $authorContract->number = '12345';
 $authorContractRepository->persist($authorContract);
@@ -158,7 +158,7 @@ $author->name = 'Vojtěch Kohout';
 
 $authorRepository->persist($author);
 
-Assert::equal(array(
+Assert::equal([
 	"UPDATE [authorcontract] SET [number]='12345' WHERE [author_id] = 1",
 	"UPDATE [author] SET [name]='Vojtěch Kohout' WHERE [id] = 1",
-), $queries);
+], $queries);

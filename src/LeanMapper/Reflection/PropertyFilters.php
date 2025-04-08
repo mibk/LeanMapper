@@ -21,10 +21,10 @@ use LeanMapper\Exception\InvalidAnnotationException;
 class PropertyFilters
 {
 	/** @var array */
-	private $filters = array();
+	private $filters = [];
 
 	/** @var array */
-	private $targetedArgs = array();
+	private $targetedArgs = [];
 
 	/**
 	 * @param  string $definition
@@ -34,12 +34,12 @@ class PropertyFilters
 	{
 		foreach (preg_split('#\s*\|\s*#', trim($definition)) as $set) {
 			if ($set === '') {
-				$this->filters[] = $this->targetedArgs[] = array();
+				$this->filters[] = $this->targetedArgs[] = [];
 				continue;
 			}
-			$filters = $targetedArgs = array();
+			$filters = $targetedArgs = [];
 			foreach (preg_split('#\s*,\s*#', $set) as $filter) {
-				$matches = array();
+				$matches = [];
 				preg_match('~^([a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)(?:#(.*))?$~', $filter, $matches);
 				if (empty($matches)) {
 					throw new InvalidAnnotationException("Malformed filter name given: '$filter'.");
@@ -50,7 +50,7 @@ class PropertyFilters
 				}
 				$filters[$filterName] = $filterName;
 				if (isset($matches[2])) {
-					$targetedArgs[$filterName] = array($matches[2]);
+					$targetedArgs[$filterName] = [$matches[2]];
 				}
 			}
 			$this->filters[] = $filters;
@@ -67,7 +67,7 @@ class PropertyFilters
 	public function getFilters($index = 0)
 	{
 		if (!isset($this->filters[$index])) {
-			return array();
+			return [];
 		}
 		return $this->filters[$index];
 	}
@@ -81,7 +81,7 @@ class PropertyFilters
 	public function getFiltersTargetedArgs($index = 0)
 	{
 		if (!isset($this->targetedArgs[$index])) {
-			return array();
+			return [];
 		}
 		return $this->targetedArgs[$index];
 	}

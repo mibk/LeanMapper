@@ -57,16 +57,16 @@ $author = $authorRepository->find(3);
 
 $data = $author->getData();
 
-Assert::equal(array('id', 'name', 'web', 'books', 'upperName'), array_keys($data));
+Assert::equal(['id', 'name', 'web', 'books', 'upperName'], array_keys($data));
 
-$reducedData = array_intersect_key($data, array_flip(array('id', 'name', 'web', 'upperName')));
+$reducedData = array_intersect_key($data, array_flip(['id', 'name', 'web', 'upperName']));
 
-Assert::equal(array(
+Assert::equal([
 	'id'        => 3,
 	'name'      => 'Martin Fowler',
 	'web'       => 'http://martinfowler.com',
 	'upperName' => 'MARTIN FOWLER',
-), $reducedData);
+], $reducedData);
 
 foreach ($data['books'] as $book) {
 	Assert::type('Book', $book);

@@ -58,9 +58,9 @@ Assert::equal('John Doe', $authors[3]->name);
 
 //////////
 
-$author = new Author(array(
+$author = new Author([
 	'name' => 'Steve Lee',
-));
+]);
 
 $authorRepository->persist($author);
 

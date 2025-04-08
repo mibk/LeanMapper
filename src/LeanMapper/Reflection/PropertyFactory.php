@@ -44,7 +44,7 @@ class PropertyFactory
 	{
 		$aliases = $entityReflection->getAliases();
 
-		$matches = array();
+		$matches = [];
 		$matched = preg_match('~
 			^(null\|)?
 			((?:\\\\?[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)+)
@@ -108,10 +108,10 @@ class PropertyFactory
 		$propertyFilters = null;
 		$propertyPasses = null;
 		$propertyValuesEnum = null;
-		$customFlags = array();
+		$customFlags = [];
 
 		if (isset($matches[10])) {
-			$flagMatches = array();
+			$flagMatches = [];
 			preg_match_all('~m:([a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)\s*(?:\(([^)]*)\))?~', $matches[10], $flagMatches, PREG_SET_ORDER);
 			foreach ($flagMatches as $match) {
 				$flag = $match[1];
@@ -234,7 +234,7 @@ class PropertyFactory
 				$definition = substr($definition, 0, -6);
 			}
 		}
-		$pieces = array_replace(array_fill(0, 6, ''), $definition !== null ? explode(':', $definition) : array());
+		$pieces = array_replace(array_fill(0, 6, ''), $definition !== null ? explode(':', $definition) : []);
 
 		$sourceTable = ($mapper !== null ? $mapper->getTable($sourceClass) : null);
 		$targetTable = ($mapper !== null ? $mapper->getTable($propertyType->getType()) : null);
@@ -333,7 +333,7 @@ class PropertyFactory
 			if (strtolower($value) !== 'array()' and $value !== '[]') {
 				throw new InvalidAnnotationException("Property of type array cannot have default value '$value'.");
 			}
-			return array();
+			return [];
 		case 'string':
 			if ($value === '\'\'' or $value === '""') {
 				return '';

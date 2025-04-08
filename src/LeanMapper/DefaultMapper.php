@@ -87,7 +87,7 @@ class DefaultMapper implements IMapper
 	 */
 	public function getTableByRepositoryClass($repositoryClass)
 	{
-		$matches = array();
+		$matches = [];
 		if (preg_match('#([a-z0-9]+)repository$#i', $repositoryClass, $matches)) {
 			return strtolower($matches[1]);
 		}
@@ -99,7 +99,7 @@ class DefaultMapper implements IMapper
 	 */
 	public function getImplicitFilters($entityClass, Caller $caller = null)
 	{
-		return array();
+		return [];
 	}
 
 	/**

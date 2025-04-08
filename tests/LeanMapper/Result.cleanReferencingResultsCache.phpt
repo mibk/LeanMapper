@@ -53,7 +53,7 @@ class BookRepository extends \LeanMapper\Repository
 
 function implodeTags(array $tags)
 {
-	$result = array();
+	$result = [];
 	foreach ($tags as $tag) {
 		$result[] = $tag->name;
 	}

@@ -22,15 +22,15 @@ use LeanMapper\Exception\InvalidArgumentException;
 class Fluent extends \Dibi\Fluent
 {
 	/** @var array */
-	public static $masks = array( // fixes missing UNION in dibi
-		'SELECT' => array(
+	public static $masks = [ // fixes missing UNION in dibi
+		'SELECT' => [
 			'SELECT', 'DISTINCT', 'FROM', 'WHERE', 'GROUP BY',
 			'HAVING', 'ORDER BY', 'LIMIT', 'OFFSET', 'UNION'
-		),
-		'UPDATE' => array('UPDATE', 'SET', 'WHERE', 'ORDER BY', 'LIMIT'),
-		'INSERT' => array('INSERT', 'INTO', 'VALUES', 'SELECT'),
-		'DELETE' => array('DELETE', 'FROM', 'USING', 'WHERE', 'ORDER BY', 'LIMIT'),
-	);
+		],
+		'UPDATE' => ['UPDATE', 'SET', 'WHERE', 'ORDER BY', 'LIMIT'],
+		'INSERT' => ['INSERT', 'INTO', 'VALUES', 'SELECT'],
+		'DELETE' => ['DELETE', 'FROM', 'USING', 'WHERE', 'ORDER BY', 'LIMIT'],
+	];
 
 	/** @var array */
 	private $relatedKeys;
@@ -58,7 +58,7 @@ class Fluent extends \Dibi\Fluent
 	 */
 	public function createSelect($args = null)
 	{
-		return call_user_func_array(array($this->getConnection(), 'select'), func_get_args());
+		return call_user_func_array([$this->getConnection(), 'select'], func_get_args());
 	}
 
 	/**
