@@ -105,7 +105,7 @@ class Result implements \Iterator
 			}
 			if (!empty($data)) {
 				$record = reset($data);
-				if (!($record instanceof DibiRow) and !is_array($record) and (!$record instanceof ArrayAccess)) {
+				if (!($record instanceof DibiRow) and !is_array($record) and !($record instanceof ArrayAccess)) {
 					throw $e;
 				}
 			}
