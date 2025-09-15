@@ -29,7 +29,7 @@ class ImplicitFilters
 
 	/**
 	 * @param  array|string|Closure $filters
-	 * @param  array|null           $targetedArgs
+	 * @param  array                $targetedArgs
 	 * @throws InvalidArgumentException
 	 */
 	public function __construct($filters, array $targetedArgs = [])

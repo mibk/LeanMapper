@@ -45,7 +45,7 @@ class DefaultMapper implements IMapper
 	/**
 	 * @inheritdoc
 	 */
-	public function getEntityClass($table, Row $row = null)
+	public function getEntityClass($table, ?Row $row = null)
 	{
 		return ($this->defaultEntityNamespace !== null ? $this->defaultEntityNamespace . '\\' : '') . ucfirst($table);
 	}
@@ -97,7 +97,7 @@ class DefaultMapper implements IMapper
 	/**
 	 * @inheritdoc
 	 */
-	public function getImplicitFilters($entityClass, Caller $caller = null)
+	public function getImplicitFilters($entityClass, ?Caller $caller = null)
 	{
 		return [];
 	}

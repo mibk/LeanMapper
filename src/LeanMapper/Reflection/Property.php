@@ -82,7 +82,7 @@ class Property
 	 * @param  PropertyFilters|null                                                                               $propertyFilters
 	 * @param  PropertyPasses|null                                                                                $propertyPasses
 	 * @param  PropertyValuesEnum|null                                                                            $propertyValuesEnum
-	 * @param  array|null                                                                                         $customFlags
+	 * @param  array                                                                                              $customFlags
 	 * @throws InvalidArgumentException
 	 */
 	public function __construct(
@@ -96,10 +96,10 @@ class Property
 		$hasDefaultValue,
 		$defaultValue = null,
 		$relationship = null,
-		PropertyMethods $propertyMethods = null,
-		PropertyFilters $propertyFilters = null,
-		PropertyPasses $propertyPasses = null,
-		PropertyValuesEnum $propertyValuesEnum = null,
+		?PropertyMethods $propertyMethods = null,
+		?PropertyFilters $propertyFilters = null,
+		?PropertyPasses $propertyPasses = null,
+		?PropertyValuesEnum $propertyValuesEnum = null,
 		array $customFlags = []
 	)
 	{

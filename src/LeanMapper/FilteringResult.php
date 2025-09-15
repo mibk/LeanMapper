@@ -29,7 +29,7 @@ class FilteringResult
 	 * @param Result  $result
 	 * @param Closure $validationFunction
 	 */
-	public function __construct(Result $result, Closure $validationFunction = null)
+	public function __construct(Result $result, ?Closure $validationFunction = null)
 	{
 		$this->result = $result;
 		$this->validationFunction = $validationFunction;

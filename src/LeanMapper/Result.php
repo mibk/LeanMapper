@@ -423,7 +423,7 @@ class Result implements \Iterator
 	 * @throws InvalidStateException
 	 * @return Row|null
 	 */
-	public function getReferencedRow($id, $table, $viaColumn = null, Filtering $filtering = null)
+	public function getReferencedRow($id, $table, $viaColumn = null, ?Filtering $filtering = null)
 	{
 		if ($viaColumn === null) {
 			$viaColumn = $this->mapper->getRelationshipColumn($this->table, $table);
@@ -444,7 +444,7 @@ class Result implements \Iterator
 	 * @throws InvalidStateException
 	 * @return Row[]
 	 */
-	public function getReferencingRows($id, $table, $viaColumn = null, Filtering $filtering = null, $strategy = null)
+	public function getReferencingRows($id, $table, $viaColumn = null, ?Filtering $filtering = null, $strategy = null)
 	{
 		if ($viaColumn === null) {
 			$viaColumn = $this->mapper->getRelationshipColumn($table, $this->table);
@@ -502,7 +502,7 @@ class Result implements \Iterator
 	 * @param Filtering|null $filtering
 	 * @param string|null    $strategy
 	 */
-	public function addToReferencing(array $values, $table, $viaColumn = null, Filtering $filtering = null, $strategy = self::STRATEGY_IN)
+	public function addToReferencing(array $values, $table, $viaColumn = null, ?Filtering $filtering = null, $strategy = self::STRATEGY_IN)
 	{
 		$result = $this->getReferencingResult($table, $viaColumn, $filtering, $strategy);
 		$result->addDataEntry($values);
@@ -518,7 +518,7 @@ class Result implements \Iterator
 	 * @param Filtering|null $filtering
 	 * @param string|null    $strategy
 	 */
-	public function removeFromReferencing(array $values, $table, $viaColumn = null, Filtering $filtering = null, $strategy = self::STRATEGY_IN)
+	public function removeFromReferencing(array $values, $table, $viaColumn = null, ?Filtering $filtering = null, $strategy = self::STRATEGY_IN)
 	{
 		$result = $this->getReferencingResult($table, $viaColumn, $filtering, $strategy);
 		$result->removeDataEntry($values);
@@ -532,7 +532,7 @@ class Result implements \Iterator
 	 * @param  string|null    $strategy
 	 * @return DataDifference
 	 */
-	public function createReferencingDataDifference($table, $viaColumn = null, Filtering $filtering = null, $strategy = self::STRATEGY_IN)
+	public function createReferencingDataDifference($table, $viaColumn = null, ?Filtering $filtering = null, $strategy = self::STRATEGY_IN)
 	{
 		return $this->getReferencingResult($table, $viaColumn, $filtering, $strategy)
 			->createDataDifference();
@@ -584,7 +584,7 @@ class Result implements \Iterator
 	 * @param Filtering|null $filtering
 	 * @param string|null    $strategy
 	 */
-	public function cleanReferencingAddedAndRemovedMeta($table, $viaColumn = null, Filtering $filtering = null, $strategy = self::STRATEGY_IN)
+	public function cleanReferencingAddedAndRemovedMeta($table, $viaColumn = null, ?Filtering $filtering = null, $strategy = self::STRATEGY_IN)
 	{
 		$this->getReferencingResult($table, $viaColumn, $filtering, $strategy)
 			->cleanAddedAndRemovedMeta();
@@ -672,7 +672,7 @@ class Result implements \Iterator
 	 * @param Connection|null $connection
 	 * @param IMapper|null    $mapper
 	 */
-	private function __construct(array $data = null, $table = null, Connection $connection = null, IMapper $mapper = null)
+	private function __construct(?array $data = null, $table = null, ?Connection $connection = null, ?IMapper $mapper = null)
 	{
 		$this->data = $data !== null ? $data : [self::DETACHED_ROW_ID => []];
 		$this->table = $table;
@@ -689,7 +689,7 @@ class Result implements \Iterator
 	 * @throws InvalidStateException
 	 * @return self
 	 */
-	private function getReferencedResult($table, $viaColumn, Filtering $filtering = null)
+	private function getReferencedResult($table, $viaColumn, ?Filtering $filtering = null)
 	{
 		if ($this->isDetached) {
 			throw new InvalidStateException('Cannot get referenced Result for detached Result.');
@@ -760,7 +760,7 @@ class Result implements \Iterator
 	 * @throws InvalidStateException
 	 * @return self
 	 */
-	private function getReferencingResult($table, $viaColumn = null, Filtering $filtering = null, $strategy = self::STRATEGY_IN)
+	private function getReferencingResult($table, $viaColumn = null, ?Filtering $filtering = null, $strategy = self::STRATEGY_IN)
 	{
 		$strategy = $this->translateStrategy($strategy);
 		if ($this->isDetached) {
@@ -895,7 +895,7 @@ class Result implements \Iterator
 	 * @param  Filtering|null $filtering
 	 * @return mixed
 	 */
-	private function buildUnionStrategySql(array $ids, $table, $viaColumn, Filtering $filtering = null)
+	private function buildUnionStrategySql(array $ids, $table, $viaColumn, ?Filtering $filtering = null)
 	{
 		$isAlias = $this->isAlias($viaColumn);
 		if ($isAlias) {

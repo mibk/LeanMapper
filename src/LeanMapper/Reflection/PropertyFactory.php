@@ -40,7 +40,7 @@ class PropertyFactory
 	 * @return Property
 	 * @throws InvalidAnnotationException
 	 */
-	public static function createFromAnnotation($annotationType, $annotation, EntityReflection $entityReflection, IMapper $mapper = null)
+	public static function createFromAnnotation($annotationType, $annotation, EntityReflection $entityReflection, ?IMapper $mapper = null)
 	{
 		$aliases = $entityReflection->getAliases();
 
@@ -224,7 +224,7 @@ class PropertyFactory
 		PropertyType $propertyType,
 		$relationshipType,
 		$definition = null,
-		IMapper $mapper = null
+		?IMapper $mapper = null
 	)
 	{
 		if ($relationshipType !== 'hasOne') {
