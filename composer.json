@@ -1,6 +1,6 @@
 {
-	"name": "tharos/leanmapper",
-	"description": "Tiny ORM based on the powerful Dibi database abstraction library for PHP",
+	"name": "mibk/leanmapper",
+	"description": "Lean Mapper fork based on v2.3",
 	"homepage": "https://www.leanmapper.com",
 	"license": "MIT",
 	"authors": [
@@ -13,8 +13,11 @@
 			"LeanMapper": "src/"
 		}
 	},
+	"replace": {
+		"tharos/leanmapper": "self.version"
+	},
 	"require": {
-		"php": ">= 7.4",
+		"php": "^7.4 || ^8.0",
 		"dibi/dibi": "~4.0"
 	},
 	"require-dev": {
